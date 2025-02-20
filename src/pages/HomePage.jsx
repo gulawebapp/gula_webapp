@@ -1,10 +1,19 @@
-import img1 from "../images/happy.png";
-import electronics from "../images/electronics.png";
-import cosmetics from "../images/cosmetics.png";
-import fashion from "../images/fashion.png";
-import goods from "../images/goods.png";
+import { lazy, Suspense, useMemo, useEffect } from "react";
+import PropTypes from "prop-types";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import img1 from "../images/happy.webp";
+import electronics from "../images/electronics.webp";
+import cosmetics from "../images/cosmetics.webp";
+import fashion from "../images/fashion.webp";
+import goods from "../images/goods.webp";
 import logo from "../images/logo.png";
-import world from "../images/world.png";
+import world from "../images/world.webp";
+import { Link } from "react-router-dom";
+
+// Lazy load non-critical sections
+const LazyTeamSection = lazy(() => import("../components/TeamSection"));
+const LazyGlobalPresence = lazy(() => import("../components/GlobalPresence"));
 
 const categories = [
   { name: "Electronics", image: electronics },
@@ -14,6 +23,33 @@ const categories = [
 ];
 
 const HomePage = () => {
+  // Memoize features to prevent unnecessary re-renders
+  const features = useMemo(
+    () => [
+      {
+        title: "Worldwide Shipping",
+        description: "Delivery to 190+ countries",
+        icon: "https://img.icons8.com/external-vitaliy-gorbachev-fill-vitaly-gorbachev/60/external-worldwide-shipping-ecommerce-vitaliy-gorbachev-fill-vitaly-gorbachev.png",
+      },
+      {
+        title: "24/7 Support",
+        description: "Round the clock assistance",
+        icon: "https://img.icons8.com/external-prettycons-solid-prettycons/60/external-support-communications-prettycons-solid-prettycons-1.png",
+      },
+      {
+        title: "Secure Shopping",
+        description: "100% secure payments",
+        icon: "https://img.icons8.com/ios-filled/50/keyhole-shield.png",
+      },
+      {
+        title: "Easy Returns",
+        description: "30-day money back",
+        icon: "https://img.icons8.com/external-victoruler-outline-victoruler/64/external-return-box-logistics-victoruler-outline-victoruler.png",
+      },
+    ],
+    []
+  );
+
   return (
     <div className="w-full bg-gray-50">
       {/* Header */}
@@ -24,15 +60,22 @@ const HomePage = () => {
               src={logo}
               alt="Logo"
               className="w-full h-auto filter contrast-150 brightness-125 text-white"
+              loading="lazy"
+              width="96"
+              height="96"
             />
           </div>
           <div className="hidden md:flex space-x-4 lg:space-x-8">
-            <a href="#" className="text-gray-600 hover:text-gray-900">
-              Products
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900">
+            <Link to="/about" className="text-gray-600 hover:text-gray-900">
               About
-            </a>
+            </Link>
+            <Link to="/services" className="text-gray-600 hover:text-gray-900">
+              Services
+            </Link>
+            <Link to="/contact" className="text-gray-600 hover:text-gray-900">
+              Contact Us
+            </Link>
+
             <a href="#" className="text-gray-600 hover:text-gray-900">
               Team
             </a>
@@ -54,72 +97,13 @@ const HomePage = () => {
       {/* Main Content */}
       <main className="pt-5">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-purple-100 to-transparent py-12 sm:py-16 md:py-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-                Connect Wholesalers
-                <br />
-                with Retailers
-              </h1>
-
-              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
-                Join our global B2B marketplace connecting wholesalers and
-                retailers worldwide. Experience seamless trade partnerships.
-              </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <button className="px-6 py-2 sm:px-8 sm:py-3 bg-black text-white rounded-md text-base sm:text-lg font-medium shadow-lg">
-                  Start Trading
-                </button>
-                <button className="px-6 py-2 sm:px-8 sm:py-3 bg-white text-black border-2 border-black rounded-md text-base sm:text-lg font-medium shadow-lg">
-                  Learn More
-                </button>
-              </div>
-            </div>
-            <div className="md:w-1/2">
-              <img src={img1} alt="Hero Image" className="rounded-lg w-full" />
-            </div>
-          </div>
-        </section>
+        <HeroSection />
 
         {/* Features Section */}
         <section className="bg-white py-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                title: "Worldwide Shipping",
-                description: "Delivery to 190+ countries",
-                icon: "https://img.icons8.com/external-vitaliy-gorbachev-fill-vitaly-gorbachev/60/external-worldwide-shipping-ecommerce-vitaliy-gorbachev-fill-vitaly-gorbachev.png",
-              },
-              {
-                title: "24/7 Support",
-                description: "Round the clock assistance",
-                icon: "https://img.icons8.com/external-prettycons-solid-prettycons/60/external-support-communications-prettycons-solid-prettycons-1.png",
-              },
-              {
-                title: "Secure Shopping",
-                description: "100% secure payments",
-                icon: "https://img.icons8.com/ios-filled/50/keyhole-shield.png",
-              },
-              {
-                title: "Easy Returns",
-                description: "30-day money back",
-                icon: "https://img.icons8.com/external-victoruler-outline-victoruler/64/external-return-box-logistics-victoruler-outline-victoruler.png",
-              },
-            ].map((feature, index) => (
-              <div key={index} className="flex items-center">
-                <div className="mr-4">
-                  <img
-                    src={feature.icon || "/placeholder.svg"}
-                    alt={feature.title}
-                    className="w-[50px] h-[50px]"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </div>
-              </div>
+            {features.map((feature, index) => (
+              <Feature key={index} feature={feature} />
             ))}
           </div>
         </section>
@@ -132,81 +116,21 @@ const HomePage = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {categories.map((category, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
-                >
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-48 object-contain"
-                  />
-                  <div className="p-4 sm:p-6">
-                    <h3 className="font-semibold text-lg sm:text-xl mb-2">
-                      Wholesale {category.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm sm:text-base">
-                      Bulk {category.name.toLowerCase()} and accessories
-                    </p>
-                  </div>
-                </div>
+                <CategoryCard key={index} category={category} />
               ))}
             </div>
           </div>
         </section>
 
         {/* Team Section */}
-        <section className="py-16 sm:py-20 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">
-              Our Team
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {[
-                { name: "John Smith", role: "CEO & Founder" },
-                { name: "Sarah Johnson", role: "Operations Director" },
-                { name: "Michael Chen", role: "Tech Lead" },
-                { name: "Emily Davis", role: "Marketing Manager" },
-              ].map((member, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-md p-4 sm:p-6 text-center"
-                >
-                  <img
-                    src={`/placeholder.svg?height=128&width=128&text=${
-                      member.name.split(" ")[0]
-                    }`}
-                    alt={member.name}
-                    className="mx-auto rounded-full mb-4 w-32 h-32"
-                  />
-                  <h3 className="font-semibold text-lg sm:text-xl mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm sm:text-base">
-                    {member.role}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Suspense fallback={<div>Loading Team...</div>}>
+          <LazyTeamSection />
+        </Suspense>
 
         {/* Global Presence */}
-        <section className="py-16 sm:py-20 bg-gray-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">
-              Global Presence
-            </h2>
-            <div className="relative h-[200px] sm:h-[300px] md:h-[400px] rounded-lg overflow-hidden">
-              <img
-                src={world}
-                alt="Global Presence Map"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-opacity-10"></div>
-            </div>
-          </div>
-        </section>
+        <Suspense fallback={<div>Loading Global Presence...</div>}>
+          <LazyGlobalPresence world={world} />
+        </Suspense>
       </main>
 
       {/* Footer */}
@@ -218,13 +142,15 @@ const HomePage = () => {
                 src={logo}
                 alt="Logo"
                 className="w-full h-auto filter contrast-150 brightness-90"
+                loading="lazy"
+                width="96"
+                height="96"
               />
               <p className="text-gray-400 mb-4 text-sm sm:text-base">
                 Your trusted B2B marketplace connecting wholesalers and
                 retailers globally.
               </p>
               <div className="flex space-x-4">
-                {/*social media icons*/}
                 <a
                   href="https://instagram.com/yourprofile"
                   target="_blank"
@@ -233,11 +159,12 @@ const HomePage = () => {
                   <img
                     src="https://img.icons8.com/ios-glyphs/30/FFFFFF/instagram-circle.png"
                     alt="Instagram"
-                    size={24}
                     className="hover:opacity-80"
+                    loading="lazy"
+                    width="24"
+                    height="24"
                   />
                 </a>
-
                 <a
                   href="https://linkedin.com/in/yourprofile"
                   target="_blank"
@@ -246,11 +173,12 @@ const HomePage = () => {
                   <img
                     src="https://img.icons8.com/ios-glyphs/30/FFFFFF/linkedin.png"
                     alt="LinkedIn"
-                    size={24}
                     className="hover:opacity-80"
+                    loading="lazy"
+                    width="24"
+                    height="24"
                   />
                 </a>
-
                 <a
                   href="https://facebook.com/yourprofile"
                   target="_blank"
@@ -259,8 +187,10 @@ const HomePage = () => {
                   <img
                     src="https://img.icons8.com/ios-glyphs/30/FFFFFF/facebook-new.png"
                     alt="Facebook"
-                    size={24}
                     className="hover:opacity-80"
+                    loading="lazy"
+                    width="24"
+                    height="24"
                   />
                 </a>
               </div>
@@ -268,18 +198,15 @@ const HomePage = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2">
-                {["About Us", "Products", "Team", "Contact"].map(
-                  (item, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white text-sm sm:text-base"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
+                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                  <Link to="/about">About Us</Link>
+                </li>
+                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                  <Link to="/services">Our Services</Link>
+                </li>
+                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                  <Link to="/contact">Contact Us</Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -304,6 +231,163 @@ const HomePage = () => {
         </div>
       </footer>
     </div>
+  );
+};
+
+// Animated Hero Section
+const HeroSection = () => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 50 },
+      }}
+      transition={{ duration: 0.5 }}
+      className="bg-gradient-to-r from-purple-100 to-transparent py-12 sm:py-16 md:py-20"
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+        <div className="md:w-1/2 mb-8 md:mb-0">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
+            Connect Wholesalers
+            <br />
+            with Retailers
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
+            Join our global B2B marketplace connecting wholesalers and retailers
+            worldwide. Experience seamless trade partnerships.
+          </p>
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button className="px-6 py-2 sm:px-8 sm:py-3 bg-black text-white rounded-md text-base sm:text-lg font-medium shadow-lg">
+              Start Trading
+            </button>
+            <button className="px-6 py-2 sm:px-8 sm:py-3 bg-white text-black border-2 border-black rounded-md text-base sm:text-lg font-medium shadow-lg">
+              Learn More
+            </button>
+          </div>
+        </div>
+        <div className="md:w-1/2">
+          <img
+            src={img1}
+            alt="Hero Image"
+            className="rounded-lg w-full"
+            loading="lazy"
+            width="600"
+            height="400"
+          />
+        </div>
+      </div>
+    </motion.section>
+  );
+};
+
+// Animated Feature Component
+const Feature = ({ feature }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  Feature.propTypes = {
+    feature: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      icon: PropTypes.string.isRequired,
+    }).isRequired,
+  };
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 50 },
+      }}
+      transition={{ duration: 0.5 }}
+      className="flex items-center"
+    >
+      <div className="mr-4">
+        <img
+          src={feature.icon}
+          alt={feature.title}
+          className="w-[50px] h-[50px]"
+          loading="lazy"
+          width="50"
+          height="50"
+        />
+      </div>
+      <div>
+        <h3 className="font-semibold">{feature.title}</h3>
+        <p className="text-gray-600">{feature.description}</p>
+      </div>
+    </motion.div>
+  );
+};
+
+// Animated Category Card Component
+const CategoryCard = ({ category }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  CategoryCard.propTypes = {
+    category: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+    }).isRequired,
+  };
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        visible: { opacity: 1, scale: 1 },
+        hidden: { opacity: 0, scale: 0.8 },
+      }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-lg shadow-md overflow-hidden"
+    >
+      <img
+        src={category.image}
+        alt={category.name}
+        className="w-full h-48 object-contain"
+        loading="lazy"
+        width="300"
+        height="200"
+      />
+      <div className="p-4 sm:p-6">
+        <h3 className="font-semibold text-lg sm:text-xl mb-2">
+          Wholesale {category.name}
+        </h3>
+        <p className="text-gray-600 text-sm sm:text-base">
+          Bulk {category.name.toLowerCase()} and accessories
+        </p>
+      </div>
+    </motion.div>
   );
 };
 

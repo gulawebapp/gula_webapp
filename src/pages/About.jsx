@@ -1,5 +1,5 @@
 import { useState } from "react";
-import team from "../images/team.png";
+import team from "../images/team.webp";
 
 const About = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
