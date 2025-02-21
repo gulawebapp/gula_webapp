@@ -53,46 +53,7 @@ const HomePage = () => {
   return (
     <div className="w-full bg-gray-50">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50">
-        <nav className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
-          <div className="w-24 h-24 items-center">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-full h-auto filter contrast-150 brightness-125 text-white"
-              loading="lazy"
-              width="96"
-              height="96"
-            />
-          </div>
-          <div className="hidden md:flex space-x-4 lg:space-x-8">
-            <Link to="/about" className="text-gray-600 hover:text-gray-900">
-              About
-            </Link>
-            <Link to="/services" className="text-gray-600 hover:text-gray-900">
-              Services
-            </Link>
-            <Link to="/contact" className="text-gray-600 hover:text-gray-900">
-              Contact Us
-            </Link>
-
-            <a href="#" className="text-gray-600 hover:text-gray-900">
-              Team
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900">
-              Contact
-            </a>
-          </div>
-          <div className="flex space-x-2 sm:space-x-4">
-            <button className="px-3 py-1 sm:px-4 sm:py-2 border border-black rounded-md text-sm font-medium">
-              Sign In
-            </button>
-            <button className="px-3 py-1 sm:px-4 sm:py-2 bg-black text-white rounded-md text-sm font-medium">
-              Join Us
-            </button>
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="pt-5">
@@ -100,13 +61,7 @@ const HomePage = () => {
         <HeroSection />
 
         {/* Features Section */}
-        <section className="bg-white py-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Feature key={index} feature={feature} />
-            ))}
-          </div>
-        </section>
+        <FeaturesSection features={features} />
 
         {/* Featured Categories */}
         <section className="py-16 sm:py-20 bg-gray-50">
@@ -134,107 +89,62 @@ const HomePage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 sm:py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
-            <div>
-              <img
-                src={logo}
-                alt="Logo"
-                className="w-full h-auto filter contrast-150 brightness-90"
-                loading="lazy"
-                width="96"
-                height="96"
-              />
-              <p className="text-gray-400 mb-4 text-sm sm:text-base">
-                Your trusted B2B marketplace connecting wholesalers and
-                retailers globally.
-              </p>
-              <div className="flex space-x-4">
-                <a
-                  href="https://instagram.com/yourprofile"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-glyphs/30/FFFFFF/instagram-circle.png"
-                    alt="Instagram"
-                    className="hover:opacity-80"
-                    loading="lazy"
-                    width="24"
-                    height="24"
-                  />
-                </a>
-                <a
-                  href="https://linkedin.com/in/yourprofile"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-glyphs/30/FFFFFF/linkedin.png"
-                    alt="LinkedIn"
-                    className="hover:opacity-80"
-                    loading="lazy"
-                    width="24"
-                    height="24"
-                  />
-                </a>
-                <a
-                  href="https://facebook.com/yourprofile"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-glyphs/30/FFFFFF/facebook-new.png"
-                    alt="Facebook"
-                    className="hover:opacity-80"
-                    loading="lazy"
-                    width="24"
-                    height="24"
-                  />
-                </a>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
-                  <Link to="/about">About Us</Link>
-                </li>
-                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
-                  <Link to="/services">Our Services</Link>
-                </li>
-                <li className="text-gray-400 hover:text-white text-sm sm:text-base">
-                  <Link to="/contact">Contact Us</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white text-sm sm:text-base"
-                  >
-                    Help Center
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0">
-              &copy; 2024 Gula. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
 
-// Animated Hero Section
+// Header Component with Animation
+const Header = () => {
+  return (
+    <motion.header
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50"
+    >
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
+        <div className="w-24 h-24 items-center">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-full h-auto filter contrast-150 brightness-125 text-white"
+            loading="lazy"
+            width="96"
+            height="96"
+          />
+        </div>
+        <div className="hidden md:flex space-x-4 lg:space-x-8">
+          <Link to="/about" className="text-gray-600 hover:text-gray-900">
+            About
+          </Link>
+          <Link to="/services" className="text-gray-600 hover:text-gray-900">
+            Services
+          </Link>
+          <Link to="/contact" className="text-gray-600 hover:text-gray-900">
+            Contact Us
+          </Link>
+          <a href="#" className="text-gray-600 hover:text-gray-900">
+            Team
+          </a>
+          <a href="#" className="text-gray-600 hover:text-gray-900">
+            Contact
+          </a>
+        </div>
+        <div className="flex space-x-2 sm:space-x-4">
+          <button className="px-3 py-1 sm:px-4 sm:py-2 border hover:bg-black hover:text-white border-black rounded-md text-sm font-medium">
+            Sign In
+          </button>
+          <button className="px-3 py-1 sm:px-4 sm:py-2 bg-black hover:bg-blue-700 text-white rounded-md text-sm font-medium">
+            Join Us
+          </button>
+        </div>
+      </nav>
+    </motion.header>
+  );
+};
+
+// Hero Section with Animation
 const HeroSection = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView();
@@ -259,25 +169,68 @@ const HeroSection = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 mb-8 md:mb-0">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            Connect Wholesalers
+          <motion.h1
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 50 },
+            }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
+          >
+            Connect{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              Wholesalers
+            </span>
             <br />
-            with Retailers
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
+            with{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              Retailers
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 50 },
+            }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8"
+          >
             Join our global B2B marketplace connecting wholesalers and retailers
             worldwide. Experience seamless trade partnerships.
-          </p>
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="px-6 py-2 sm:px-8 sm:py-3 bg-black text-white rounded-md text-base sm:text-lg font-medium shadow-lg">
+          </motion.p>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 50 },
+            }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button className="px-6 py-2 sm:px-8 sm:py-3 hover:bg-blue-700 bg-black text-white rounded-md text-base sm:text-lg font-medium shadow-lg">
               Start Trading
             </button>
-            <button className="px-6 py-2 sm:px-8 sm:py-3 bg-white text-black border-2 border-black rounded-md text-base sm:text-lg font-medium shadow-lg">
+            <button className="px-6 py-2 sm:px-8 sm:py-3 hover:bg-black hover:text-white bg-white text-black border-2 border-black rounded-md text-base sm:text-lg font-medium shadow-lg">
               Learn More
             </button>
-          </div>
+          </motion.div>
         </div>
-        <div className="md:w-1/2">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: { opacity: 1, y: 0 },
+            hidden: { opacity: 0, y: 50 },
+          }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="md:w-1/2"
+        >
           <img
             src={img1}
             alt="Hero Image"
@@ -286,43 +239,50 @@ const HeroSection = () => {
             width="600"
             height="400"
           />
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );
 };
 
-// Animated Feature Component
-const Feature = ({ feature }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView();
+// Features Section with Animation
+const FeaturesSection = ({ features }) => {
+  return (
+    <section className="bg-white py-12 flex ">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {features.map((feature, index) => (
+          <motion.div
+            key={index}
+            initial="hidden"
+            whileInView="visible"
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 50 },
+            }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+          >
+            <Feature feature={feature} />
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-  Feature.propTypes = {
-    feature: PropTypes.shape({
+// Feature Component
+FeaturesSection.propTypes = {
+  features: PropTypes.arrayOf(
+    PropTypes.shape({
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       icon: PropTypes.string.isRequired,
-    }).isRequired,
-  };
+    })
+  ).isRequired,
+};
 
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
-
+const Feature = ({ feature }) => {
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        visible: { opacity: 1, y: 0 },
-        hidden: { opacity: 0, y: 50 },
-      }}
-      transition={{ duration: 0.5 }}
-      className="flex items-center"
-    >
+    <div className="flex  items-center">
       <div className="mr-4">
         <img
           src={feature.icon}
@@ -337,21 +297,22 @@ const Feature = ({ feature }) => {
         <h3 className="font-semibold">{feature.title}</h3>
         <p className="text-gray-600">{feature.description}</p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
-// Animated Category Card Component
+Feature.propTypes = {
+  feature: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+// Category Card with Animation
 const CategoryCard = ({ category }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView();
-
-  CategoryCard.propTypes = {
-    category: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-    }).isRequired,
-  };
 
   useEffect(() => {
     if (inView) {
@@ -364,12 +325,13 @@ const CategoryCard = ({ category }) => {
       ref={ref}
       initial="hidden"
       animate={controls}
+      whileHover={{ scale: 1.05 }}
       variants={{
         visible: { opacity: 1, scale: 1 },
         hidden: { opacity: 0, scale: 0.8 },
       }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-lg shadow-md overflow-hidden"
+      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
     >
       <img
         src={category.image}
@@ -388,6 +350,120 @@ const CategoryCard = ({ category }) => {
         </p>
       </div>
     </motion.div>
+  );
+};
+
+CategoryCard.propTypes = {
+  category: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+// Footer with Animation
+const Footer = () => {
+  return (
+    <motion.footer
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-gray-900 text-white py-12 sm:py-16"
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
+          <div>
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-full h-auto filter contrast-150 brightness-90 hover:brightness-100 hover:shadow-2xs"
+              loading="lazy"
+              width="96"
+              height="96"
+            />
+            <p className="text-gray-400 mb-4 text-sm sm:text-base">
+              Your trusted B2B marketplace connecting wholesalers and retailers
+              globally.
+            </p>
+            <div className="flex space-x-4">
+              <a
+                href="https://instagram.com/yourprofile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://img.icons8.com/ios-glyphs/30/FFFFFF/instagram-circle.png"
+                  alt="Instagram"
+                  className="hover:opacity-80"
+                  loading="lazy"
+                  width="24"
+                  height="24"
+                />
+              </a>
+              <a
+                href="https://linkedin.com/in/yourprofile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://img.icons8.com/ios-glyphs/30/FFFFFF/linkedin.png"
+                  alt="LinkedIn"
+                  className="hover:opacity-80"
+                  loading="lazy"
+                  width="24"
+                  height="24"
+                />
+              </a>
+              <a
+                href="https://facebook.com/yourprofile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://img.icons8.com/ios-glyphs/30/FFFFFF/facebook-new.png"
+                  alt="Facebook"
+                  className="hover:opacity-80"
+                  loading="lazy"
+                  width="24"
+                  height="24"
+                />
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                <Link to="/about">About Us</Link>
+              </li>
+              <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                <Link to="/services">Our Services</Link>
+              </li>
+              <li className="text-gray-400 hover:text-white text-sm sm:text-base">
+                <Link to="/contact">Contact Us</Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white text-sm sm:text-base"
+                >
+                  Help Center
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center">
+          <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0">
+            &copy; 2024 Gula. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </motion.footer>
   );
 };
 

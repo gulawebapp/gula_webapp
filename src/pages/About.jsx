@@ -1,5 +1,17 @@
+"use client";
+
 import { useState } from "react";
-import team from "../images/team.webp";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import happyteam from "../images/happyteam.webp";
 
 const About = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,6 +42,13 @@ const About = () => {
       icon: "https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/50/external-rocket-startups-tanah-basah-glyph-tanah-basah.png",
       alt: "external-rocket-startups-tanah-basah-glyph-tanah-basah",
     },
+  ];
+  const businessData = [
+    { year: "2019", revenue: 3000, profit: 1400 },
+    { year: "2020", revenue: 4500, profit: 2000 },
+    { year: "2021", revenue: 5200, profit: 2400 },
+    { year: "2022", revenue: 6800, profit: 3100 },
+    { year: "2023", revenue: 8500, profit: 3800 },
   ];
 
   return (
@@ -130,30 +149,28 @@ const About = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-white py-12 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
-                <span className="block">Transform Your</span>
-                <span className="block text-black">Business Future</span>
-              </h1>
-              <p className="text-xl text-gray-500 mb-8">
-                Leading the way in innovative business solutions since 2010. We
-                help companies navigate digital transformation and achieve
-                sustainable growth.
-              </p>
-              <button className="bg-black text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-800 transition duration-300">
-                Learn More
-              </button>
-            </div>
-            <div className="md:w-1/2">
-              <img
-                src={team}
-                alt="Hero Image"
-                className="w-full h-auto object-cover"
-              />
-            </div>
+      {/* Hero Section */}
+      <section
+        className="relative bg-cover bg-center py-12 md:py-24"
+        style={{
+          backgroundImage: `url(${happyteam})`,
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
+              <span className="block">Transform Your</span>
+              <span className="block text-blue-300">Business Future</span>
+            </h1>
+            <p className="text-xl text-gray-200 mb-8">
+              Leading the way in innovative business solutions since 2010. We
+              help companies navigate digital transformation and achieve
+              sustainable growth.
+            </p>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300">
+              Learn More
+            </button>
           </div>
         </div>
       </section>
@@ -208,11 +225,26 @@ const About = () => {
               Business Statistics
             </p>
           </div>
-          <div className="w-full h-64 md:h-96 bg-white rounded-lg shadow">
-            {/* Placeholder for statistics chart */}
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              Chart Placeholder
-            </div>
+          <div className="w-full h-64 md:h-96 bg-white rounded-lg shadow p-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={businessData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="revenue" fill="#8884d8" name="Revenue" />
+                <Bar dataKey="profit" fill="#82ca9d" name="Profit" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>

@@ -1,13 +1,28 @@
+import { countries } from "../components/countries";
+import { industries } from "../components/industries";
 import contact from "../images/contact.webp";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const Contact = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <img src="/placeholder.svg" alt="Logo" className="w-8 h-8" />
-            <div className="hidden md:flex space-x-4">
+            <div
+              className={`md:flex space-x-4 ${
+                isMenuOpen
+                  ? "flex flex-col absolute top-16 left-0 right-0 bg-white p-4 shadow-md"
+                  : "hidden"
+              }`}
+            >
               <a href="#" className="text-black font-medium">
                 Home
               </a>
@@ -22,7 +37,14 @@ const Contact = () => {
               </a>
             </div>
           </div>
-          <button className="bg-black text-white px-4 py-2 rounded">
+          <button className="md:hidden" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+          <button className="hidden md:block bg-black text-white px-4 py-2 rounded">
             Get Started
           </button>
         </nav>
@@ -115,8 +137,12 @@ const Contact = () => {
                     name="country"
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   >
-                    <option>United States</option>
-                    {/* Add more options as needed */}
+                    <option value="">Select a country</option>
+                    {countries.map((country) => (
+                      <option key={country} value={country}>
+                        {country}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -132,8 +158,15 @@ const Contact = () => {
                   name="industry"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 >
-                  <option>Technology</option>
-                  {/* Add more options as needed */}
+                  <option value="">Select an industry</option>
+                  {industries.map((industry) => (
+                    <option
+                      key={industry}
+                      value={industry.toLowerCase().replace(/\s+/g, "_")}
+                    >
+                      {industry}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -321,7 +354,7 @@ const Contact = () => {
           <img
             src={contact}
             alt="Contact Image"
-            className="w-full h-96 object-cover rounded-lg"
+            className="w-full h-96 object-cover  rounded-lg"
           />
         </div>
 
