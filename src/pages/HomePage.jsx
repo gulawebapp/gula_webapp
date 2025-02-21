@@ -52,9 +52,6 @@ const HomePage = () => {
 
   return (
     <div className="w-full bg-gray-50">
-      {/* Header */}
-      <Header />
-
       {/* Main Content */}
       <main className="pt-5">
         {/* Hero Section */}
@@ -91,56 +88,6 @@ const HomePage = () => {
       {/* Footer */}
       <Footer />
     </div>
-  );
-};
-
-// Header Component with Animation
-const Header = () => {
-  return (
-    <motion.header
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50"
-    >
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
-        <div className="w-24 h-24 items-center">
-          <img
-            src={logo}
-            alt="Logo"
-            className="w-full h-auto filter contrast-150 brightness-125 text-white"
-            loading="lazy"
-            width="96"
-            height="96"
-          />
-        </div>
-        <div className="hidden md:flex space-x-4 lg:space-x-8">
-          <Link to="/about" className="text-gray-600 hover:text-gray-900">
-            About
-          </Link>
-          <Link to="/services" className="text-gray-600 hover:text-gray-900">
-            Services
-          </Link>
-          <Link to="/contact" className="text-gray-600 hover:text-gray-900">
-            Contact Us
-          </Link>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            Team
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            Contact
-          </a>
-        </div>
-        <div className="flex space-x-2 sm:space-x-4">
-          <button className="px-3 py-1 sm:px-4 sm:py-2 border hover:bg-black hover:text-white border-black rounded-md text-sm font-medium">
-            Sign In
-          </button>
-          <button className="px-3 py-1 sm:px-4 sm:py-2 bg-black hover:bg-blue-700 text-white rounded-md text-sm font-medium">
-            Join Us
-          </button>
-        </div>
-      </nav>
-    </motion.header>
   );
 };
 

@@ -1,4 +1,6 @@
+// filepath: /home/matovu/gula_webapp/gula_webapp/src/components/routes.jsx
 import { lazy, Suspense } from "react";
+import Layout from "./Layout";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const About = lazy(() => import("../pages/About"));
@@ -11,41 +13,51 @@ const routes = [
     path: "/",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
-        <HomePage />
+        <Layout />
       </Suspense>
     ),
-  },
-  {
-    path: "/About",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <About />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/Services",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Services />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/Contact",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Contact />
-      </Suspense>
-    ),
-  },
-  {
-    path: "*",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <ErrorPage />
-      </Suspense>
-    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <HomePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "about",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "services",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Services />
+          </Suspense>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contact />
+          </Suspense>
+        ),
+      },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ErrorPage />
+          </Suspense>
+        ),
+      },
+    ],
   },
 ];
 
