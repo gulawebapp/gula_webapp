@@ -1,29 +1,76 @@
+import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { ChevronRight } from "lucide-react";
 import group from "../images/group.webp"; // Import your image
 
 const Services = () => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-
       {/* Hero Section */}
       <div
         className="relative bg-cover bg-center h-screen flex items-center"
         style={{ backgroundImage: `url(${group})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
+            <motion.h1
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+              }}
+              className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl"
+            >
               <span className="block xl:inline">Our Comprehensive</span>{" "}
               <span className="block xl:inline">B2B Services</span>
-            </h1>
-            <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            </motion.h1>
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, delay: 0.2 },
+                },
+              }}
+              className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
+            >
               Empowering businesses with innovative solutions and strategic
               partnerships for sustainable growth and success in the digital
               age.
-            </p>
-            <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+            </motion.p>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, delay: 0.4 },
+                },
+              }}
+              className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
+            >
               <div className="rounded-md shadow">
                 <a
                   href="#"
@@ -40,7 +87,7 @@ const Services = () => {
                   Learn more
                 </a>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -51,11 +98,16 @@ const Services = () => {
           <div className="mt-10">
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {/* Service Card 1 */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-white overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 bg-black rounded-md p-3">
-                      {/* Icon placeholder */}
                       <svg
                         className="h-6 w-6 text-white"
                         fill="none"
@@ -90,14 +142,19 @@ const Services = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Service Card 2 */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-white overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 bg-black rounded-md p-3">
-                      {/* Icon placeholder */}
                       <svg
                         className="h-6 w-6 text-white"
                         fill="none"
@@ -132,14 +189,19 @@ const Services = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Service Card 3 */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-white overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 bg-black rounded-md p-3">
-                      {/* Icon placeholder */}
                       <svg
                         className="h-6 w-6 text-white"
                         fill="none"
@@ -180,7 +242,7 @@ const Services = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -190,19 +252,45 @@ const Services = () => {
       <div className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            <motion.h2
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+              }}
+              className="text-3xl font-extrabold text-gray-900 sm:text-4xl"
+            >
               Client Success Stories
-            </h2>
-            <p className="mt-4 text-xl text-gray-500">
+            </motion.h2>
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, delay: 0.2 },
+                },
+              }}
+              className="mt-4 text-xl text-gray-500"
+            >
               See how we have helped businesses achieve their goals and drive
               success.
-            </p>
+            </motion.p>
           </div>
 
           <div className="mt-10">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {/* Testimonial 1 */}
-              <div className="bg-gray-50 overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-gray-50 overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <img
@@ -223,10 +311,16 @@ const Services = () => {
                     within 18 months.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Testimonial 2 */}
-              <div className="bg-gray-50 overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-gray-50 overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <img
@@ -245,10 +339,16 @@ const Services = () => {
                     satisfaction rates.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Testimonial 3 */}
-              <div className="bg-gray-50 overflow-hidden shadow rounded-lg">
+              <motion.div
+                ref={ref}
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+                className="bg-gray-50 overflow-hidden shadow rounded-lg"
+              >
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
                     <img
@@ -268,7 +368,7 @@ const Services = () => {
                     and establish a strong brand presence internationally.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -278,12 +378,32 @@ const Services = () => {
       <div className="bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            <motion.h2
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+              }}
+              className="text-3xl font-extrabold text-gray-900 sm:text-4xl"
+            >
               Ready to Get Started?
-            </h2>
-            <p className="mt-4 text-xl text-gray-500">
+            </motion.h2>
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, delay: 0.2 },
+                },
+              }}
+              className="mt-4 text-xl text-gray-500"
+            >
               Contact us to discuss how we can help your business grow.
-            </p>
+            </motion.p>
           </div>
 
           <div className="mt-12 max-w-lg mx-auto">

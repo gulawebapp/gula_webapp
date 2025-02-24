@@ -1,9 +1,11 @@
-// filepath: /home/matovu/gula_webapp/gula_webapp/src/components/Layout.jsx
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
+import LoginForm from "./loginForm";
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // State to manage login form visibility
+  const [showLoginForm, setShowLoginForm] = useState(false); // State to manage login form visibility
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -11,7 +13,7 @@ const Layout = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-50">
-      {/* Navigation */}
+      {/*Navigation*/}
       <nav className="sticky top-0 z-50 w-full bg-white shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -42,7 +44,10 @@ const Layout = () => {
               </div>
             </div>
             <div className="hidden md:block">
-              <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300">
+              <button
+                onClick={() => setShowLoginForm(!showLoginForm)} // Toggle login form visibility
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300"
+              >
                 Get Started
               </button>
             </div>
@@ -96,20 +101,19 @@ const Layout = () => {
               >
                 Contact
               </Link>
-            </div>
-            <div className="pt-4 pb-3 border-t border-gray-200">
-              <button className="w-full bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300">
+              <button
+                onClick={() => setShowLoginForm(!showLoginForm)} // Toggle login form visibility
+                className="block w-full px-3 py-2 rounded-md text-base font-medium text-white bg-black hover:bg-gray-800"
+              >
                 Get Started
               </button>
             </div>
           </div>
         )}
       </nav>
-
-      {/* Main Content */}
-      <main>
-        <Outlet />
-      </main>
+      {/* Render LoginForm conditionally based on showLoginForm state */}
+      {showLoginForm && <LoginForm />}
+      <Outlet />
     </div>
   );
 };

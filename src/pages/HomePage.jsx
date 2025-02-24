@@ -22,7 +22,7 @@ const categories = [
   { name: "Beauty", image: cosmetics },
 ];
 
-const HomePage = () => {
+export default function HomePage() {
   // Memoize features to prevent unnecessary re-renders
   const features = useMemo(
     () => [
@@ -89,7 +89,7 @@ const HomePage = () => {
       <Footer />
     </div>
   );
-};
+}
 
 // Hero Section with Animation
 const HeroSection = () => {
@@ -413,5 +413,3 @@ const Footer = () => {
     </motion.footer>
   );
 };
-
-export default HomePage;

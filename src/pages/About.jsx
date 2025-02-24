@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -12,14 +9,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import happyteam from "../images/happyteam.webp";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import PropTypes from "prop-types";
 
-const About = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
+export default function About() {
   const services = [
     {
       title: "Strategic Growth",
@@ -51,17 +46,69 @@ const About = () => {
     { year: "2023", revenue: 8500, profit: 3800 },
   ];
 
+  // Reusable animation logic with unique animations
+  const AnimatedSection = ({ children, className, animationType }) => {
+    const controls = useAnimation();
+    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+
+    useEffect(() => {
+      if (inView) {
+        controls.start("visible");
+      }
+    }, [controls, inView]);
+
+    const animations = {
+      fadeIn: {
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 50 },
+      },
+      slideInLeft: {
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: -100 },
+      },
+      slideInRight: {
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: 100 },
+      },
+      scaleUp: {
+        visible: { opacity: 1, scale: 1 },
+        hidden: { opacity: 0, scale: 0.8 },
+      },
+    };
+
+    return (
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={animations[animationType]}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+  AnimatedSection.propTypes = {
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    animationType: PropTypes.oneOf([
+      "fadeIn",
+      "slideInLeft",
+      "slideInRight",
+      "scaleUp",
+    ]).isRequired,
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-50">
-      
-      {/* Hero Section */}
-      <section
-        className="relative bg-cover bg-center py-12 md:py-24"
+      {/* Hero Section - Fade In */}
+      <div
+        className="relative bg-cover bg-center py-12 md:py-24 min-h-[400px]"
         style={{
           backgroundImage: `url(${happyteam})`,
         }}
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
@@ -71,17 +118,16 @@ const About = () => {
             <p className="text-xl text-gray-200 mb-8">
               Leading the way in innovative business solutions since 2010. We
               help companies navigate digital transformation and achieve
-              sustainable growth.
             </p>
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300">
-              Learn More
-            </button>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Our Mission Section */}
-      <section className="bg-white py-16 md:py-24">
+      {/* Our Mission Section - Slide In Left */}
+      <AnimatedSection
+        className="bg-white py-16 md:py-24"
+        animationType="slideInLeft"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-base font-semibold text-black uppercase tracking-wide mb-2">
@@ -117,10 +163,13 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Our Impact Section */}
-      <section className="bg-gray-50 py-16 md:py-24">
+      {/* Our Impact Section - Slide In Right */}
+      <AnimatedSection
+        className="bg-gray-50 py-16 md:py-24"
+        animationType="slideInRight"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-base font-semibold text-black uppercase tracking-wide mb-2">
@@ -152,10 +201,13 @@ const About = () => {
             </ResponsiveContainer>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Testimonials Section */}
-      <section className="bg-white py-16 md:py-24">
+      {/* Testimonials Section - Scale Up */}
+      <AnimatedSection
+        className="bg-white py-16 md:py-24"
+        animationType="scaleUp"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-base font-semibold text-black uppercase tracking-wide mb-2">
@@ -210,10 +262,13 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Contact Us Section */}
-      <section className="bg-gray-50 py-16 md:py-24">
+      {/* Contact Us Section - Fade In */}
+      <AnimatedSection
+        className="bg-gray-50 py-16 md:py-24"
+        animationType="fadeIn"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-base font-semibold text-black uppercase tracking-wide mb-2">
@@ -341,9 +396,9 @@ const About = () => {
             </form>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Footer */}
+      {/* Footer - No Animation */}
       <footer className="bg-white py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
@@ -437,7 +492,6 @@ const About = () => {
               &copy; 2024 Tunda. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              {/* Add social media icons here */}
               <a href="#" className="text-gray-400 hover:text-gray-500">
                 <span className="sr-only">Facebook</span>
                 <svg
@@ -485,6 +539,4 @@ const About = () => {
       </footer>
     </div>
   );
-};
-
-export default About;
+}

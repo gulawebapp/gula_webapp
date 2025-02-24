@@ -1,4 +1,3 @@
-// filepath: /home/matovu/gula_webapp/gula_webapp/src/components/routes.jsx
 import { lazy, Suspense } from "react";
 import Layout from "./Layout";
 
@@ -7,7 +6,6 @@ const About = lazy(() => import("../pages/About"));
 const Services = lazy(() => import("../pages/Services"));
 const Contact = lazy(() => import("../pages/Contact"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
-
 const routes = [
   {
     path: "/",

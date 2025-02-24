@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 
-const ErrorPage = () => {
+export default function ErrorPage() {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
@@ -23,6 +23,4 @@ const ErrorPage = () => {
       </button>
     </div>
   );
-};
-
-export default ErrorPage;
+}
