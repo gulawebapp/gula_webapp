@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 
 export default function LoginForm() {
@@ -46,81 +46,289 @@ export default function LoginForm() {
             </button>
           </div>
 
-          {/* Form */}
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="relative">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 pl-10 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"
-                  placeholder="Enter your email"
-                />
-                <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 pl-10 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"
-                  placeholder="Enter your password"
-                />
-                <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember"
-                  name="remember"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
-                />
+          {/* Conditional rendering based on activeTab */}
+          {activeTab === "login" ? (
+            <form className="space-y-6">
+              <div className="space-y-2">
                 <label
-                  htmlFor="remember"
-                  className="ml-2 block text-sm text-gray-900"
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  Remember me
+                  Email address
                 </label>
+                <div className="relative">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 pl-10 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"
+                    placeholder="Enter your email"
+                  />
+                  <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                </div>
               </div>
 
-              <Link
-                to="/forgot-password"
-                className="text-sm font-medium text-gray-600 hover:text-gray-800"
-              >
-                Forgot your password?
-              </Link>
-            </div>
+              {/* Add password field with Lock icon */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 pl-10 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"
+                    placeholder="Enter your password"
+                  />
+                  <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                </div>
+              </div>
 
-            <button
-              type="submit"
-              className="w-full rounded-md bg-black py-2 px-4 text-sm font-medium text-white hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >
-              Sign in
-            </button>
-          </form>
+              {/* Add login button */}
+              <button
+                type="submit"
+                className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              >
+                Sign in
+              </button>
+            </form>
+          ) : (
+            <CreateAccount />
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+// Keep the CreateAccount component in the same file
+
+function CreateAccount() {
+  const [formData, setFormData] = useState({
+    businessName: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    plan: "monthly",
+    agreeToTerms: false,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log(formData);
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      <main className="container mx-auto px-4 py-8">
+        <div className="mx-auto max-w-[600px] rounded-lg border border-gray-200 bg-white shadow">
+          <div className="text-center p-6">
+            <h1 className="text-2xl font-bold">Create your account</h1>
+            <p className="text-sm text-gray-600">
+              Start your business journey with us
+            </p>
+          </div>
+
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="businessName"
+                    className="block text-sm font-medium"
+                  >
+                    Business Name
+                  </label>
+                  <input
+                    id="businessName"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter your business name"
+                    value={formData.businessName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, businessName: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="fullName"
+                    className="block text-sm font-medium"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    id="fullName"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter your full name"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium">
+                    Email Address
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="block text-sm font-medium">
+                    Phone Number
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium"
+                  >
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Confirm your password"
+                    value={formData.confirmPassword}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">
+                    Subscription Plan
+                  </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center space-y-2 rounded-lg border p-4">
+                      <input
+                        type="radio"
+                        name="plan"
+                        id="monthly"
+                        value="monthly"
+                        checked={formData.plan === "monthly"}
+                        onChange={(e) =>
+                          setFormData({ ...formData, plan: e.target.value })
+                        }
+                        className="h-4 w-4 text-blue-600"
+                      />
+                      <label htmlFor="monthly" className="font-medium">
+                        Monthly Plan
+                      </label>
+                      <div className="text-2xl font-bold">$29.99</div>
+                      <span className="text-sm text-gray-600">
+                        Billed monthly
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-center space-y-2 rounded-lg border p-4">
+                      <input
+                        type="radio"
+                        name="plan"
+                        id="annual"
+                        value="annual"
+                        checked={formData.plan === "annual"}
+                        onChange={(e) =>
+                          setFormData({ ...formData, plan: e.target.value })
+                        }
+                        className="h-4 w-4 text-blue-600"
+                      />
+                      <label htmlFor="annual" className="font-medium">
+                        Annual Plan
+                      </label>
+                      <div className="text-2xl font-bold">$299.99</div>
+                      <span className="text-sm text-gray-600">Save 16%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={formData.agreeToTerms}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        agreeToTerms: e.target.checked,
+                      })
+                    }
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600">
+                    I agree to the Terms and Conditions
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              >
+                Create Account
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <footer className="py-6 text-center text-sm text-gray-600">
+        © 2024 Gula. All rights reserved.
+      </footer>
     </div>
   );
 }
