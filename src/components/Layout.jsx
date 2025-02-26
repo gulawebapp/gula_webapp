@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import LoginForm from "./loginForm";
+import Button from "./button";
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // State to manage login form visibility
-  const [showLoginForm, setShowLoginForm] = useState(false); // State to manage login form visibility
+  const [showLoginForm, setShowLoginForm] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLoginToggle = () => {
+    setShowLoginForm(!showLoginForm);
   };
 
   return (
@@ -20,7 +25,10 @@ const Layout = () => {
             <div className="flex items-center">
               <img src="/placeholder.svg" alt="Logo" className="w-8 h-8" />
               <div className="hidden md:flex ml-10 space-x-8">
-                <Link to="/" className="text-black font-medium">
+                <Link
+                  to="/"
+                  className="text-gray-500 font-medium hover:text-black"
+                >
                   Home
                 </Link>
                 <Link
@@ -44,12 +52,9 @@ const Layout = () => {
               </div>
             </div>
             <div className="hidden md:block">
-              <button
-                onClick={() => setShowLoginForm(!showLoginForm)} // Toggle login form visibility
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300"
-              >
+              <Button variant="primary" onClick={handleLoginToggle}>
                 Get Started
-              </button>
+              </Button>
             </div>
             <div className="md:hidden">
               <button
@@ -101,12 +106,15 @@ const Layout = () => {
               >
                 Contact
               </Link>
-              <button
-                onClick={() => setShowLoginForm(!showLoginForm)} // Toggle login form visibility
-                className="block w-full px-3 py-2 rounded-md text-base font-medium text-white bg-black hover:bg-gray-800"
-              >
-                Get Started
-              </button>
+              <div className="block w-full px-3 py-2">
+                <Button
+                  variant="primary"
+                  onClick={handleLoginToggle}
+                  className="w-full"
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
           </div>
         )}

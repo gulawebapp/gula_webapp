@@ -5,6 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
+import Button from "../components/button";
 
 export default function Contact() {
   // Reusable animation logic with unique animations
@@ -245,12 +246,9 @@ export default function Contact() {
                     </div>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full bg-black text-white p-3 rounded-md"
-                >
-                  Send Message
-                </button>
+                <Button variant="thirdly">
+                  <p>send message</p>
+                </Button>
               </form>
             </div>
           </AnimatedSection>

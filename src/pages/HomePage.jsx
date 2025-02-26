@@ -10,6 +10,7 @@ import goods from "../images/goods.webp";
 import logo from "../images/logo.png";
 import world from "../images/world.webp";
 import { Link } from "react-router-dom";
+import Button from "../components/button";
 
 // Lazy load non-critical sections
 const LazyTeamSection = lazy(() => import("../components/TeamSection"));
@@ -160,12 +161,8 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
           >
-            <button className="px-6 py-2 sm:px-8 sm:py-3 hover:bg-blue-700 bg-black text-white rounded-md text-base sm:text-lg font-medium shadow-lg">
-              Start Trading
-            </button>
-            <button className="px-6 py-2 sm:px-8 sm:py-3 hover:bg-black hover:text-white bg-white text-black border-2 border-black rounded-md text-base sm:text-lg font-medium shadow-lg">
-              Learn More
-            </button>
+            <Button variant="primary">Start Trading</Button>
+            <Button variant="secondary">Learn More</Button>
           </motion.div>
         </div>
         <motion.div

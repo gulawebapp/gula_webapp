@@ -270,7 +270,7 @@ function CreateAccount() {
                       <label htmlFor="monthly" className="font-medium">
                         Monthly Plan
                       </label>
-                      <div className="text-2xl font-bold">$29.99</div>
+                      <div className="text-2xl font-bold">$30</div>
                       <span className="text-sm text-gray-600">
                         Billed monthly
                       </span>
@@ -290,7 +290,7 @@ function CreateAccount() {
                       <label htmlFor="annual" className="font-medium">
                         Annual Plan
                       </label>
-                      <div className="text-2xl font-bold">$299.99</div>
+                      <div className="text-2xl font-bold">$300</div>
                       <span className="text-sm text-gray-600">Save 16%</span>
                     </div>
                   </div>
