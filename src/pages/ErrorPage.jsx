@@ -1,5 +1,3 @@
-// filepath: /home/matovu/gula_webapp/gula_webapp/src/pages/ErrorPage.jsx
-
 import { useNavigate } from "react-router-dom";
 
 export default function ErrorPage() {

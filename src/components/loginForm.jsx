@@ -685,8 +685,6 @@ function CreateAccount() {
                   )}
                 </div>
               </div>
-
-              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"

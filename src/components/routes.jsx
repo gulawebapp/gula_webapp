@@ -6,6 +6,9 @@ const About = lazy(() => import("../pages/About"));
 const Services = lazy(() => import("../pages/Services"));
 const Contact = lazy(() => import("../pages/Contact"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
+const Wholesaler = lazy(() => import("../pages/Wholesaler"));
+const Retailer = lazy(() => import("../pages/Retailer"));
+
 const routes = [
   {
     path: "/",
@@ -52,6 +55,22 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <ErrorPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "wholesaler",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Wholesaler />
+          </Suspense>
+        ),
+      },
+      {
+        path: "retailer",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Retailer />
           </Suspense>
         ),
       },

@@ -10,9 +10,12 @@ import {
   Store,
   Users,
 } from "lucide-react";
+import ManageOrdersModal from "../components/ManageOrders";
+// Import the modal component
 
-export default function Dashboard() {
+export default function RetailerDashboard() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isManageOrdersOpen, setIsManageOrdersOpen] = useState(false);
 
   const recentOrders = [
     {
@@ -85,6 +88,14 @@ export default function Dashboard() {
     );
   };
 
+  const openManageOrders = () => {
+    setIsManageOrdersOpen(true);
+  };
+
+  const closeManageOrders = () => {
+    setIsManageOrdersOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -129,7 +140,10 @@ export default function Dashboard() {
             <button className="px-4 py-2 bg-black text-white rounded-md">
               Browse Catalogs
             </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-md">
+            <button
+              onClick={openManageOrders}
+              className="px-4 py-2 border border-gray-300 rounded-md"
+            >
               Manage Orders
             </button>
           </div>
@@ -315,6 +329,13 @@ export default function Dashboard() {
           </div>
         </footer>
       </main>
+
+      {/* Manage Orders Modal */}
+      <ManageOrdersModal
+        isOpen={isManageOrdersOpen}
+        onClose={closeManageOrders}
+        recentOrders={recentOrders}
+      />
     </div>
   );
 }
