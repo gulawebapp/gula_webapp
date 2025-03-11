@@ -3,11 +3,7 @@ import { useState } from "react";
 export function CreateAccount() {
   const [formData, setFormData] = useState({
     businessName: "",
-    fullName: "",
-    email: "",
     phone: "",
-    password: "",
-    confirmPassword: "",
     plan: "monthly",
     accountType: "",
     agreeToTerms: false,

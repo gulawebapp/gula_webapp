@@ -52,7 +52,7 @@ export default function HomePage() {
   );
 
   return (
-    <div className="w-full bg-gray-50">
+    <div className="w-full mt-10">
       {/* Main Content */}
       <main className="pt-5">
         {/* Hero Section */}
@@ -115,7 +115,7 @@ const HeroSection = () => {
       transition={{ duration: 0.5 }}
       className="bg-gradient-to-r from-purple-100 to-transparent py-12 sm:py-16 md:py-20"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center pt-10">
         <div className="md:w-1/2 mb-8 md:mb-0">
           <motion.h1
             initial="hidden"
@@ -146,7 +146,7 @@ const HeroSection = () => {
               hidden: { opacity: 0, y: 50 },
             }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8"
+            className="text-base sm:text-3xl text-gray-700 mb-6 sm:mb-8"
           >
             Join our global B2B marketplace connecting wholesalers and retailers
             worldwide. Experience seamless trade partnerships.
