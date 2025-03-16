@@ -153,6 +153,16 @@ export default function LoginForm() {
                 )}
               </div>
 
+              {/* Forgot Password Link */}
+              <div className="flex justify-end">
+                <a
+                  href="/forgot-password" // Update this link to your actual forgot password route
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Forgot Password?
+                </a>
+              </div>
+
               {/* Submit Button */}
               <button
                 type="submit"

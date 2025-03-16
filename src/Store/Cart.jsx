@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Define the cart store
 const useCartStore = create((set) => ({
   // Initial state
   items: [], // Array to hold cart items

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
+import useProductStore from "../Store/ProductCatalog";
 
-const ProductForm = () => {
-  // State to manage form inputs
+const CreateCatalog = () => {
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -12,190 +11,249 @@ const ProductForm = () => {
     image: null,
   });
 
-  // State to handle form submission status
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [errors, setErrors] = useState({
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    stock: "",
+    image: "",
+  });
 
-  // Handle input changes
-  const handleInputChange = (e) => {
+  const [success, setSuccess] = useState("");
+  const addProduct = useProductStore((state) => state.addProduct);
+
+  const validateForm = () => {
+    let tempErrors = {
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      stock: "",
+      image: "",
+    };
+    let isValid = true;
+
+    // Name validation
+    if (!product.name.trim()) {
+      tempErrors.name = "Product name is required";
+      isValid = false;
+    }
+
+    // Description validation
+    if (!product.description.trim()) {
+      tempErrors.description = "Description is required";
+      isValid = false;
+    } else if (product.description.length < 10) {
+      tempErrors.description =
+        "Description must be at least 10 characters long";
+      isValid = false;
+    } else if (product.description.length > 500) {
+      tempErrors.description = "Description cannot exceed 500 characters";
+      isValid = false;
+    }
+
+    // Price validation
+    if (!product.price) {
+      tempErrors.price = "Price is required";
+      isValid = false;
+    } else if (isNaN(product.price) || parseFloat(product.price) <= 0) {
+      tempErrors.price = "Price must be a positive number";
+      isValid = false;
+    }
+
+    // Category validation
+    if (!product.category.trim()) {
+      tempErrors.category = "Category is required";
+      isValid = false;
+    }
+
+    // Stock validation
+    if (!product.stock) {
+      tempErrors.stock = "Stock is required";
+      isValid = false;
+    } else if (isNaN(product.stock) || parseInt(product.stock) < 0) {
+      tempErrors.stock = "Stock must be a non-negative number";
+      isValid = false;
+    }
+
+    // Image validation
+    if (!product.image) {
+      tempErrors.image = "Product image is required";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  // Handle image upload
-  const handleImageUpload = (e) => {
+  const handleImageChange = (e) => {
     setProduct({ ...product, image: e.target.files[0] });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
+    setErrors({
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      stock: "",
+      image: "",
+    });
     setSuccess("");
 
-    // Create FormData for file upload
-    const formData = new FormData();
-    formData.append("name", product.name);
-    formData.append("description", product.description);
-    formData.append("price", product.price);
-    formData.append("category", product.category);
-    formData.append("stock", product.stock);
-    formData.append("image", product.image);
+    if (!validateForm()) {
+      return;
+    }
 
     try {
-      // Send POST request to backend
-      const response = await axios.post("/api/products", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const productWithId = { ...product, id: Date.now().toString() };
+      addProduct(productWithId);
 
-      if (response.status === 201) {
-        setSuccess("Product created successfully!");
-        // Reset form after successful submission
-        setProduct({
-          name: "",
-          description: "",
-          price: "",
-          category: "",
-          stock: "",
-          image: null,
-        });
-      }
-    } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Failed to create product. Please try again."
-      );
-    } finally {
-      setIsSubmitting(false);
+      setSuccess("Product added successfully!");
+      setProduct({
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        stock: "",
+        image: null,
+      });
+    } catch (err) {
+      setErrors({
+        ...errors,
+        general: `Failed to add product: ${err.message}`,
+      });
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-6">Create New Product</h2>
-      {error && (
-        <div className="bg-red-100 text-red-700 p-3 mb-4 rounded">{error}</div>
-      )}
-      {success && (
-        <div className="bg-green-100 text-green-700 p-3 mb-4 rounded">
-          {success}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        {/* Product Name */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Product Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={product.name}
-            onChange={handleInputChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-
-        {/* Description */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            name="description"
-            value={product.description}
-            onChange={handleInputChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            rows="3"
-            required
-          />
-        </div>
-
-        {/* Price */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Price
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={product.price}
-            onChange={handleInputChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            step="0.01"
-            required
-          />
-        </div>
-
-        {/* Category */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Category
-          </label>
-          <select
-            name="category"
-            value={product.category}
-            onChange={handleInputChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
-          >
-            <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <option value="home">Home</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        {/* Stock Quantity */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Stock Quantity
-          </label>
-          <input
-            type="number"
-            name="stock"
-            value={product.stock}
-            onChange={handleInputChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-
-        {/* Image Upload */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Product Image
-          </label>
-          <input
-            type="file"
-            name="image"
-            onChange={handleImageUpload}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            accept="image/*"
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <div className="mt-6">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 disabled:bg-blue-300"
-          >
-            {isSubmitting ? "Creating Product..." : "Create Product"}
-          </button>
-        </div>
-      </form>
+    <div className="flex justify-center items-center">
+      <div className="p-6 bg-white rounded-lg shadow-md max-w-4xl sm:w-xl">
+        <h2 className="text-2xl font-bold mb-4">Create Product Catalog</h2>
+        {errors.general && (
+          <div className="mb-4 text-red-500">{errors.general}</div>
+        )}
+        {success && <div className="mb-4 text-green-500">{success}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Product Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={product.name}
+              onChange={handleChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.name ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Description
+            </label>
+            <textarea
+              name="description"
+              value={product.description}
+              onChange={handleChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.description ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.description && (
+              <p className="text-sm text-red-500">{errors.description}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Price
+            </label>
+            <input
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.price ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.price && (
+              <p className="text-sm text-red-500">{errors.price}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Category
+            </label>
+            <input
+              type="text"
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.category ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.category && (
+              <p className="text-sm text-red-500">{errors.category}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Stock
+            </label>
+            <input
+              type="number"
+              name="stock"
+              value={product.stock}
+              onChange={handleChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.stock ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.stock && (
+              <p className="text-sm text-red-500">{errors.stock}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Product Image
+            </label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleImageChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                errors.image ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+            />
+            {errors.image && (
+              <p className="text-sm text-red-500">{errors.image}</p>
+            )}
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Add Product
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default ProductForm;
+export default CreateCatalog;

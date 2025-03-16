@@ -8,6 +8,7 @@ const Contact = lazy(() => import("../pages/Contact"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const Wholesaler = lazy(() => import("../pages/Wholesaler"));
 const Retailer = lazy(() => import("../pages/Retailer"));
+const TestPage = lazy(() => import("../pages/TestPage"));
 
 const routes = [
   {
@@ -58,23 +59,32 @@ const routes = [
           </Suspense>
         ),
       },
-      {
-        path: "wholesaler",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Wholesaler />
-          </Suspense>
-        ),
-      },
-      {
-        path: "retailer",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Retailer />
-          </Suspense>
-        ),
-      },
     ],
+  },
+  // Separate routes for Wholesaler and Retailer without Layout
+  {
+    path: "wholesaler",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Wholesaler />
+      </Suspense>
+    ),
+  },
+  {
+    path: "retailer",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Retailer />
+      </Suspense>
+    ),
+  },
+  {
+    path: "testpage",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <TestPage />
+      </Suspense>
+    ),
   },
 ];
 

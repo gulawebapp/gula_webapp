@@ -1,7 +1,7 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ChevronRight } from "lucide-react";
-import group from "../images/group.webp"; // Import your image
+import group from "../images/group.webp";
 
 const Services = () => {
   const controls = useAnimation();

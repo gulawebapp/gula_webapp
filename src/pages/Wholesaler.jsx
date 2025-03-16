@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Line, XAxis, YAxis, Tooltip } from "recharts";
 import { Bell, Plus, ShoppingCart, Users } from "lucide-react";
 import ProductForm from "./CreateCatalog";
-// Import the ProductForm component
 
 const data = [
   { name: "Jan", value: 12000 },

@@ -11,7 +11,6 @@ import {
   Users,
 } from "lucide-react";
 import ManageOrdersModal from "../components/ManageOrders";
-// Import the modal component
 
 export default function RetailerDashboard() {
   const [currentSlide, setCurrentSlide] = useState(0);
