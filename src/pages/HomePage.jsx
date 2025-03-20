@@ -11,11 +11,51 @@ import logo from "../images/logo.png";
 import world from "../images/world.webp";
 import { Link } from "react-router-dom";
 import Button from "../components/button";
+import styles from "../styles/homepage.module.css";
 
 // Lazy load non-critical sections
 const LazyTeamSection = lazy(() => import("../components/TeamSection"));
 const LazyGlobalPresence = lazy(() => import("../components/GlobalPresence"));
 
+// Text to animate
+const text = "Connect Wholesalers with Retailers";
+
+// Text to animate
+const text1 =
+  "Join our global B2B marketplace connecting wholesalers and retailers worldwide. Experience seamless trade partnerships.";
+
+// Variants for the container (fade-in effect)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05, // Delay between each character's animation
+    },
+  },
+};
+
+{
+  /* // Variants for slide-in effect */
+}
+const slideInVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+// Variants for each character (typewriter effect)
+const characterVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9 },
+  },
+};
 const categories = [
   { name: "Electronics", image: electronics },
   { name: "Fashion", image: fashion },
@@ -52,9 +92,9 @@ export default function HomePage() {
   );
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       {/* Main Content */}
-      <main className="pt-5">
+      <main className="">
         {/* Hero Section */}
         <HeroSection />
 
@@ -62,19 +102,25 @@ export default function HomePage() {
         <FeaturesSection features={features} />
 
         {/* Featured Categories */}
+
+        {/* Slider Container */}
         <section className="py-16 sm:py-20 bg-gray-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">
               Featured Categories
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {categories.map((category, index) => (
-                <CategoryCard key={index} category={category} />
-              ))}
+            <div className={styles.slider}>
+              {/* Slider Track */}
+              <div className={`${styles.slideTrack} gap-6 sm:gap-8`}>
+                {[...categories, ...categories].map((category, index) => (
+                  <div key={index} className={styles.slide}>
+                    <CategoryCard category={category} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
-
         {/* Team Section */}
         <Suspense fallback={<div>Loading Team...</div>}>
           <LazyTeamSection />
@@ -113,43 +159,35 @@ const HeroSection = () => {
         hidden: { opacity: 0, y: 50 },
       }}
       transition={{ duration: 0.5 }}
-      className="bg-gradient-to-r from-purple-100 to-transparent py-12 sm:py-16 md:py-20"
+      className="bg-gradient-to-r from-purple-100 to-transparent"
     >
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center pt-10">
-        <div className="md:w-1/2 mb-8 md:mb-0">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center min-h-full">
+        <div className="md:w-1/2">
+          {/* animated text */}
           <motion.h1
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: { opacity: 1, y: 0 },
-              hidden: { opacity: 0, y: 50 },
-            }}
-            transition={{ duration: 0.5, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
-          >
-            Connect{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-              Wholesalers
-            </span>
-            <br />
-            with{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-              Retailers
-            </span>
-          </motion.h1>
-
-          <motion.p
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
-            variants={{
-              visible: { opacity: 1, y: 0 },
-              hidden: { opacity: 0, y: 50 },
-            }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-base sm:text-3xl text-gray-700 mb-6 sm:mb-8"
           >
-            Join our global B2B marketplace connecting wholesalers and retailers
-            worldwide. Experience seamless trade partnerships.
+            {text.split("").map((char, index) => (
+              <motion.span key={index} variants={characterVariants}>
+                {char}
+              </motion.span>
+            ))}
+          </motion.h1>
+          ;{/* Animated Paragraph */}
+          <motion.p
+            className="text-base sm:text-3xl text-gray-700 mb-6 sm:mb-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {text1.split("").map((char, index) => (
+              <motion.span key={index} variants={characterVariants}>
+                {char}
+              </motion.span>
+            ))}
           </motion.p>
           <motion.div
             initial="hidden"
@@ -253,28 +291,13 @@ Feature.propTypes = {
   }).isRequired,
 };
 
-// Category Card with Animation
 const CategoryCard = ({ category }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
-
   return (
     <motion.div
-      ref={ref}
+      variants={slideInVariants}
       initial="hidden"
-      animate={controls}
-      whileHover={{ scale: 1.05 }}
-      variants={{
-        visible: { opacity: 1, scale: 1 },
-        hidden: { opacity: 0, scale: 0.8 },
-      }}
-      transition={{ duration: 0.5 }}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
       className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
     >
       <img
@@ -296,7 +319,6 @@ const CategoryCard = ({ category }) => {
     </motion.div>
   );
 };
-
 CategoryCard.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
