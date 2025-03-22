@@ -64,7 +64,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gray-50">
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section - Fade In */}
         <AnimatedSection className="text-center mb-12" animationType="fadeIn">
@@ -421,80 +421,6 @@ export default function Contact() {
           </div>
         </AnimatedSection>
       </main>
-
-      {/* Footer - No Animation */}
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                Support
-              </h3>
-              <ul className="mt-4 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    Help Center
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                Company
-              </h3>
-              <ul className="mt-4 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    About
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                Legal
-              </h3>
-              <ul className="mt-4 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    Privacy
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    Terms
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    Security
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-gray-200 pt-8">
-            <p className="text-base text-gray-400 text-center">
-              © 2024 Tunda. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
