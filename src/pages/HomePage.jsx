@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
-import HeroSection from "../components/HeroSection/HeroSection";
-import FeaturesSection from "../components/FeaturesSection/FeaturesSection";
-import SliderSection from "../components/SliderSection/SliderSection";
+import HeroSection from "../components/HomePage/HeroSection/HeroSection";
+import FeaturesSection from "../components/HomePage/FeaturesSection/FeaturesSection";
+import SliderSection from "../components/HomePage/SliderSection/SliderSection";
 import world from "../images/world.webp";
 // Lazy load non-critical sections
 const LazyTeamSection = lazy(() => import("../components/TeamSection"));
