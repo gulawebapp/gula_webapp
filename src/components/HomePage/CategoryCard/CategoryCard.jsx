@@ -28,14 +28,14 @@ const CategoryCard = ({ category }) => {
         width="300"
         height="200"
       />
-      <div className="p-4 sm:p-6">
-        <h3 className="font-semibold text-lg sm:text-xl mb-2">
-          Wholesale {category.name}
-        </h3>
-        <p className="text-gray-600 text-sm sm:text-base">
-          Bulk {category.name.toLowerCase()} and accessories
-        </p>
-      </div>
+     <div className="p-4 sm:p-6 flex flex-col justify-center items-center mx-auto">
+  <h3 className="font-semibold text-lg sm:text-xl mb-2">
+    {category.name}
+  </h3>
+  <p className="text-gray-600 text-sm sm:text-base text-center"> {/* Added text-center */}
+    Bulk {category.name.toLowerCase()} and accessories
+  </p>
+</div>
     </motion.div>
   );
 };
