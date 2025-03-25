@@ -23,7 +23,7 @@ export default function NavBar() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <img src="/placeholder.svg" alt="Logo" className="w-8 h-8" />
-              <div className="hidden md:flex ml-10 space-x-8">
+              <div className="hidden md:flex ml-10 gap-x-5">
                 <Link
                   to="/"
                   className="text-gray-500 font-medium hover:text-black"
