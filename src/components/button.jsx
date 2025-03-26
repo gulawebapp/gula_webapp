@@ -10,14 +10,12 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    "px-2 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-medium shadow-lg";
+    "px-6 py-3 rounded-md text-base font-medium shadow-lg flex-shrink-0"; // Added flex-shrink-0
 
   const variants = {
     primary: "bg-black text-white hover:bg-blue-700",
-    secondary:
-      "bg-white text-black border-2 border-black hover:bg-black hover:text-white",
-    thirdly:
-      "bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300",
+    secondary: "bg-white text-black border-2 border-black hover:bg-black hover:text-white",
+    thirdly: "bg-black text-white hover:bg-gray-800 transition duration-300",
   };
 
   const ButtonComponent = animate ? motion.button : "button";
@@ -37,7 +35,7 @@ const Button = ({
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(["primary", "secondary"]),
+  variant: PropTypes.oneOf(["primary", "secondary", "thirdly"]),
   onClick: PropTypes.func,
   className: PropTypes.string,
   animate: PropTypes.bool,
