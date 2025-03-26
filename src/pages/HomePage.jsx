@@ -2,10 +2,10 @@ import { lazy, Suspense } from "react";
 import HeroSection from "../components/HomePage/HeroSection/HeroSection";
 import FeaturesSection from "../components/HomePage/FeaturesSection/FeaturesSection";
 import SliderSection from "../components/HomePage/SliderSection/SliderSection";
-import world from "../images/world.webp";
+
 // Lazy load non-critical sections
-const LazyTeamSection = lazy(() => import("../components/TeamSection"));
-const LazyGlobalPresence = lazy(() => import("../components/GlobalPresence"));
+const LazyTeamSection = lazy(() => import("../components/HomePage/TeamSection/TeamSection"));
+const LazyGlobalPresence = lazy(() => import("../components/HomePage/GlobalPresence/GlobalPresence"));
 
 export default function HomePage() {
   return (
@@ -18,7 +18,7 @@ export default function HomePage() {
           <LazyTeamSection />
         </Suspense>
         <Suspense fallback={<div>Loading Global Presence...</div>}>
-          <LazyGlobalPresence world={world} />
+          <LazyGlobalPresence />
         </Suspense>
       </main>
     </div>
