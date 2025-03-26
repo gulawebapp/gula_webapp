@@ -80,18 +80,18 @@ const HeroSection = () => {
             ))}
           </motion.p>
           <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: { opacity: 1, y: 0 },
-              hidden: { opacity: 0, y: 50 },
-            }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-row gap-x-3 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
-          >
-            <Button variant="primary">Start Trading</Button>
-            <Button variant="secondary">Learn More</Button>
-          </motion.div>
+  initial="hidden"
+  animate="visible"
+  variants={{
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 50 },
+  }}
+  transition={{ duration: 0.5, delay: 0.6 }}
+  className="flex flex-row gap-4 flex-wrap" // Changed to flex-wrap for better mobile behavior
+>
+  <Button variant="primary">Start Trading</Button>
+  <Button variant="secondary">Learn More</Button>
+</motion.div>
         </div>
         <motion.div
           initial="hidden"
