@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function CreateAccount() {
+export default function CreateAccount() {
   const [formData, setFormData] = useState({
     businessName: "",
     phone: "",
@@ -145,7 +145,7 @@ export function CreateAccount() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-emerald-950">
       <main className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-[600px] rounded-lg border border-gray-200 bg-white shadow">
           <div className="text-center p-6">
