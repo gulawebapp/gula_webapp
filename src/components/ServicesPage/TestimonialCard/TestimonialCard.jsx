@@ -26,7 +26,7 @@ const TestimonialCard = () => {
               <div className="flex items-center">
                 <img
                   src={testimonials.image}
-                  alt={name}
+                  alt={testimonials.name}
                   className="h-12 w-12 rounded-full"
                 />
                 <div className="ml-4">
