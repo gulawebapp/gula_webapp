@@ -4,8 +4,12 @@ import FeaturesSection from "../components/HomePage/FeaturesSection/FeaturesSect
 import SliderSection from "../components/HomePage/SliderSection/SliderSection";
 
 // Lazy load non-critical sections
-const LazyTeamSection = lazy(() => import("../components/HomePage/TeamSection/TeamSection"));
-const LazyGlobalPresence = lazy(() => import("../components/HomePage/GlobalPresence/GlobalPresence"));
+const LazyTeamSection = lazy(() =>
+  import("../components/HomePage/TeamSection/TeamSection")
+);
+const LazyGlobalPresence = lazy(() =>
+  import("../components/HomePage/GlobalPresence/GlobalPresence")
+);
 
 export default function HomePage() {
   return (
