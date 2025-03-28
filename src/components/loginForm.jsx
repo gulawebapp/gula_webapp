@@ -156,7 +156,7 @@ export default function LoginForm() {
               {/* Forgot Password Link */}
               <div className="flex justify-end">
                 <a
-                  href="/forgot-password" // Update this link to your actual forgot password route
+                  href="/forgot-password"
                   className="text-sm text-gray-600 hover:text-gray-900"
                 >
                   Forgot Password?
@@ -179,6 +179,7 @@ export default function LoginForm() {
     </div>
   );
 }
+
 function CreateAccount() {
   const [formData, setFormData] = useState({
     businessName: "",
