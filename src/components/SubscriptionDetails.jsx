@@ -15,11 +15,7 @@ export default function CreateAccount() {
 
   const [errors, setErrors] = useState({
     businessName: "",
-    fullName: "",
-    email: "",
     phone: "",
-    password: "",
-    confirmPassword: "",
     accountType: "",
     agreeToTerms: "",
     cardNumber: "",
@@ -38,22 +34,6 @@ export default function CreateAccount() {
       isValid = false;
     }
 
-    // Full Name validation
-    if (!formData.fullName.trim()) {
-      tempErrors.fullName = "Full name is required";
-      isValid = false;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email) {
-      tempErrors.email = "Email is required";
-      isValid = false;
-    } else if (!emailRegex.test(formData.email)) {
-      tempErrors.email = "Please enter a valid email address";
-      isValid = false;
-    }
-
     // Phone validation
     const phoneRegex = /^\+?[\d\s-]{10,}$/;
     if (!formData.phone) {
@@ -61,24 +41,6 @@ export default function CreateAccount() {
       isValid = false;
     } else if (!phoneRegex.test(formData.phone)) {
       tempErrors.phone = "Please enter a valid phone number";
-      isValid = false;
-    }
-
-    // Password validation
-    if (!formData.password) {
-      tempErrors.password = "Password is required";
-      isValid = false;
-    } else if (formData.password.length < 8) {
-      tempErrors.password = "Password must be at least 8 characters long";
-      isValid = false;
-    }
-
-    // Confirm Password validation
-    if (!formData.confirmPassword) {
-      tempErrors.confirmPassword = "Please confirm your password";
-      isValid = false;
-    } else if (formData.password !== formData.confirmPassword) {
-      tempErrors.confirmPassword = "Passwords do not match";
       isValid = false;
     }
 
@@ -391,6 +353,7 @@ export default function CreateAccount() {
                   >
                     Cardholder Name
                   </label>
+
                   <input
                     id="cardholderName"
                     type="text"
