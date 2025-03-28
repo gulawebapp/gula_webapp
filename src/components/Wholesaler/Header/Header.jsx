@@ -1,4 +1,5 @@
 import { Plus, ShoppingCart, Bell } from "lucide-react";
+import { FaUser } from "react-icons/fa";
 
 export default function Header({ onCreateProductClick, showProductForm }) {
   return (
@@ -22,11 +23,7 @@ export default function Header({ onCreateProductClick, showProductForm }) {
               <Bell className="w-6 h-6" />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-            <img
-              src="/placeholder.svg?height=32&width=32"
-              alt="Profile"
-              className="w-8 h-8 rounded-full"
-            />
+            <FaUser className="w-8 h-8 rounded-full" />
           </div>
         </div>
       </div>
