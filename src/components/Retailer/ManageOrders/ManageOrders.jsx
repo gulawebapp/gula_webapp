@@ -1,5 +1,3 @@
-"use client";
-
 import { Search } from "lucide-react";
 import PropTypes from "prop-types";
 
@@ -25,7 +23,7 @@ const recentOrders = [
 ];
 
 export default function ManageOrdersModal(props) {
-  const { isOpen, onClose} = props;
+  const { isOpen, onClose } = props;
   if (!isOpen) return null;
 
   return (
