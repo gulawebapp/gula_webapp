@@ -1,4 +1,5 @@
 import { Bell } from "lucide-react";
+import { FaUser } from "react-icons/fa";
 
 export default function Navbar() {
   return (
@@ -22,11 +23,7 @@ export default function Navbar() {
       </div>
       <div className="flex items-center space-x-4">
         <Bell className="w-5 h-5 text-gray-500" />
-        <img
-          src="/placeholder.svg?height=32&width=32"
-          alt="Profile"
-          className="w-8 h-8 rounded-full"
-        />
+        <FaUser className="w-8 h-8 rounded-full" />
       </div>
     </nav>
   );
