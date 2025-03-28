@@ -7,12 +7,11 @@ export default function Footer() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-gray-900 text-white py-8 sm:py-10" // Reduced padding
+      className="bg-gray-900 text-white py-8 sm:py-10"
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {" "}
-          {/* Reduced gap and margin */}
           <div>
             <img
               src=""
@@ -24,7 +23,6 @@ export default function Footer() {
             />
             <p className="text-gray-400 mb-4 text-xs sm:text-sm">
               {" "}
-              {/* Reduced font size */}
               Your trusted B2B marketplace connecting wholesalers and retailers
               globally.
             </p>
@@ -78,17 +76,14 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
                 {" "}
-                {/* Reduced font size */}
                 <Link to="/about">About Us</Link>
               </li>
               <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
                 {" "}
-                {/* Reduced font size */}
                 <Link to="/services">Our Services</Link>
               </li>
               <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
                 {" "}
-                {/* Reduced font size */}
                 <Link to="/contact">Contact Us</Link>
               </li>
             </ul>
@@ -109,10 +104,8 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center">
           {" "}
-          {/* Reduced padding */}
           <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0">
             {" "}
-            {/* Reduced font size */}
             &copy; 2024 Gula. All rights reserved.
           </p>
         </div>
