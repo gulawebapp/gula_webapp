@@ -13,12 +13,6 @@ import ManageOrdersModal from "../components/Retailer/ManageOrders/ManageOrders"
 export default function RetailerDashboard() {
   const [isManageOrdersOpen, setIsManageOrdersOpen] = useState(false);
 
-  
-
-
-
- 
-
   const openManageOrders = () => {
     setIsManageOrdersOpen(true);
   };
@@ -30,13 +24,13 @@ export default function RetailerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <main className="p-6">
         <DashboardHeader onManageOrdersClick={openManageOrders} />
         <StatsGrid />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RecentOrders  />
+          <RecentOrders />
           <CatalogUpdates />
         </div>
 
