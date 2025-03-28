@@ -9,7 +9,7 @@ const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const Wholesaler = lazy(() => import("../pages/Wholesaler"));
 const Retailer = lazy(() => import("../pages/Retailer"));
 const TestPage = lazy(() => import("../pages/TestPage"));
-const Account = lazy(() => import("../components/SubscriptionDetails"))
+const Account = lazy(() => import("../components/SubscriptionDetails"));
 const routes = [
   {
     path: "/",
@@ -94,7 +94,6 @@ const routes = [
       </Suspense>
     ),
   },
-
 ];
 
 export default routes;
