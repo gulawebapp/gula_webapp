@@ -35,7 +35,7 @@ export default function Contact() {
           <img
             src={contact}
             alt="Contact Image"
-            className="w-full h-96 object-cover rounded-lg"
+            className="w-full h-96 object-cover object-top rounded-lg"
           />
         </AnimatedSection>
 
