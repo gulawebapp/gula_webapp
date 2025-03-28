@@ -1,24 +1,23 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-
- const products = [
-    {
-      title: "Summer Dress Collection",
-      subtitle: "Starting from $29.99",
-      image: "/summer-dress.jpg",
-    },
-    {
-      title: "Luxury Handbags",
-      subtitle: "Premium Collection",
-      image: "/handbags.jpg",
-    },
-    {
-      title: "Sports Footwear",
-      subtitle: "New Arrivals",
-      image: "/footwear.jpg",
-    },
-  ];
+const products = [
+  {
+    title: "Summer Dress Collection",
+    subtitle: "Starting from $29.99",
+    image: "/summer-dress.jpg",
+  },
+  {
+    title: "Luxury Handbags",
+    subtitle: "Premium Collection",
+    image: "/handbags.jpg",
+  },
+  {
+    title: "Sports Footwear",
+    subtitle: "New Arrivals",
+    image: "/footwear.jpg",
+  },
+];
 
 export default function ProductCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
