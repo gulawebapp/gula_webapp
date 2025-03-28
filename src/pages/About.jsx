@@ -2,11 +2,11 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { HeroSection } from "../components/HeroSection/HeroSection";
-import { MissionSection } from "../components/MissionSection/MissionSection";
-import { ImpactSection } from "../components/ImpactSection/ImpactSection";
-import { TestimonialsSection } from "../components/TestimonialsSection/TestimonialsSection";
-import { ContactSection } from "../components/ContactSection/ContactSection";
+import { HeroSection } from "../components/AboutPage/HeroSection/HeroSection";
+import { MissionSection } from "../components/AboutPage/MissionSection/MissionSection";
+import { ImpactSection } from "../components/AboutPage/ImpactSection/ImpactSection";
+import { TestimonialsSection } from "../components/AboutPage/TestimonialsSection/TestimonialsSection";
+import { ContactSection } from "../components/AboutPage/ContactSection/ContactSection";
 
 export default function About() {
   // Reusable animation logic with unique animations
