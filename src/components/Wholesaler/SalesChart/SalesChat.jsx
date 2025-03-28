@@ -14,10 +14,7 @@ export default function SalesChart() {
     <div className="bg-white p-6 rounded-xl shadow-sm">
       <h2 className="text-lg font-semibold mb-4">Sales Overview</h2>
       <div className="h-[300px]">
-        <Line
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
+        <Line data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
