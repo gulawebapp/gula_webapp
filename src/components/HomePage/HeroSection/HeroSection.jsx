@@ -1,8 +1,8 @@
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Button from "../../button";
 import { useEffect } from "react";
 import img1 from "./images/happy.webp";
+import Button from "../../common/button";
 
 const HeroSection = () => {
   const controls = useAnimation();
@@ -80,18 +80,18 @@ const HeroSection = () => {
             ))}
           </motion.p>
           <motion.div
-  initial="hidden"
-  animate="visible"
-  variants={{
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 50 },
-  }}
-  transition={{ duration: 0.5, delay: 0.6 }}
-  className="flex flex-row gap-4 flex-wrap" // Changed to flex-wrap for better mobile behavior
->
-  <Button variant="primary">Start Trading</Button>
-  <Button variant="secondary">Learn More</Button>
-</motion.div>
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 50 },
+            }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex flex-row gap-4 flex-wrap"
+          >
+            <Button variant="primary">Start Trading</Button>
+            <Button variant="secondary">Learn More</Button>
+          </motion.div>
         </div>
         <motion.div
           initial="hidden"
