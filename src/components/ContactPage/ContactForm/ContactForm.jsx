@@ -1,5 +1,4 @@
-
-import Button from "../../button";
+import Button from "../../common/button";
 import { countries } from "./countries";
 import { industries } from "./industries";
 
@@ -7,7 +6,10 @@ const ContactForm = () => (
   <div className="bg-white p-6 rounded-lg shadow">
     <form className="space-y-6">
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="company"
+          className="block text-sm font-medium text-gray-700"
+        >
           Company Name
         </label>
         <input
@@ -20,7 +22,10 @@ const ContactForm = () => (
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="contact" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="contact"
+            className="block text-sm font-medium text-gray-700"
+          >
             Contact Person
           </label>
           <input
@@ -32,7 +37,10 @@ const ContactForm = () => (
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Business Email
           </label>
           <input
@@ -46,7 +54,10 @@ const ContactForm = () => (
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700"
+          >
             Phone Number
           </label>
           <input
@@ -58,7 +69,10 @@ const ContactForm = () => (
           />
         </div>
         <div>
-          <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="country"
+            className="block text-sm font-medium text-gray-700"
+          >
             Country/Region
           </label>
           <select
@@ -76,7 +90,10 @@ const ContactForm = () => (
         </div>
       </div>
       <div>
-        <label htmlFor="industry" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="industry"
+          className="block text-sm font-medium text-gray-700"
+        >
           Industry Sector
         </label>
         <select
@@ -96,7 +113,10 @@ const ContactForm = () => (
         </select>
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="message"
+          className="block text-sm font-medium text-gray-700"
+        >
           Message
         </label>
         <textarea
@@ -108,7 +128,10 @@ const ContactForm = () => (
         ></textarea>
       </div>
       <div>
-        <label htmlFor="attachment" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="attachment"
+          className="block text-sm font-medium text-gray-700"
+        >
           Attachment
         </label>
         <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
