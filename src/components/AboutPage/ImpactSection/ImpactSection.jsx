@@ -1,4 +1,3 @@
-// components/ImpactSection.js
 import {
   BarChart,
   Bar,
