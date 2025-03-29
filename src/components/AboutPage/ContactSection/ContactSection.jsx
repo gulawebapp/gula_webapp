@@ -1,4 +1,3 @@
-// components/ContactSection.js
 import Button from "../../button";
 
 export const ContactSection = () => {
