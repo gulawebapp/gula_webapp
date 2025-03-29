@@ -1,21 +1,23 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import image1 from "./images/dresser.webp";
+import image2 from "./images/shoes.webp";
 
 const products = [
   {
     title: "Summer Dress Collection",
     subtitle: "Starting from $29.99",
-    image: "/summer-dress.jpg",
+    image: image1,
   },
   {
     title: "Luxury Handbags",
     subtitle: "Premium Collection",
-    image: "/handbags.jpg",
+    image: image2,
   },
   {
     title: "Sports Footwear",
     subtitle: "New Arrivals",
-    image: "/footwear.jpg",
+    image: image1,
   },
 ];
 
@@ -45,7 +47,7 @@ export default function ProductCarousel() {
                   <img
                     src={product.image || "/placeholder.svg"}
                     alt={product.title}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-96 object-contain rounded-lg"
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white rounded-b-lg">
                     <h3 className="text-xl font-semibold">{product.title}</h3>
