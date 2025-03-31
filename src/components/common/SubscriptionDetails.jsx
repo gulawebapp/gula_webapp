@@ -17,11 +17,6 @@ export default function CreateAccount() {
     businessName: "",
     phone: "",
     accountType: "",
-    agreeToTerms: "",
-    cardNumber: "",
-    cardExpiry: "",
-    cardCvv: "",
-    cardholderName: "",
   });
 
   const validateForm = () => {
@@ -53,44 +48,44 @@ export default function CreateAccount() {
       isValid = false;
     }
 
-    // Terms agreement validation
-    if (!formData.agreeToTerms) {
-      tempErrors.agreeToTerms = "You must agree to the Terms and Conditions";
-      isValid = false;
-    }
+    // // Terms agreement validation
+    // if (!formData.agreeToTerms) {
+    //   tempErrors.agreeToTerms = "You must agree to the Terms and Conditions";
+    //   isValid = false;
+    // }
 
-    // Card Details Validations
-    const cardNumberRegex = /^\d{16}$/;
-    if (!formData.cardNumber) {
-      tempErrors.cardNumber = "Card number is required";
-      isValid = false;
-    } else if (!cardNumberRegex.test(formData.cardNumber)) {
-      tempErrors.cardNumber = "Please enter a valid 16-digit card number";
-      isValid = false;
-    }
+    // // Card Details Validations
+    // const cardNumberRegex = /^\d{16}$/;
+    // if (!formData.cardNumber) {
+    //   tempErrors.cardNumber = "Card number is required";
+    //   isValid = false;
+    // } else if (!cardNumberRegex.test(formData.cardNumber)) {
+    //   tempErrors.cardNumber = "Please enter a valid 16-digit card number";
+    //   isValid = false;
+    // }
 
-    const cardExpiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-    if (!formData.cardExpiry) {
-      tempErrors.cardExpiry = "Expiration date is required";
-      isValid = false;
-    } else if (!cardExpiryRegex.test(formData.cardExpiry)) {
-      tempErrors.cardExpiry = "Please enter a valid expiration date (MM/YY)";
-      isValid = false;
-    }
+    // const cardExpiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    // if (!formData.cardExpiry) {
+    //   tempErrors.cardExpiry = "Expiration date is required";
+    //   isValid = false;
+    // } else if (!cardExpiryRegex.test(formData.cardExpiry)) {
+    //   tempErrors.cardExpiry = "Please enter a valid expiration date (MM/YY)";
+    //   isValid = false;
+    // }
 
-    const cardCvvRegex = /^\d{3,4}$/;
-    if (!formData.cardCvv) {
-      tempErrors.cardCvv = "CVV is required";
-      isValid = false;
-    } else if (!cardCvvRegex.test(formData.cardCvv)) {
-      tempErrors.cardCvv = "Please enter a valid CVV (3 or 4 digits)";
-      isValid = false;
-    }
+    // const cardCvvRegex = /^\d{3,4}$/;
+    // if (!formData.cardCvv) {
+    //   tempErrors.cardCvv = "CVV is required";
+    //   isValid = false;
+    // } else if (!cardCvvRegex.test(formData.cardCvv)) {
+    //   tempErrors.cardCvv = "Please enter a valid CVV (3 or 4 digits)";
+    //   isValid = false;
+    // }
 
-    if (!formData.cardholderName.trim()) {
-      tempErrors.cardholderName = "Cardholder name is required";
-      isValid = false;
-    }
+    // if (!formData.cardholderName.trim()) {
+    //   tempErrors.cardholderName = "Cardholder name is required";
+    //   isValid = false;
+    // }
 
     setErrors(tempErrors);
     return isValid;
@@ -194,190 +189,6 @@ export default function CreateAccount() {
                 )}
               </div>
 
-              {/* Subscription Plan */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium">
-                  Subscription Plan
-                </label>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col items-center space-y-2 rounded-lg border p-4">
-                    <input
-                      type="radio"
-                      name="plan"
-                      id="monthly"
-                      value="monthly"
-                      checked={formData.plan === "monthly"}
-                      onChange={(e) =>
-                        setFormData({ ...formData, plan: e.target.value })
-                      }
-                      className="h-4 w-4 text-blue-600"
-                    />
-                    <label htmlFor="monthly" className="font-medium">
-                      Monthly Plan
-                    </label>
-                    <div className="text-2xl font-bold">$30</div>
-                    <span className="text-sm text-gray-600">
-                      Billed monthly
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center space-y-2 rounded-lg border p-4">
-                    <input
-                      type="radio"
-                      name="plan"
-                      id="annual"
-                      value="annual"
-                      checked={formData.plan === "annual"}
-                      onChange={(e) =>
-                        setFormData({ ...formData, plan: e.target.value })
-                      }
-                      className="h-4 w-4 text-blue-600"
-                    />
-                    <label htmlFor="annual" className="font-medium">
-                      Annual Plan
-                    </label>
-                    <div className="text-2xl font-bold">$300</div>
-                    <span className="text-sm text-gray-600">Save 16%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Terms Agreement */}
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={formData.agreeToTerms}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      agreeToTerms: e.target.checked,
-                    })
-                  }
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-600">
-                  I agree to the Terms and Conditions
-                </label>
-              </div>
-              {errors.agreeToTerms && (
-                <p className="text-sm text-red-500">{errors.agreeToTerms}</p>
-              )}
-
-              {/* Card Details Section */}
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Payment Details</h2>
-
-                {/* Card Number */}
-                <div className="space-y-2">
-                  <label
-                    htmlFor="cardNumber"
-                    className="block text-sm font-medium"
-                  >
-                    Card Number
-                  </label>
-                  <input
-                    id="cardNumber"
-                    type="text"
-                    className={`w-full rounded-md border ${
-                      errors.cardNumber ? "border-red-500" : "border-gray-300"
-                    } px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                    placeholder="1234 5678 9012 3456"
-                    value={formData.cardNumber}
-                    onChange={(e) =>
-                      setFormData({ ...formData, cardNumber: e.target.value })
-                    }
-                  />
-                  {errors.cardNumber && (
-                    <p className="text-sm text-red-500">{errors.cardNumber}</p>
-                  )}
-                </div>
-
-                {/* Expiration Date and CVV */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="cardExpiry"
-                      className="block text-sm font-medium"
-                    >
-                      Expiration Date
-                    </label>
-                    <input
-                      id="cardExpiry"
-                      type="text"
-                      className={`w-full rounded-md border ${
-                        errors.cardExpiry ? "border-red-500" : "border-gray-300"
-                      } px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                      placeholder="MM/YY"
-                      value={formData.cardExpiry}
-                      onChange={(e) =>
-                        setFormData({ ...formData, cardExpiry: e.target.value })
-                      }
-                    />
-                    {errors.cardExpiry && (
-                      <p className="text-sm text-red-500">
-                        {errors.cardExpiry}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="cardCvv"
-                      className="block text-sm font-medium"
-                    >
-                      CVV
-                    </label>
-                    <input
-                      id="cardCvv"
-                      type="text"
-                      className={`w-full rounded-md border ${
-                        errors.cardCvv ? "border-red-500" : "border-gray-300"
-                      } px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                      placeholder="123"
-                      value={formData.cardCvv}
-                      onChange={(e) =>
-                        setFormData({ ...formData, cardCvv: e.target.value })
-                      }
-                    />
-                    {errors.cardCvv && (
-                      <p className="text-sm text-red-500">{errors.cardCvv}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Cardholder Name */}
-                <div className="space-y-2">
-                  <label
-                    htmlFor="cardholderName"
-                    className="block text-sm font-medium"
-                  >
-                    Cardholder Name
-                  </label>
-
-                  <input
-                    id="cardholderName"
-                    type="text"
-                    className={`w-full rounded-md border ${
-                      errors.cardholderName
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                    placeholder="John Doe"
-                    value={formData.cardholderName}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        cardholderName: e.target.value,
-                      })
-                    }
-                  />
-                  {errors.cardholderName && (
-                    <p className="text-sm text-red-500">
-                      {errors.cardholderName}
-                    </p>
-                  )}
-                </div>
-              </div>
               <button
                 type="submit"
                 className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
