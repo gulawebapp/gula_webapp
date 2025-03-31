@@ -63,7 +63,7 @@ const routes = [
   },
   // Separate routes for Wholesaler and Retailer without Layout
   {
-    path: "wholesaler",
+    path: "/wholesaler",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <Wholesaler />
@@ -71,7 +71,7 @@ const routes = [
     ),
   },
   {
-    path: "retailer",
+    path: "/retailer",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <Retailer />
@@ -79,7 +79,7 @@ const routes = [
     ),
   },
   {
-    path: "testpage",
+    path: "/testpage",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <TestPage />
@@ -87,7 +87,7 @@ const routes = [
     ),
   },
   {
-    path: "createaccount",
+    path: "/createaccount",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <Account />
