@@ -1,7 +1,8 @@
+// components/Wholesaler/Header/Header.jsx
 import { Plus, ShoppingCart, Bell } from "lucide-react";
 import { FaUser } from "react-icons/fa";
 
-export default function Header({ onCreateProductClick, showProductForm }) {
+export default function Header({ onViewProductsClick, showProductPage }) {
   return (
     <header className="bg-white border-b">
       <div className="container mx-auto px-4 py-4">
@@ -10,11 +11,11 @@ export default function Header({ onCreateProductClick, showProductForm }) {
           <div className="flex items-center gap-4">
             <button
               className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg"
-              onClick={onCreateProductClick}
+              onClick={onViewProductsClick}
             >
-              <Plus className="w-4 h-4" />
-              {showProductForm ? "Close Form" : "Create Product"}
+              {showProductPage ? "Close" : "View Products"}
             </button>
+
             <button className="inline-flex items-center gap-2 bg-white border px-4 py-2 rounded-lg">
               <ShoppingCart className="w-4 h-4" />
               View Orders
