@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import logo from "./images/gulawhite.png";
 
 export default function Footer() {
   return (
@@ -14,14 +15,12 @@ export default function Footer() {
           {" "}
           <div>
             <img
-              src=""
+              src={logo}
               alt="Logo"
-              className="w-2.5 h-auto filter contrast-150 brightness-90 hover:brightness-100 hover:shadow-2xs"
+              className="w-auto h-10 filter contrast-150 brightness-90 hover:brightness-100 hover:shadow-2xs"
               loading="lazy"
-              width="96"
-              height="96"
             />
-            <p className="text-gray-400 mb-4 text-xs sm:text-sm">
+            <p className="text-gray-400 mb-4 text-xs sm:text-sm pt-4">
               {" "}
               Your trusted B2B marketplace connecting wholesalers and retailers
               globally.
