@@ -1,10 +1,12 @@
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import img1 from "./images/happy.webp";
 import Button from "../../common/button";
+import LoginForm from "../../common/loginForm";
 
 const HeroSection = () => {
+  const [showLoginForm, setShowLoginForm] = useState(false);
   const controls = useAnimation();
   const [ref, inView] = useInView();
 
@@ -14,13 +16,21 @@ const HeroSection = () => {
     }
   }, [controls, inView]);
 
+  const handleStartTradingClick = () => {
+    setShowLoginForm(true);
+  };
+
+  const handleCloseLoginForm = () => {
+    setShowLoginForm(false);
+  };
+
   // Variants for the container (fade-in effect)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05, // Delay between each character's animation
+        staggerChildren: 0.05,
       },
     },
   };
@@ -34,10 +44,8 @@ const HeroSection = () => {
       transition: { duration: 0.9 },
     },
   };
-  // Text to animate
-  const text = "Connect Wholesalers with Retailers";
 
-  // Text to animate
+  const text = "Connect Wholesalers with Retailers";
   const text1 =
     "Join our global B2B marketplace connecting wholesalers and retailers worldwide. Experience seamless trade partnerships.";
 
@@ -51,8 +59,28 @@ const HeroSection = () => {
         hidden: { opacity: 0, y: 50 },
       }}
       transition={{ duration: 0.5 }}
-      className="bg-gradient-to-r from-purple-100 to-transparent"
+      className="bg-gradient-to-r from-purple-100 to-transparent relative"
     >
+      {/* Login Form Modal - now using min-h-screen */}
+      {showLoginForm && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            {/* Background overlay */}
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 bg-[rgba(0,0,0,0.9)]"></div>
+            </div>
+
+            {/* Center the form vertically and horizontally */}
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <LoginForm onClose={handleCloseLoginForm} />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center min-h-full">
         <div className="md:w-1/2">
           <motion.h1
@@ -89,7 +117,9 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-row gap-4 flex-wrap"
           >
-            <Button variant="primary">Start Trading</Button>
+            <Button variant="primary" onClick={handleStartTradingClick}>
+              Start Trading
+            </Button>
             <Button variant="secondary">Learn More</Button>
           </motion.div>
         </div>
