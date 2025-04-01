@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, X } from "lucide-react";
 
-export default function LoginForm() {
+export default function LoginForm(props) {
+  const { onClose } = props;
   const [activeTab, setActiveTab] = useState("login");
   const [formData, setFormData] = useState({
     email: "",
@@ -58,17 +59,16 @@ export default function LoginForm() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md space-y-8">
-        {/* Logo */}
-        <div className="absolute left-6 top-6">
-          <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BODY-1140245@1x-Vp7Z23Gb7UatlErYjHU5pMISiVyip0.png"
-            alt="Logo"
-            className="h-8 w-8"
-          />
-        </div>
-
         <div className="space-y-6">
-          <div className="text-center">
+          <div className="text-center relative">
+            {/* Close button positioned absolutely to the right of the heading */}
+            <button
+              onClick={onClose}
+              className="absolute right-0 top-0 text-gray-500 hover:text-black focus:outline-none"
+              aria-label="Close login form"
+            >
+              <X className="h-6 w-6" />
+            </button>
             <h1 className="text-2xl font-semibold tracking-tight">Welcome</h1>
           </div>
 
