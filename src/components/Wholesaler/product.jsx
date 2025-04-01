@@ -9,9 +9,9 @@ export default function ProductPage({ onCreateProductClick }) {
   const { products } = useProductStore();
   const navigate = useNavigate();
 
-  // Optional: Fetch products from API on component mount
+  // Fetch products from API on component mount
   useEffect(() => {
-    // You can add API call here if needed
+  
   }, []);
 
   return (
