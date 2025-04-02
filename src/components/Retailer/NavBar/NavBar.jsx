@@ -1,11 +1,12 @@
 import { Bell } from "lucide-react";
 import { FaUser } from "react-icons/fa";
+import logo from "./images/logo.png";
 
 export default function Navbar() {
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-white border-b">
       <div className="flex items-center space-x-8">
-        <div className="text-2xl font-bold text-indigo-600">LO</div>
+        <img src={logo} className="h-10 w-auto" />
         <div className="hidden md:flex space-x-6">
           <a href="#" className="text-gray-900 font-medium">
             Dashboard
