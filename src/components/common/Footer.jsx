@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import logo from "./images/gulawhite.png";
+import logo from "./images/logowhite.png";
 
 export default function Footer() {
   return (
