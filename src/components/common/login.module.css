@@ -1,0 +1,14 @@
+/* Define the keyframes */
+@keyframes spinClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinClockwise {
+  animation: spinClockwise 2s linear infinite;
+  will-change: transform;
+}
