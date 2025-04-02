@@ -30,7 +30,8 @@ export default function RecentOrders() {
         <h2 className="text-lg font-semibold">Recent Orders</h2>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full">
+        {/* Desktop Table */}
+        <table className="w-full hidden md:table">
           <thead>
             <tr className="text-left bg-gray-50">
               <th className="px-6 py-3 text-sm font-medium text-gray-500">
@@ -90,6 +91,47 @@ export default function RecentOrders() {
             ))}
           </tbody>
         </table>
+
+        {/* Mobile Cards */}
+        <div className="md:hidden">
+          {recentOrders.map((order) => (
+            <div key={order.id} className="p-4 border-b">
+              <div className="flex justify-between items-start">
+                <div className="font-medium text-gray-900">{order.id}</div>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    order.status === "Completed"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {order.status}
+                </span>
+              </div>
+
+              <div className="mt-3 flex items-center gap-3">
+                <img
+                  src={order.customer.avatar || "/placeholder.svg"}
+                  alt=""
+                  className="w-8 h-8 rounded-full"
+                />
+                <div>
+                  <div className="font-medium">{order.customer.name}</div>
+                  <div className="text-sm text-gray-500">
+                    {order.customer.email}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 flex justify-between">
+                <div className="text-sm text-gray-500">
+                  Product {order.items}
+                </div>
+                <div className="text-sm font-medium">Total {order.total}</div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
