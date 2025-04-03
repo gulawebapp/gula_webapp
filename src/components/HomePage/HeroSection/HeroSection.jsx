@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import img1 from "./images/happy.webp";
 import Button from "../../common/button";
 import LoginForm from "../../common/loginForm";
+import { Link, useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const [showLoginForm, setShowLoginForm] = useState(false);
   const controls = useAnimation();
   const [ref, inView] = useInView();
@@ -120,7 +122,9 @@ const HeroSection = () => {
             <Button variant="primary" onClick={handleStartTradingClick}>
               Start Trading
             </Button>
-            <Button variant="secondary">Learn More</Button>
+            <Button variant="secondary" onClick={() => navigate("/learnmore")}>
+              Learn More
+            </Button>
           </motion.div>
         </div>
         <motion.div
