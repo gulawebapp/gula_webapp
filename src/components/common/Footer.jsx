@@ -75,6 +75,10 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
                 {" "}
+                <Link to="/">Home</Link>
+              </li>
+              <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
+                {" "}
                 <Link to="/about">About Us</Link>
               </li>
               <li className="text-gray-400 hover:text-white text-xs sm:text-sm">
