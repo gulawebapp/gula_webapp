@@ -10,6 +10,7 @@ const Wholesaler = lazy(() => import("../../pages/Wholesaler"));
 const Retailer = lazy(() => import("../../pages/Retailer"));
 const TestPage = lazy(() => import("../../pages/TestPage"));
 const Account = lazy(() => import("../common/SubscriptionDetails"));
+const Learn = lazy(() => import("../../pages/LearnMore"));
 const routes = [
   {
     path: "/",
@@ -48,6 +49,14 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <Contact />
+          </Suspense>
+        ),
+      },
+      {
+        path: "learnmore",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Learn />
           </Suspense>
         ),
       },
