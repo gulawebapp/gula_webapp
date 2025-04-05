@@ -6,7 +6,6 @@ import logo from "./images/gulalogo.png";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // State to manage login form visibility
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   const toggleMenu = () => {
