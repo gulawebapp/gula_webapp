@@ -15,7 +15,7 @@ const stats = [
   },
 ];
 
-const StatsSection = ({ darkMode = false }) => {
+const StatsSection = () => {
   return (
     <section
       className={`py-16 ${darkMode ? "bg-purple-600 text-white" : "bg-white"}`}
