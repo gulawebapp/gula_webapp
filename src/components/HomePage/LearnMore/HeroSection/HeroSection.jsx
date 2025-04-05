@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import image from "./images/team.webp";
-import Button from "../../../common/button";
 
 const heroData = {
   title: "The Future of B2B Commerce",
