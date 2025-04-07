@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../../../common/button";
 import image1 from "./images/retailer.webp";
 import image2 from "./images/wholesaler.webp";
+import LoginForm from "../../../common/loginForm";
 
 const wholesalerContent = {
   title: "Wholesalers: Expand Your Reach",
@@ -85,9 +86,6 @@ const TabContent = ({ title, items, buttonText, reverse, imageSrc }) => {
             </li>
           ))}
         </ul>
-        <Button variant="primary" className="mt-8">
-          {buttonText}
-        </Button>
       </div>
       <div className="md:w-1/2">
         <img
