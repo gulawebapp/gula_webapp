@@ -2,9 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import routes from "./components/common/routes";
+import SuspenseWrappedRoutes from "./components/common/routes";
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(SuspenseWrappedRoutes);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
