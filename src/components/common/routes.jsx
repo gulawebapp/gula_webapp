@@ -11,98 +11,55 @@ const Retailer = lazy(() => import("../../pages/Retailer"));
 const TestPage = lazy(() => import("../../pages/TestPage"));
 const Account = lazy(() => import("../common/SubscriptionDetails"));
 const Learn = lazy(() => import("../../pages/LearnMore"));
+
+const Loading = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
+
 const routes = [
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Layout />
       </Suspense>
     ),
     children: [
-      {
-        index: true,
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <HomePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "about",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: "services",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Services />
-          </Suspense>
-        ),
-      },
-      {
-        path: "contact",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Contact />
-          </Suspense>
-        ),
-      },
-      {
-        path: "learnmore",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Learn />
-          </Suspense>
-        ),
-      },
-      {
-        path: "*",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <ErrorPage />
-          </Suspense>
-        ),
-      },
+      { index: true, element: <HomePage /> },
+      { path: "about", element: <About /> },
+      { path: "services", element: <Services /> },
+      { path: "contact", element: <Contact /> },
+      { path: "learnmore", element: <Learn /> },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
-  // Separate routes for Wholesaler and Retailer without Layout
   {
     path: "/wholesaler",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Wholesaler />
-      </Suspense>
-    ),
+    element: <Wholesaler />,
   },
   {
     path: "/retailer",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Retailer />
-      </Suspense>
-    ),
+    element: <Retailer />,
   },
   {
     path: "/testpage",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <TestPage />
-      </Suspense>
-    ),
+    element: <TestPage />,
   },
   {
     path: "/createaccount",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Account />
-      </Suspense>
-    ),
+    element: <Account />,
   },
 ];
 
-export default routes;
+const SuspenseWrappedRoutes = routes.map((route) => ({
+  ...route,
+  element: <Suspense fallback={<Loading />}>{route.element}</Suspense>,
+  children: route.children?.map((child) => ({
+    ...child,
+    element: <Suspense fallback={<Loading />}>{child.element}</Suspense>,
+  })),
+}));
+
+export default SuspenseWrappedRoutes;
