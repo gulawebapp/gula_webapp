@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
+import { lazy, Suspense } from "react";
 
+const Nav = lazy(() => import("./NavBar"));
+const Foot = lazy(() => import("./Footer"));
 export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <NavBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Nav />
+      </Suspense>
 
       {/* Main Content */}
       <main className="flex-1">
@@ -14,7 +17,9 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Foot />
+      </Suspense>
     </div>
   );
 }
