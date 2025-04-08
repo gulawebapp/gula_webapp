@@ -24,7 +24,6 @@ export default function Navbar() {
 
         {/* Navigation Links and Buttons */}
         <div className="flex flex-col md:flex-row md:items-center md:space-x-8 space-y-6 md:space-y-0 items-center px-2 md:px-0">
-          {/* Links (Dashboard, Catalogs, Orders, Support) */}
           <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 items-center">
             <a href="#" className="text-gray-900 font-medium">
               Dashboard
@@ -60,7 +59,7 @@ export default function Navbar() {
       </nav>
 
       {/* Spacer to prevent content overlap on mobile */}
-      <div className="w-20 md:hidden"></div>
+      <div className="w-28 md:hidden"></div>
     </>
   );
 }

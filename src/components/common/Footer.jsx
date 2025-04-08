@@ -97,7 +97,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-white text-xs sm:text-sm" // Reduced font size
+                  className="text-gray-400 hover:text-white text-xs sm:text-sm"
                 >
                   Help Center
                 </a>

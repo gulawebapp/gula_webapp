@@ -5,7 +5,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    service: "Select a business", // Changed to empty string as default
+    service: "Select a business",
     message: "",
   });
 
@@ -37,7 +37,7 @@ const ContactForm = () => {
     }
 
     // Service validation - now checks for empty string or default placeholder
-    if (!formData.service || formData.service === "default") {
+    if (!formData.service) {
       tempErrors.service = "Please select a business service";
       isValid = false;
     }

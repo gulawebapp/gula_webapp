@@ -1,4 +1,3 @@
-// Sample category and subcategory data
 const categories = {
   Electronics: [
     "Smartphones",

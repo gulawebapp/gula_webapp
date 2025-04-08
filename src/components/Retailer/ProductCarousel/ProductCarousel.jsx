@@ -49,6 +49,7 @@ export default function ProductCarousel() {
                     alt={product.title}
                     className="w-full h-96 object-contain rounded-lg"
                   />
+
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white rounded-b-lg">
                     <h3 className="text-xl font-semibold">{product.title}</h3>
                     <p>{product.subtitle}</p>

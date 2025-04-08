@@ -69,7 +69,7 @@ const UserTypeTabs = () => {
   );
 };
 
-const TabContent = ({ title, items, buttonText, reverse, imageSrc }) => {
+const TabContent = ({ title, items, reverse, imageSrc }) => {
   return (
     <div
       className={`flex flex-col md:flex-row items-center gap-12 ${

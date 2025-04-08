@@ -9,11 +9,6 @@ export default function ProductPage({ onCreateProductClick }) {
   const { products } = useProductStore();
   const navigate = useNavigate();
 
-  // Fetch products from API on component mount
-  useEffect(() => {
-  
-  }, []);
-
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
