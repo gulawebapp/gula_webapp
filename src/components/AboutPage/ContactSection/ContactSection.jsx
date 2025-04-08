@@ -1,6 +1,68 @@
+import { useState } from "react";
 import Button from "../../common/button";
 
 export const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const validateForm = () => {
+    let tempErrors = { name: "", email: "", message: "" };
+    let isValid = true;
+
+    // Name validation
+    if (!formData.name.trim()) {
+      tempErrors.name = "Name is required";
+      isValid = false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      tempErrors.email = "Email is required";
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      tempErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      tempErrors.message = "Message is required";
+      isValid = false;
+    } else if (formData.message.length < 10) {
+      tempErrors.message = "Message must be at least 10 characters long";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // Proceed with form submission
+      console.log("Contact form is valid:", formData);
+      // Here you would typically send the data to your backend
+    } else {
+      console.log("Contact form has errors");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   return (
     <div className="bg-gray-50">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,7 +140,10 @@ export const ContactSection = () => {
               </div>
             </div>
           </div>
-          <form className="w-full md:w-1/2 bg-white rounded-lg shadow p-6">
+          <form
+            className="w-full md:w-1/2 bg-white rounded-lg shadow p-6"
+            onSubmit={handleSubmit}
+          >
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -90,8 +155,15 @@ export const ContactSection = () => {
                 type="text"
                 id="name"
                 name="name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
+                className={`w-full px-3 py-2 border ${
+                  errors.name ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black`}
+                value={formData.name}
+                onChange={handleChange}
               />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
@@ -104,8 +176,15 @@ export const ContactSection = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
+                className={`w-full px-3 py-2 border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black`}
+                value={formData.email}
+                onChange={handleChange}
               />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
@@ -118,10 +197,19 @@ export const ContactSection = () => {
                 id="message"
                 name="message"
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
+                className={`w-full px-3 py-2 border ${
+                  errors.message ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black`}
+                value={formData.message}
+                onChange={handleChange}
               ></textarea>
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+              )}
             </div>
-            <Button variant="thirdly">Send message</Button>
+            <Button variant="thirdly" type="submit">
+              Send message
+            </Button>
           </form>
         </div>
       </div>
