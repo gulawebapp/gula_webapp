@@ -25,7 +25,7 @@ export default function RetailerDashboard() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="p-6">
+      <main className="px-4 py-8 pl-32 sm:pl-6">
         <DashboardHeader onManageOrdersClick={openManageOrders} />
         <StatsGrid />
 
