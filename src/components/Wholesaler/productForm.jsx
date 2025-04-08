@@ -17,7 +17,6 @@ export default function ProductForm({ onCancel }) {
   });
 
   const [availableSubcategories, setAvailableSubcategories] = useState([]);
-  const { addProduct } = useProductStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
