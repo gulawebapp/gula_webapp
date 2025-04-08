@@ -19,9 +19,9 @@ A modern **B2B e-commerce platform** connecting retailers with wholesalers throu
 ### 🎨 Frontend
 
 - <img src="https://img.icons8.com/color/48/000000/react-native.png" width="16"/> React.js (v18+) with component-based architecture
-- 🧠 Zustand/Redux for state management
+- 🧠 Zustand for state management
 - 🎨 Tailwind CSS for responsive design
-- 🔄 React Query for server-state management
+- 🔄 Tanstack Query for server-state management
 
 ### ⚙️ Backend
 
