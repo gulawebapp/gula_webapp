@@ -11,6 +11,7 @@ const Retailer = lazy(() => import("../../pages/Retailer"));
 const TestPage = lazy(() => import("../../pages/TestPage"));
 const Account = lazy(() => import("../common/SubscriptionDetails"));
 const Learn = lazy(() => import("../../pages/LearnMore"));
+const LoginForm = lazy(() => import("../common/loginForm"));
 
 const Loading = () => (
   <div className="flex justify-center items-center h-screen">
@@ -46,6 +47,10 @@ const routes = [
   {
     path: "/testpage",
     element: <TestPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginForm />,
   },
   {
     path: "/createaccount",
