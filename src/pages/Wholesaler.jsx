@@ -1,12 +1,12 @@
-// pages/WholesalerDashboard.jsx
 import { useState } from "react";
 import Header from "../components/Wholesaler/Header/Header";
 import MetricsGrid from "../components/Wholesaler/MetricGrid/MetricGrid";
 import TopProducts from "../components/Wholesaler/TopProducts/TopProducts";
 import RecentOrders from "../components/Wholesaler/RecentOrders/RecentOrders";
-import SalesChart from "../components/Wholesaler/SalesChart/SalesChat";
+import SalesChart from "../components/Wholesaler/SalesChart/SalesChat"; // Assuming 'SalesChat' was a typo for 'SalesChart'
 import ProductPage from "../components/Wholesaler/product";
 import ProductForm from "../components/Wholesaler/productForm";
+import DashboardText from "../components/Wholesaler/HeaderText/HeaderText";
 
 export default function WholesalerDashboard() {
   const [showProductForm, setShowProductForm] = useState(false);
@@ -14,26 +14,27 @@ export default function WholesalerDashboard() {
 
   const toggleProductPage = () => {
     setShowProductPage(!showProductPage);
-    // Ensure form is closed when toggling product page
-    if (showProductForm) setShowProductForm(false);
+    if (showProductForm) setShowProductForm(false); // Close form if open
   };
 
   const toggleProductForm = () => {
     setShowProductForm(!showProductForm);
-    // Ensure product page is closed when toggling form
-    if (showProductPage) setShowProductPage(false);
+    if (showProductPage) setShowProductPage(false); // Close product page if open
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        onCreateProductClick={toggleProductForm}
-        onViewProductsClick={toggleProductPage}
-        showProductForm={showProductForm}
-        showProductPage={showProductPage}
-      />
+    <div className="min-h-screen bg-gray-50 flex flex-col sm:block">
+      {/* Header/Sidebar */}
+      <Header />
 
-      <main className="container mx-auto px-4 py-8">
+      {/* Main Content */}
+      <main className="flex-1 pl-32 sm:pl-0 mx-auto px-4 py-8">
+        <DashboardText
+          onCreateProductClick={toggleProductForm}
+          onViewProductsClick={toggleProductPage}
+          showProductForm={showProductForm}
+          showProductPage={showProductPage}
+        />
         {showProductForm ? (
           <ProductForm onCancel={() => setShowProductForm(false)} />
         ) : showProductPage ? (
