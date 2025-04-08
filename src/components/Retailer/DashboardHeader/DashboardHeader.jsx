@@ -1,6 +1,6 @@
 export default function DashboardHeader({ onManageOrdersClick }) {
   return (
-    <div className="flex justify-between items-center mb-8">
+    <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
           Welcome back, Fashion Retail Co.
