@@ -2,9 +2,19 @@ import { useState } from "react";
 import { Mail, Lock, X, User } from "lucide-react";
 import logo from "./images/circle.png";
 import styles from "./login.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm(props) {
+  const navigate = useNavigate();
   const { onClose } = props;
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate(-1);
+    }
+  };
+
   const [activeTab, setActiveTab] = useState("login");
   const [formData, setFormData] = useState({
     email: "",
@@ -66,7 +76,7 @@ export default function LoginForm(props) {
             <img src={logo} className={`h-10 w-auto ${styles.spinClockwise}`} />
             {/* Close button positioned absolutely to the right of the heading */}
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="absolute right-0 top-0 text-gray-500 hover:text-black focus:outline-none"
               aria-label="Close login form"
             >
