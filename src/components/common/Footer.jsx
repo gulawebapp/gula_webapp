@@ -11,7 +11,7 @@ export default function Footer() {
       className="bg-gray-900 text-white py-8 sm:py-10"
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3  gap-6 sm:gap-8 mb-6 sm:mb-8">
           {" "}
           <div>
             <img
@@ -107,7 +107,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center">
           {" "}
-          <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0">
+          <p className="text-gray-400 text-xs sm:text-sm mb-2 sm:mb-0">
             {" "}
             &copy; 2024 Gula. All rights reserved.
           </p>
