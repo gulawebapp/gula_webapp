@@ -1,6 +1,3 @@
-// components/Wholesaler/Products/ProductPage.jsx
-import { useEffect } from "react";
-import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useProductStore from "../../Store/ProductCatalog";
 import Button from "../common/button";
@@ -32,6 +29,19 @@ export default function ProductPage({ onCreateProductClick }) {
               key={product.id}
               className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
             >
+              {/* Product Image Section */}
+              <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                {product.image ? (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="text-gray-400">No Image</div>
+                )}
+              </div>
+
               <div className="p-4">
                 <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
                 <p className="text-gray-600 mb-2">${product.price}</p>
