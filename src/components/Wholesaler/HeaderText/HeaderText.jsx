@@ -1,3 +1,5 @@
+import Button from "../../common/button";
+
 export default function DashboardText(props) {
   const {
     onCreateProductClick,
@@ -14,20 +16,32 @@ export default function DashboardText(props) {
         <p className="text-gray-500">Premium Subscription Active</p>
       </div>
       <div className="flex space-x-3">
-        <button
-          className="inline-flex items-center justify-center gap-1 sm:gap-2 bg-black text-white px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-base w-full sm:w-auto"
-          onClick={onViewProductsClick}
-        >
+        <Button variant="secondary" onClick={onViewProductsClick}>
           {showProductPage ? "Close" : "View Products"}
-        </button>
+        </Button>
 
-        <button
-          className="inline-flex items-center justify-center gap-1 sm:gap-2 bg-white border px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm w-full sm:w-auto"
-          onClick={onCreateProductClick}
-        >
+        <Button onClick={onCreateProductClick}>
           {showProductForm ? "Close" : "Add Product"}
-        </button>
+        </Button>
       </div>
     </div>
   );
+}
+
+{
+  /* <button
+className="inline-flex items-center justify-center gap-1 sm:gap-2 bg-white border px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm w-full sm:w-auto"
+onClick={onCreateProductClick}
+>
+{showProductForm ? "Close" : "Add Product"}
+</button> */
+}
+
+{
+  /* <button
+className="inline-flex items-center justify-center gap-1 sm:gap-2 bg-black text-white px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-base w-full sm:w-auto"
+onClick={onViewProductsClick}
+>
+{showProductPage ? "Close" : "View Products"}
+</button> */
 }
