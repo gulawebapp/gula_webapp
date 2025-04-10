@@ -3,7 +3,7 @@ import Header from "../components/Wholesaler/Header/Header";
 import MetricsGrid from "../components/Wholesaler/MetricGrid/MetricGrid";
 import TopProducts from "../components/Wholesaler/TopProducts/TopProducts";
 import RecentOrders from "../components/Wholesaler/RecentOrders/RecentOrders";
-import SalesChart from "../components/Wholesaler/SalesChart/SalesChat"; // Assuming 'SalesChat' was a typo for 'SalesChart'
+import SalesChart from "../components/Wholesaler/SalesChart/SalesChat";
 import ProductPage from "../components/Wholesaler/product";
 import ProductForm from "../components/Wholesaler/productForm";
 import DashboardText from "../components/Wholesaler/HeaderText/HeaderText";
@@ -14,12 +14,12 @@ export default function WholesalerDashboard() {
 
   const toggleProductPage = () => {
     setShowProductPage(!showProductPage);
-    if (showProductForm) setShowProductForm(false); // Close form if open
+    if (showProductForm) setShowProductForm(false);
   };
 
   const toggleProductForm = () => {
     setShowProductForm(!showProductForm);
-    if (showProductPage) setShowProductPage(false); // Close product page if open
+    if (showProductPage) setShowProductPage(false);
   };
 
   return (
