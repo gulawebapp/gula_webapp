@@ -74,7 +74,6 @@ export default function LoginForm(props) {
         <div className="space-y-6">
           <div className="text-center relative">
             <img src={logo} className={`h-10 w-auto ${styles.spinClockwise}`} />
-            {/* Close button positioned absolutely to the right of the heading */}
             <button
               onClick={handleClose}
               className="absolute right-0 top-0 text-gray-500 hover:text-black focus:outline-none"
