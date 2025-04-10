@@ -4,9 +4,7 @@ import Button from "../../../common/button";
 const CTASection = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    navigate("/login", { state: { from: window.location.pathname } });
-  };
+  
   return (
     <section className="py-16 bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -17,7 +15,7 @@ const CTASection = () => {
           Join our platform today and experience the future of B2B commerce.
         </p>
         <div className="flex justify-center gap-4">
-          <Button variant="primary" onClick={handleLogin}>
+          <Button variant="primary" onClick={() => navigate("/login")}>
             Get Started for Free
           </Button>
           <Button variant="primary">Contact Sales</Button>
