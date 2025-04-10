@@ -8,7 +8,6 @@ const Contact = lazy(() => import("../../pages/Contact"));
 const ErrorPage = lazy(() => import("../../pages/ErrorPage"));
 const Wholesaler = lazy(() => import("../../pages/Wholesaler"));
 const Retailer = lazy(() => import("../../pages/Retailer"));
-const TestPage = lazy(() => import("../../pages/TestPage"));
 const Account = lazy(() => import("../common/SubscriptionDetails"));
 const Learn = lazy(() => import("../../pages/LearnMore"));
 const LoginForm = lazy(() => import("../common/loginForm"));
@@ -44,10 +43,7 @@ const routes = [
     path: "/retailer",
     element: <Retailer />,
   },
-  {
-    path: "/testpage",
-    element: <TestPage />,
-  },
+
   {
     path: "/login",
     element: <LoginForm />,
