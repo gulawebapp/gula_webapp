@@ -26,7 +26,7 @@ export default function NavBar() {
               <img
                 src={logo}
                 alt="Logo"
-                className="w-auto h-10"
+                className="w-44 h-10"
                 style={{
                   objectFit: "contain",
                   maxHeight: "100%",
