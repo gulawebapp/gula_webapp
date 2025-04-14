@@ -31,6 +31,11 @@ export default function NavBar() {
                   objectFit: "contain",
                   maxHeight: "100%",
                 }}
+                loading="eager" // Load immediately (no lazy-loading)
+                fetchpriority="high" // High fetch priority (Chrome 101+)
+                decoding="async" // Non-blocking decoding
+                width={176} // Exact width in pixels (w-44 = 44*4 = 176px)
+                height={40} // Exact height in pixels (h-10 = 10*4 = 40px)
               />
               <div className="hidden md:flex ml-10 gap-x-5">
                 <Link
