@@ -15,7 +15,7 @@ export default function Header({ onLogout }) {
           />
           <img
             src={logo1}
-            className="block md:hidden h-10 w-auto"
+            className="block md:hidden h-10 w-12"
             alt="Mobile Logo"
           />
         </div>
