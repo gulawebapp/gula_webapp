@@ -136,14 +136,16 @@ const HeroSection = () => {
           className="md:w-1/2"
         >
           <img
-            src={img1} // Make sure this is a WebP/AVIF image (see Step 1 below)
+            src={img1}
             alt="Hero Image"
-            className="rounded-lg"
+            className="rounded-lg w-full max-w-full h-auto"
             width="600"
             height="400"
-            loading="eager" // Overrides lazy-loading for LCP elements
-            fetchpriority="high" // Prioritizes loading (Chrome 101+)
-            decoding="async" // Prevents render-blocking
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            // Add these new attributes
+            style={{ contentVisibility: "auto" }} // Proper React style object
           />
         </motion.div>
       </div>
