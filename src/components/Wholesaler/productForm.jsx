@@ -24,8 +24,7 @@ export default function ProductForm({ onCancel }) {
     quantityUnit: "in",
     customCategory: "",
     customSubcategory: "",
-    image: null,
-    imagePreview: "",
+    images: [], // Changed from single image to array of images
   });
 
   const [errors, setErrors] = useState({
@@ -38,7 +37,7 @@ export default function ProductForm({ onCancel }) {
     subcategory: "",
     customCategory: "",
     customSubcategory: "",
-    image: "",
+    images: "",
   });
 
   const [availableSubcategories, setAvailableSubcategories] = useState([]);
@@ -55,7 +54,7 @@ export default function ProductForm({ onCancel }) {
       subcategory: "",
       customCategory: "",
       customSubcategory: "",
-      image: "",
+      images: "",
     };
     let isValid = true;
 
@@ -135,8 +134,8 @@ export default function ProductForm({ onCancel }) {
       isValid = false;
     }
 
-    if (!product.image) {
-      tempErrors.image = "Product image is recommended";
+    if (product.images.length === 0) {
+      tempErrors.images = "At least one product image is recommended";
       isValid = false;
     }
 
@@ -195,37 +194,67 @@ export default function ProductForm({ onCancel }) {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const files = Array.from(e.target.files);
+
+    if (files.length + product.images.length > 3) {
+      setErrors((prev) => ({
+        ...prev,
+        images: "You can upload a maximum of 3 images",
+      }));
+      return;
+    }
+
+    const validFiles = [];
+    const invalidFiles = [];
+
+    files.forEach((file) => {
       // Validate image type
       if (!file.type.match("image.*")) {
-        setErrors((prev) => ({
-          ...prev,
-          image: "Please upload an image file (JPEG, PNG, GIF)",
-        }));
+        invalidFiles.push(file.name);
         return;
       }
 
       // Validate image size (e.g., 5MB max)
       if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({
-          ...prev,
-          image: "Image size should be less than 5MB",
-        }));
+        invalidFiles.push(file.name);
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProduct((prev) => ({
-          ...prev,
-          image: file,
-          imagePreview: reader.result,
-        }));
-        setErrors((prev) => ({ ...prev, image: "" }));
-      };
-      reader.readAsDataURL(file);
+      validFiles.push(file);
+    });
+
+    if (invalidFiles.length > 0) {
+      setErrors((prev) => ({
+        ...prev,
+        images: `Some files are invalid (${invalidFiles.join(
+          ", "
+        )}. Please upload image files (JPEG, PNG, GIF) less than 5MB.`,
+      }));
     }
+
+    if (validFiles.length > 0) {
+      const newImages = validFiles.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+
+      setProduct((prev) => ({
+        ...prev,
+        images: [...prev.images, ...newImages],
+      }));
+
+      setErrors((prev) => ({ ...prev, images: "" }));
+    }
+  };
+
+  const removeImage = (index) => {
+    setProduct((prev) => {
+      const newImages = [...prev.images];
+      // Revoke the object URL to prevent memory leaks
+      URL.revokeObjectURL(newImages[index].preview);
+      newImages.splice(index, 1);
+      return { ...prev, images: newImages };
+    });
   };
 
   return (
@@ -332,72 +361,90 @@ export default function ProductForm({ onCancel }) {
           {/* Image Upload */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Product Image
+              Product Images{" "}
+              {product.images.length > 0 && `(${product.images.length}/3)`}
             </label>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <label className="flex-1 cursor-pointer w-full">
-                <div
-                  className={`flex items-center justify-center px-4 py-10 border-2 border-dashed ${
-                    errors.image ? "border-red-500" : "border-gray-300"
-                  } rounded-lg hover:border-blue-500 transition-colors w-full`}
-                >
-                  <div className="text-center">
-                    {product.imagePreview ? (
-                      <div className="relative">
-                        <img
-                          src={product.imagePreview}
-                          alt="Preview"
-                          className="w-full h-32 object-contain rounded"
-                        />
-                        <div className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-500"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
+            <div className="flex flex-col gap-4">
+              {/* Image previews */}
+              {product.images.length > 0 && (
+                <div className="flex flex-wrap gap-4">
+                  {product.images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image.preview}
+                        alt={`Preview ${index + 1}`}
+                        className="w-32 h-32 object-cover rounded border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        aria-label="Remove image"
+                      >
                         <svg
-                          className="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
                         >
                           <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
                           />
                         </svg>
-                        <p className="mt-2 text-sm text-gray-600">
-                          Click to upload
-                        </p>
-                        <p className="text-xs text-gray-500">PNG, JPG, GIF</p>
-                      </>
-                    )}
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              </label>
+              )}
+
+              {/* Upload area */}
+              {product.images.length < 3 && (
+                <label className="cursor-pointer w-full">
+                  <div
+                    className={`flex items-center justify-center px-4 py-10 border-2 border-dashed ${
+                      errors.images ? "border-red-500" : "border-gray-300"
+                    } rounded-lg hover:border-blue-500 transition-colors w-full`}
+                  >
+                    <div className="text-center">
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <p className="mt-2 text-sm text-gray-600">
+                        Click to upload{" "}
+                        {product.images.length === 0
+                          ? "images"
+                          : "another image"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF (Max 3 images, 5MB each)
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      multiple
+                    />
+                  </div>
+                </label>
+              )}
             </div>
-            {errors.image && (
-              <p className="mt-1 text-sm text-red-500">{errors.image}</p>
+            {errors.images && (
+              <p className="mt-1 text-sm text-red-500">{errors.images}</p>
             )}
           </div>
 
