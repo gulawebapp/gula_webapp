@@ -23,12 +23,12 @@ export default function WholesalerDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col sm:block">
+    <div className="min-h-screen bg-gray-200 flex flex-col sm:block">
       {/* Header/Sidebar */}
       <Header />
 
       {/* Main Content */}
-      <main className="flex-1 pl-32 sm:pl-0 mx-auto px-4 py-8">
+      <main className="flex-1 pl-32 sm:pl-7 mx-auto px-4 py-8">
         <DashboardText
           onCreateProductClick={toggleProductForm}
           onViewProductsClick={toggleProductPage}
