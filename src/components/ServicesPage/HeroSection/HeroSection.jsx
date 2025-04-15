@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import image from "./images/group.webp"; // Pre-optimized image
+import image from "./images/group.webp"; 
 
 const HeroSection = () => {
   return (
