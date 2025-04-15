@@ -144,8 +144,7 @@ const HeroSection = () => {
             loading="eager"
             fetchpriority="high"
             decoding="async"
-            // Add these new attributes
-            style={{ contentVisibility: "auto" }} // Proper React style object
+            style={{ contentVisibility: "auto" }} 
           />
         </motion.div>
       </div>
