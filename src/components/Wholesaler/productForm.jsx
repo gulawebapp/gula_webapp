@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Button from "../common/button";
 import categories from "./Categories";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const quantityUnits = [
   { value: "in", label: "Select unit" },
@@ -14,6 +16,9 @@ const quantityUnits = [
 ];
 
 export default function ProductForm({ onCancel }) {
+  const queryClient = useQueryClient();
+
+  //state to manage form data
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -24,9 +29,27 @@ export default function ProductForm({ onCancel }) {
     quantityUnit: "in",
     customCategory: "",
     customSubcategory: "",
-    images: [], // Changed from single image to array of images
+    images: [],
   });
 
+  //add form data to database
+  const addData = async (formData) => {
+    const response = await axios.post("", formData);
+    return response.data;
+  };
+
+  //mutation to add data to form
+  const { mutate } = useMutation({
+    mutationFn: addData,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+    },
+    onError: (error) => {
+      console.log("Error submitting form", error);
+    },
+  });
+
+//error state
   const [errors, setErrors] = useState({
     name: "",
     price: "",
@@ -149,25 +172,29 @@ export default function ProductForm({ onCancel }) {
     if (validateForm()) {
       setIsSubmitting(true);
 
-      // Simulate API call
-      setTimeout(() => {
-        const finalCategory =
-          product.category === "Other"
-            ? product.customCategory
-            : product.category;
-        const finalSubcategory =
-          product.subcategory === "Other"
-            ? product.customSubcategory
-            : product.subcategory;
-
-        console.log("Form submitted:", {
+      const finalCategory =
+        product.category === "Other"
+          ? product.customCategory
+          : product.category;
+      const finalSubcategory =
+        product.subcategory === "Other"
+          ? product.customSubcategory
+          : product.subcategory;
+          
+//mutate to submit form data
+      mutate(
+        {
           ...product,
-          finalCategory,
-          finalSubcategory,
-        });
-        setIsSubmitting(false);
-        onCancel();
-      }, 1000);
+          category: finalCategory,
+          subcategory: finalSubcategory,
+        },
+        {
+          onSettled: () => {
+            setIsSubmitting(false);
+            onCancel();
+          },
+        }
+      );
     } else {
       console.log("Form has errors");
     }
