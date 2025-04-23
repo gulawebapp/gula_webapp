@@ -54,11 +54,11 @@ export default function Navbar() {
               <FaUser className="w-6 h-6 md:w-8 md:h-8 rounded-full" />
             </button>
             <button
-              className="flex items-center justify-center space-x-1 p-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer w-full md:w-auto"
+              className=" border-1 border-black rounded-2xl flex items-center justify-center space-x-1 p-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer w-full md:w-auto"
               title="Logout"
             >
               <FaSignOutAlt className="w-5 h-5" />
-              <span className="hidden md:inline">Logout</span>
+              <span className="md:inline">Logout</span>
             </button>
           </div>
         </div>
