@@ -10,7 +10,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    "px-6 py-3 rounded-md text-base font-medium shadow-lg flex-shrink-0 cursor-pointer";
+    "px-2 py-1 sm:px-4 sm:py-3 rounded-md text-base font-medium shadow-lg flex-shrink-0 cursor-pointer";
 
   const variants = {
     primary: "bg-black text-white hover:bg-blue-700",
