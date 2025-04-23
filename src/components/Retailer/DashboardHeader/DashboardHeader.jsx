@@ -1,3 +1,5 @@
+import Button from "../../common/button";
+
 export default function DashboardHeader({ onManageOrdersClick }) {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
@@ -8,15 +10,10 @@ export default function DashboardHeader({ onManageOrdersClick }) {
         <p className="text-gray-500">Premium Subscription Active</p>
       </div>
       <div className="flex space-x-3">
-        <button className="px-4 py-2 bg-black text-white rounded-md">
-          Browse Catalogs
-        </button>
-        <button
-          onClick={onManageOrdersClick}
-          className="px-4 py-2 border border-gray-300 rounded-md"
-        >
+        <Button>Browse Catalogs</Button>
+        <Button variant="secondary" onClick={onManageOrdersClick}>
           Manage Orders
-        </button>
+        </Button>
       </div>
     </div>
   );
