@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Zustand store for managing the product catalog
 const useProductStore = create((set) => ({
   // Initial state
   products: [], // Array to hold products in the catalog
