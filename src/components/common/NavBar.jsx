@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./button";
-import LoginForm from "./loginForm";
 import logo from "./images/gulalogo.png";
+import LoginForm from "../auth/loginForm";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,11 +31,11 @@ export default function NavBar() {
                   objectFit: "contain",
                   maxHeight: "100%",
                 }}
-                loading="eager" 
-                fetchpriority="high" 
-                decoding="async" 
-                width={176} 
-                height={40} 
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width={176}
+                height={40}
               />
               <div className="hidden md:flex ml-10 gap-x-5">
                 <Link
