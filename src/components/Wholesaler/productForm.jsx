@@ -13,12 +13,13 @@ const quantityUnits = [
   { value: "ml", label: "Milliliters" },
   { value: "box", label: "Boxes" },
   { value: "pack", label: "Packs" },
+  { value: "custom", label: "Custom unit..." },
 ];
 
 export default function ProductForm({ onCancel }) {
   const queryClient = useQueryClient();
 
-  //state to manage form data
+  // State to manage form data
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -32,13 +33,17 @@ export default function ProductForm({ onCancel }) {
     images: [],
   });
 
-  //add form data to database
+  // State for custom unit
+  const [showCustomUnit, setShowCustomUnit] = useState(false);
+  const [customUnit, setCustomUnit] = useState("");
+
+  // Add form data to database
   const addData = async (formData) => {
     const response = await axios.post("", formData);
     return response.data;
   };
 
-  //mutation to add data to form
+  // Mutation to add data to form
   const { mutate } = useMutation({
     mutationFn: addData,
     onSuccess: () => {
@@ -49,7 +54,7 @@ export default function ProductForm({ onCancel }) {
     },
   });
 
-//error state
+  // Error state
   const [errors, setErrors] = useState({
     name: "",
     price: "",
@@ -121,8 +126,8 @@ export default function ProductForm({ onCancel }) {
     }
 
     // Quantity unit validation
-    if (product.quantityUnit === "in") {
-      tempErrors.quantityUnit = "Please select a unit";
+    if (!product.quantityUnit || (showCustomUnit && !customUnit)) {
+      tempErrors.quantityUnit = "Please select or enter a unit";
       isValid = false;
     }
 
@@ -169,6 +174,15 @@ export default function ProductForm({ onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // If custom unit was selected but not filled
+    if (showCustomUnit && !customUnit) {
+      setErrors((prev) => ({
+        ...prev,
+        quantityUnit: "Please enter a custom unit",
+      }));
+      return;
+    }
+
     if (validateForm()) {
       setIsSubmitting(true);
 
@@ -180,13 +194,16 @@ export default function ProductForm({ onCancel }) {
         product.subcategory === "Other"
           ? product.customSubcategory
           : product.subcategory;
-          
-//mutate to submit form data
+      const finalQuantityUnit = showCustomUnit
+        ? customUnit
+        : product.quantityUnit;
+
       mutate(
         {
           ...product,
           category: finalCategory,
           subcategory: finalSubcategory,
+          quantityUnit: finalQuantityUnit,
         },
         {
           onSettled: () => {
@@ -202,7 +219,19 @@ export default function ProductForm({ onCancel }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "quantityUnit") {
+      if (value === "custom") {
+        setShowCustomUnit(true);
+        setProduct((prev) => ({ ...prev, quantityUnit: "" }));
+      } else {
+        setShowCustomUnit(false);
+        setCustomUnit("");
+        setProduct((prev) => ({ ...prev, [name]: value }));
+      }
+    } else {
+      setProduct((prev) => ({ ...prev, [name]: value }));
+    }
 
     // Clear error when user starts typing
     if (errors[name]) {
@@ -217,6 +246,16 @@ export default function ProductForm({ onCancel }) {
         customSubcategory: "",
         quantity: `${product.quantity} ${product.quantityUnit}`,
       }));
+    }
+  };
+
+  const handleCustomUnitChange = (e) => {
+    const { value } = e.target;
+    setCustomUnit(value);
+    setProduct((prev) => ({ ...prev, quantityUnit: value }));
+
+    if (errors.quantityUnit) {
+      setErrors((prev) => ({ ...prev, quantityUnit: "" }));
     }
   };
 
@@ -347,41 +386,63 @@ export default function ProductForm({ onCancel }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Total Quantity <span className="text-red-500">*</span>
               </label>
-              <div className="flex">
-                <input
-                  type="number"
-                  name="quantity"
-                  value={product.quantity}
-                  onChange={handleChange}
-                  className={`w-2/3 px-4 py-2.5 border ${
-                    errors.quantity ? "border-red-500" : "border-gray-300"
-                  } rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all`}
-                  placeholder="0"
-                  min="0"
-                />
-                <select
-                  name="quantityUnit"
-                  value={product.quantityUnit}
-                  onChange={handleChange}
-                  className={`w-1/3 px-2 py-2.5 border-t border-b border-r ${
-                    errors.quantityUnit ? "border-red-500" : "border-gray-300"
-                  } rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white appearance-none`}
-                >
-                  {quantityUnits.map((unit) => (
-                    <option key={unit.value} value={unit.value}>
-                      {unit.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex flex-col gap-2">
+                <div className="flex">
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={product.quantity}
+                    onChange={handleChange}
+                    className={`w-2/3 px-4 py-2.5 border ${
+                      errors.quantity ? "border-red-500" : "border-gray-300"
+                    } rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all`}
+                    placeholder="0"
+                    min="0"
+                  />
+                  <select
+                    name="quantityUnit"
+                    value={showCustomUnit ? "custom" : product.quantityUnit}
+                    onChange={handleChange}
+                    className={`w-1/3 px-2 py-2.5 border-t border-b border-r ${
+                      errors.quantityUnit ? "border-red-500" : "border-gray-300"
+                    } rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white appearance-none`}
+                  >
+                    {quantityUnits.map((unit) => (
+                      <option key={unit.value} value={unit.value}>
+                        {unit.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {showCustomUnit && (
+                  <div>
+                    <input
+                      type="text"
+                      value={customUnit}
+                      onChange={handleCustomUnitChange}
+                      className={`w-full px-4 py-2.5 border ${
+                        errors.quantityUnit
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all`}
+                      placeholder="Enter custom unit (e.g., bottles, bags)"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter the unit of measurement for this product
+                    </p>
+                  </div>
+                )}
+
+                {errors.quantity && (
+                  <p className="mt-1 text-sm text-red-500">{errors.quantity}</p>
+                )}
+                {errors.quantityUnit && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.quantityUnit}
+                  </p>
+                )}
               </div>
-              {errors.quantity && (
-                <p className="mt-1 text-sm text-red-500">{errors.quantity}</p>
-              )}
-              {errors.quantityUnit && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.quantityUnit}
-                </p>
-              )}
             </div>
           </div>
 
