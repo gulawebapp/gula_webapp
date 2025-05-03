@@ -3,8 +3,8 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import img1 from "./images/happy.webp";
 import Button from "../../common/button";
-import LoginForm from "../../common/loginForm";
 import { Link, useNavigate } from "react-router-dom";
+import LoginForm from "../../auth/loginForm";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -144,7 +144,7 @@ const HeroSection = () => {
             loading="eager"
             fetchpriority="high"
             decoding="async"
-            style={{ contentVisibility: "auto" }} 
+            style={{ contentVisibility: "auto" }}
           />
         </motion.div>
       </div>
