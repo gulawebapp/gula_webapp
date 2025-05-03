@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Button from "../../../common/button";
 import image1 from "./images/retailer.webp";
 import image2 from "./images/wholesaler.webp";
-import LoginForm from "../../../common/loginForm";
 
 const wholesalerContent = {
   title: "Wholesalers: Expand Your Reach",
