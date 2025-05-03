@@ -10,7 +10,7 @@ const Wholesaler = lazy(() => import("../pages/Wholesaler"));
 const Retailer = lazy(() => import("../pages/Retailer"));
 const Account = lazy(() => import("../components/common/SubscriptionDetails"));
 const Learn = lazy(() => import("../pages/LearnMore"));
-const LoginForm = lazy(() => import("../components/common/loginForm"));
+const LoginForm = lazy(() => import("../components/auth/loginForm"));
 
 const routes = [
   {
