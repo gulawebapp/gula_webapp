@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../common/button";
 import categories from "./Categories";
 import axios from "axios";
@@ -33,13 +33,44 @@ export default function ProductForm({ onCancel }) {
     images: [],
   });
 
+  // Clean up object URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      product.images.forEach((img) => {
+        if (img.preview) URL.revokeObjectURL(img.preview);
+      });
+    };
+  }, [product.images]);
+
   // State for custom unit
   const [showCustomUnit, setShowCustomUnit] = useState(false);
   const [customUnit, setCustomUnit] = useState("");
 
-  // Add form data to database
-  const addData = async (formData) => {
-    const response = await axios.post("", formData);
+  // Updated addData function with proper file upload handling
+  const addData = async (productData) => {
+    const formData = new FormData();
+
+    // Append all product fields
+    Object.keys(productData).forEach((key) => {
+      if (key !== "images") {
+        formData.append(key, productData[key]);
+      }
+    });
+
+    // Append image files if they exist
+    if (productData.images?.length > 0) {
+      productData.images.forEach((img) => {
+        if (img.file) {
+          formData.append("images", img.file);
+        }
+      });
+    }
+
+    const response = await axios.post("", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   };
 
