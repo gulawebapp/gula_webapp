@@ -3,6 +3,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../common/Loading";
 import { useState, useEffect } from "react";
+import Catalog from "../Retailer/Catalog";
 
 export default function ProductPage({ onCreateProductClick }) {
   const queryClient = useQueryClient();
@@ -508,10 +509,10 @@ export default function ProductPage({ onCreateProductClick }) {
                 </p>
                 <div className="flex justify-between">
                   <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                    {product.category}
+                    Category:{product.category}
                   </span>
                   <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                    {product.subcategory}
+                    Subcategory:{product.subcategory}
                   </span>
                   <span className="text-sm bg-gray-100 px-2 py-1 rounded">
                     Qty: {product.quantity}
@@ -534,6 +535,7 @@ export default function ProductPage({ onCreateProductClick }) {
               </div>
             </div>
           ))}
+          <Catalog />
         </div>
       )}
     </div>
