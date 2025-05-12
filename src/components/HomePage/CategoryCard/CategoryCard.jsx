@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-/* // Variants for slide-in effect */
 
 const slideInVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -21,8 +20,7 @@ const CategoryCard = ({ category }) => {
       className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer w-full h-full"
     >
       <img
-        src={category.image1x} // 288×192 version
-        srcSet={`${category.image1x} 1x, ${category.image2x} 2x`}
+        src={category.image} // 288×192 version
         alt={category.name}
         className="w-72 h-48 object-cover mx-auto" // Changed to object-cover
         loading="lazy"
