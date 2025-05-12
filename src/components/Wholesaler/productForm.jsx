@@ -46,7 +46,7 @@ export default function ProductForm({ onCancel }) {
   const [showCustomUnit, setShowCustomUnit] = useState(false);
   const [customUnit, setCustomUnit] = useState("");
 
-  // Updated addData function with proper file upload handling
+  //addData function with proper file upload handling
   const addData = async (productData) => {
     const formData = new FormData();
 
