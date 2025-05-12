@@ -1,6 +1,13 @@
+import { useState } from "react";
 import Button from "../../common/button";
+import Catalog from "../Catalog";
 
 export default function DashboardHeader({ onManageOrdersClick }) {
+  const [catalog, setCatalog] = useState("false");
+
+  const handleCatalog = () => {
+    setCatalog(!catalog);
+  };
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
       <div>
@@ -10,7 +17,11 @@ export default function DashboardHeader({ onManageOrdersClick }) {
         <p className="text-gray-500">Premium Subscription Active</p>
       </div>
       <div className="flex space-x-3">
-        <Button>Browse Catalogs</Button>
+        <Button onClick={handleCatalog}>
+          {catalog ? "Browse Catalogs" : "Close catalogue"}
+        </Button>
+
+        {catalog && <Catalog />}
         <Button variant="secondary" onClick={onManageOrdersClick}>
           Manage Orders
         </Button>
