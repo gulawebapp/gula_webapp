@@ -483,21 +483,27 @@ export default function ProductPage({ onCreateProductClick }) {
               className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
             >
               {/* Product Image Section */}
-              <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+             <div className="relative h-48 bg-gray-100">
                 {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[0].preview || product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : product.image ? (
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="flex h-full overflow-x-auto snap-x snap-mandatory">
+                    {product.images.map((image, index) => (
+                      <div
+                        key={index}
+                        className="flex-shrink-0 w-full h-full snap-start"
+                      >
+                        <img
+                          src={image.url || image.preview} 
+                          alt={`${product.name} - ${index + 1}`}
+                          className="w-full h-full object-cover"
+                      
+                        />
+                      </div>
+                    ))}
+                  </div>
                 ) : (
-                  <div className="text-gray-400">No Image</div>
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-gray-400">No images available</span>
+                  </div>
                 )}
               </div>
 
@@ -535,7 +541,7 @@ export default function ProductPage({ onCreateProductClick }) {
               </div>
             </div>
           ))}
-          <Catalog />
+          <Catalog data={data}/>
         </div>
       )}
     </div>
