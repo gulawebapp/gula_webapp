@@ -75,8 +75,8 @@ const useCartStore = create(
 
     // Calculate the total price of items in the cart
     getTotalPrice() {
-      const cart = get().cart;
-      return cart.reduce(
+      const { items } = get();
+      return items.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
