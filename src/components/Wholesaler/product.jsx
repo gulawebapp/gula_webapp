@@ -1,14 +1,28 @@
 import Button from "../common/button";
-import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+// import axios from "axios";
+// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../common/Loading";
 import { useState, useEffect } from "react";
-import Catalog from "../Retailer/Catalog";
+// import Catalog from "../Retailer/Catalog";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { auth, db } from "../../../firebase";
 
 export default function ProductPage({ onCreateProductClick }) {
-  const queryClient = useQueryClient();
+  const [currentUser, setCurrentUser] = useState(null);
+  // const queryClient = useQueryClient();
   const [formError, setFormError] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [EditFormData, setEditFormData] = useState({
     id: "",
     name: "",
@@ -17,119 +31,161 @@ export default function ProductPage({ onCreateProductClick }) {
     category: "",
     subcategory: "",
     quantity: "",
-    images: [],
+    // images: [],
   });
-  const [imageError, setImageError] = useState(null);
+  //firebase function for fetching data
+  // const productCollection = collection(db, "products");
+
+  const getProductList = async () => {
+    try {
+      setLoading(true);
+      const user = auth.currentUser;
+      if (!user) {
+        setError("User not authenticated");
+      }
+
+      //query products only where the id is fo rthe user
+      const q = query(
+        collection(db, "products"),
+        where("ownerId", "==", user.uid)
+      );
+      // const data = await getDocs(productCollection);
+      const querysnapshot = await getDocs(q);
+      const filteredData = querysnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setProducts(filteredData);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      if (user) {
+        getProductList();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // const [imageError, setImageError] = useState(null);
 
   // Clean up object URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      EditFormData.images.forEach((img) => {
-        if (img.preview) URL.revokeObjectURL(img.preview);
-      });
-    };
-  }, [EditFormData.images]);
+  // useEffect(() => {
+  //   return () => {
+  //     EditFormData.images.forEach((img) => {
+  //       if (img.preview) URL.revokeObjectURL(img.preview);
+  //     });
+  //   };
+  // }, [EditFormData.images]);
 
   //fetch data from database
-  const fetchData = async () => {
-    const response = await axios.get("");
-    return response.data;
-  };
+  // const fetchData = async () => {
+  //   const response = await axios.get("");
+  //   return response.data;
+  // };
 
   //delete card function
-  const deleteData = async (id) => {
-    const response = await axios.delete(`/${id}`);
-    return response.data;
-  };
+  // const deleteData = async (id) => {
+  //   const response = await axios.delete(`/${id}`);
+  //   return response.data;
+  // };
 
   //edit card function with file upload support
-  const editData = async (formData) => {
-    const data = new FormData();
+  // const editData = async (formData) => {
+  //   const data = new FormData();
 
-    // Append all fields
-    Object.keys(formData).forEach((key) => {
-      if (key !== "images") {
-        data.append(key, formData[key]);
-      }
-    });
+  //   // Append all fields
+  //   Object.keys(formData).forEach((key) => {
+  //     if (key !== "images") {
+  //       data.append(key, formData[key]);
+  //     }
+  //   });
 
-    // Handle image files
-    formData.images.forEach((img, index) => {
-      if (img.file) {
-        data.append(`images`, img.file);
-      } else if (typeof img === "string") {
-        data.append(`images[${index}]`, img);
-      }
-    });
+  //   // Handle image files
+  //   formData.images.forEach((img, index) => {
+  //     if (img.file) {
+  //       data.append(`images`, img.file);
+  //     } else if (typeof img === "string") {
+  //       data.append(`images[${index}]`, img);
+  //     }
+  //   });
 
-    const response = await axios.put(`/${formData.id}`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  };
+  //   const response = await axios.put(`/${formData.id}`, data, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   });
+  //   return response.data;
+  // };
 
   //query function for fetching data from database
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchData,
-  });
+  // const { data, isLoading, error } = useQuery({
+  //   queryKey: ["products"],
+  //   queryFn: fetchData,
+  // });
 
   //edit mutation
-  const { mutate: editProduct, isLoading: isEditing } = useMutation({
-    mutationFn: editData,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["products"]);
-      closeEditModal();
-    },
-    onError: (error) => {
-      setFormError(
-        error.message || "Failed to update product. Please try again."
-      );
-    },
-  });
+  // const { mutate: editProduct, isLoading: isEditing } = useMutation({
+  //   mutationFn: editData,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["products"]);
+  //     closeEditModal();
+  //   },
+  //   onError: (error) => {
+  //     setFormError(
+  //       error.message || "Failed to update product. Please try again."
+  //     );
+  //   },
+  // });
 
   //delete mutation
-  const { mutate: deleteProduct } = useMutation({
-    mutationFn: deleteData,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["products"]);
-    },
-  });
+  // const { mutate: deleteProduct } = useMutation({
+  //   mutationFn: deleteData,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["products"]);
+  //   },
+  // });
 
   //open edit modal with product details
   function EditOpenModal(product) {
     // Convert product.images to array format if it's a string
-    const images = Array.isArray(product.images)
-      ? product.images
-      : product.image
-      ? [product.image]
-      : [];
+    // const images = Array.isArray(product.images)
+    //   ? product.images
+    //   : product.image
+    //   ? [product.image]
+    //   : [];
 
     setEditFormData({
       id: product.id,
-      name: product.name,
-      price: product.price,
+      name: product.productname,
+      price: product.unitprice,
       description: product.description,
       category: product.category,
       subcategory: product.subcategory,
-      quantity: product.quantity,
-      images: images.map((img) =>
-        typeof img === "string" ? img : { preview: URL.createObjectURL(img) }
-      ),
+      quantity: product.totalquantity,
+      // images: images.map((img) =>
+      //   typeof img === "string" ? img : { preview: URL.createObjectURL(img) }
+      // ),
     });
     setIsEditModalOpen(true);
-    setImageError(null);
+    // setImageError(null);
     setFormError(null);
   }
 
   //close edit modal
   function closeEditModal() {
     // Clean up object URLs
-    EditFormData.images.forEach((img) => {
-      if (img.preview) URL.revokeObjectURL(img.preview);
-    });
+    // EditFormData.images.forEach((img) => {
+    //   if (img.preview) URL.revokeObjectURL(img.preview);
+    // });
 
     setIsEditModalOpen(false);
     setEditFormData({
@@ -140,10 +196,10 @@ export default function ProductPage({ onCreateProductClick }) {
       category: "",
       subcategory: "",
       quantity: "",
-      images: [],
+      // images: [],
     });
     setFormError(null);
-    setImageError(null);
+    // setImageError(null);
   }
 
   //handle form input changes
@@ -153,82 +209,118 @@ export default function ProductPage({ onCreateProductClick }) {
   }
 
   //handle image upload
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
 
-    // Clear previous errors
-    setImageError(null);
+  //   // Clear previous errors
+  //   setImageError(null);
 
-    if (files.length + EditFormData.images.length > 3) {
-      setImageError("You can upload a maximum of 3 images");
-      return;
-    }
+  //   if (files.length + EditFormData.images.length > 3) {
+  //     setImageError("You can upload a maximum of 3 images");
+  //     return;
+  //   }
 
-    const validFiles = [];
-    const invalidFiles = [];
+  //   const validFiles = [];
+  //   const invalidFiles = [];
 
-    files.forEach((file) => {
-      // Validate image type
-      if (!file.type.match("image.*")) {
-        invalidFiles.push(file.name);
-        return;
-      }
+  //   files.forEach((file) => {
+  //     // Validate image type
+  //     if (!file.type.match("image.*")) {
+  //       invalidFiles.push(file.name);
+  //       return;
+  //     }
 
-      // Validate image size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        invalidFiles.push(file.name);
-        return;
-      }
+  //     // Validate image size (5MB max)
+  //     if (file.size > 5 * 1024 * 1024) {
+  //       invalidFiles.push(file.name);
+  //       return;
+  //     }
 
-      validFiles.push(file);
-    });
+  //     validFiles.push(file);
+  //   });
 
-    if (invalidFiles.length > 0) {
-      setImageError(
-        `The following files are invalid: ${invalidFiles.join(", ")}. ` +
-          "Please upload image files (JPEG, PNG, GIF) under 5MB."
-      );
-    }
+  //   if (invalidFiles.length > 0) {
+  //     setImageError(
+  //       `The following files are invalid: ${invalidFiles.join(", ")}. ` +
+  //         "Please upload image files (JPEG, PNG, GIF) under 5MB."
+  //     );
+  //   }
 
-    if (validFiles.length > 0) {
-      const newImages = validFiles.map((file) => ({
-        file,
-        preview: URL.createObjectURL(file),
-      }));
+  //   if (validFiles.length > 0) {
+  //     const newImages = validFiles.map((file) => ({
+  //       file,
+  //       preview: URL.createObjectURL(file),
+  //     }));
 
-      setEditFormData((prev) => ({
-        ...prev,
-        images: [...prev.images, ...newImages],
-      }));
-    }
-  };
+  //     setEditFormData((prev) => ({
+  //       ...prev,
+  //       images: [...prev.images, ...newImages],
+  //     }));
+  //   }
+  // };
 
   //remove image
-  const removeImage = (index) => {
-    setImageError(null);
-    setEditFormData((prev) => {
-      const newImages = [...prev.images];
-      if (newImages[index].preview) {
-        URL.revokeObjectURL(newImages[index].preview);
-      }
-      newImages.splice(index, 1);
-      return { ...prev, images: newImages };
-    });
+  // const removeImage = (index) => {
+  //   setImageError(null);
+  //   setEditFormData((prev) => {
+  //     const newImages = [...prev.images];
+  //     if (newImages[index].preview) {
+  //       URL.revokeObjectURL(newImages[index].preview);
+  //     }
+  //     newImages.splice(index, 1);
+  //     return { ...prev, images: newImages };
+  //   });
+  // };
+
+  //update function
+  const updateProduct = async (productId, updatedData) => {
+    try {
+      setLoading(true);
+      const productDoc = doc(db, "products", productId);
+      await updateDoc(productDoc, updatedData);
+      await getProductList();
+      closeEditModal();
+    } catch (err) {
+      console.error(err);
+      setFormError("Failed to update product");
+    } finally {
+      setLoading(false);
+    }
   };
 
   //handle edit submit
   function handleEditSubmit(e) {
     e.preventDefault();
-    if (EditFormData.images.length === 0) {
-      setImageError("At least one image is required");
+    // if (EditFormData.images.length === 0) {
+    //   setImageError("At least one image is required");
+    //   return;
+    // }
+
+    // Basic validation
+    if (!EditFormData.name || !EditFormData.price) {
+      setFormError("Name and price are required fields");
       return;
     }
-    editProduct(EditFormData);
-    setFormError(null);
+    const productData = {
+      productname: EditFormData.name,
+      unitprice: EditFormData.price,
+      description: EditFormData.description,
+      category: EditFormData.category,
+      subcategory: EditFormData.subcategory,
+      totalquantity: EditFormData.quantity,
+    };
+    updateProduct(EditFormData.id, productData);
   }
 
-  if (isLoading) {
+  const deleteProduct = async (id) => {
+    const productDoc = doc(db, "products", id);
+    await deleteDoc(productDoc);
+  };
+  if (loading) {
     return <Loading />;
+  }
+  if (error) {
+    return <p>error:{error}</p>;
   }
 
   if (error) {
@@ -373,20 +465,20 @@ export default function ProductPage({ onCreateProductClick }) {
                   </div>
 
                   {/*  Image Upload Section */}
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Product Images{" "}
                       {EditFormData.images.length > 0 &&
                         `(${EditFormData.images.length}/3)`}
-                    </label>
+                    </label> */}
 
-                    {/* Error message */}
-                    {imageError && (
+                  {/* Error message */}
+                  {/* {imageError && (
                       <p className="text-sm text-red-500 mb-2">{imageError}</p>
-                    )}
+                    )} */}
 
-                    {/* Image previews */}
-                    {EditFormData.images.length > 0 && (
+                  {/* Image previews */}
+                  {/* {EditFormData.images.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-2">
                         {EditFormData.images.map((img, index) => (
                           <div key={index} className="relative">
@@ -405,10 +497,10 @@ export default function ProductPage({ onCreateProductClick }) {
                           </div>
                         ))}
                       </div>
-                    )}
+                    )} */}
 
-                    {/* Upload new images */}
-                    {EditFormData.images.length < 3 && (
+                  {/* Upload new images */}
+                  {/* {EditFormData.images.length < 3 && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           {EditFormData.images.length === 0
@@ -431,24 +523,20 @@ export default function ProductPage({ onCreateProductClick }) {
                           Supported formats: JPEG, PNG, GIF (Max 5MB each)
                         </p>
                       </div>
-                    )}
-                  </div>
+                    )} */}
+                  {/* </div> */}
 
                   <div className="flex justify-end space-x-3 pt-4">
                     <Button
                       type="button"
                       variant="secondary"
                       onClick={closeEditModal}
-                      disabled={isEditing}
+                      disabled={loading}
                     >
                       Cancel
                     </Button>
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      disabled={isEditing}
-                    >
-                      {isEditing ? "Saving..." : "Save Changes"}
+                    <Button type="submit" variant="primary" disabled={loading}>
+                      {loading ? "Saving..." : "Save Changes"}
                     </Button>
 
                     {formError && (
@@ -465,7 +553,7 @@ export default function ProductPage({ onCreateProductClick }) {
       )}
 
       {/* Products List */}
-      {!data || data.length === 0 ? (
+      {products.length === 0 ? (
         <div className="text-center py-12">
           <h2 className="text-xl font-medium text-gray-600 mb-2">
             No Products Found
@@ -477,13 +565,13 @@ export default function ProductPage({ onCreateProductClick }) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.map((product) => (
+          {products.map((product) => (
             <div
               key={product.id}
-              className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+              className="border shadow-2xl rounded-lg overflow-hidden hover:shadow-md transition-shadow"
             >
               {/* Product Image Section */}
-             <div className="relative h-48 bg-gray-100">
+              {/* <div className="relative h-48 bg-gray-100">
                 {product.images && product.images.length > 0 ? (
                   <div className="flex h-full overflow-x-auto snap-x snap-mandatory">
                     {product.images.map((image, index) => (
@@ -492,10 +580,9 @@ export default function ProductPage({ onCreateProductClick }) {
                         className="flex-shrink-0 w-full h-full snap-start"
                       >
                         <img
-                          src={image.url || image.preview} 
+                          src={image.url || image.preview}
                           alt={`${product.name} - ${index + 1}`}
                           className="w-full h-full object-cover"
-                      
                         />
                       </div>
                     ))}
@@ -505,24 +592,34 @@ export default function ProductPage({ onCreateProductClick }) {
                     <span className="text-gray-400">No images available</span>
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
-                <p className="text-gray-600 mb-2">${product.price}</p>
-                <p className="text-sm text-gray-500 mb-4">
-                  {product.description}
-                </p>
+                <div className="flex justify-center text-center gap-x-5">
+                  <h3 className="font-semibold text-lg mb-2">
+                    Product:{product.productname}
+                  </h3>
+                  <p className="text-gray-600 mb-2">
+                    Price per each UGX{product.unitprice}
+                  </p>
+                </div>
                 <div className="flex justify-between">
-                  <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                    Category:{product.category}
-                  </span>
-                  <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                    Subcategory:{product.subcategory}
-                  </span>
-                  <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                    Qty: {product.quantity}
-                  </span>
+                  <div className="flex flex-col text-sm bg-gray-100 px-2 py-1 rounded">
+                    <p>Category:</p>
+                    <p>{product.category}</p>
+                  </div>
+                  <div className="flex flex-col text-sm bg-gray-100 px-2 py-1 rounded">
+                    <p>Subcategory:</p>
+                    <p>{product.subcategory}</p>
+                  </div>
+                  <div className="flex flex-col text-sm bg-gray-100 px-2 py-1 rounded">
+                    <p>Total Qty: {product.totalquantity}</p>
+                    <p>Unit Qty: {product.unit}</p>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center text-center text-sm text-gray-500 mb-4">
+                  <p>Product message: </p>
+                  <p>{product.description}</p>
                 </div>
               </div>
               <div className="border-t p-3 bg-gray-50 flex justify-end gap-2">
@@ -534,14 +631,13 @@ export default function ProductPage({ onCreateProductClick }) {
                 </Button>
                 <Button
                   variant="primary"
-                  onClick={() => removeProduct(product.id)}
+                  onClick={() => deleteProduct(product.id)}
                 >
                   Delete
                 </Button>
               </div>
             </div>
           ))}
-          <Catalog data={data}/>
         </div>
       )}
     </div>
