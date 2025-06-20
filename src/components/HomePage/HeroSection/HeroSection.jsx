@@ -142,7 +142,7 @@ const HeroSection = () => {
             width="600"
             height="400"
             loading="eager"
-            fetchpriority="high"
+            fetchPriority="high"
             decoding="async"
             style={{ contentVisibility: "auto" }}
           />
