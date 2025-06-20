@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import Button from "../common/button";
 import categories from "./Categories";
-import axios from "axios";
+import { addDoc, serverTimestamp, collection } from "firebase/firestore";
+// import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { auth, db } from "../../../firebase";
 
 const quantityUnits = [
   { value: "in", label: "Select unit" },
@@ -17,7 +19,12 @@ const quantityUnits = [
 ];
 
 export default function ProductForm({ onCancel }) {
-  const queryClient = useQueryClient();
+  const [availableSubcategories, setAvailableSubcategories] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // State for custom unit
+  const [showCustomUnit, setShowCustomUnit] = useState(false);
+  const [customUnit, setCustomUnit] = useState("");
+  // const queryClient = useQueryClient();
 
   // State to manage form data
   const [product, setProduct] = useState({
@@ -30,61 +37,8 @@ export default function ProductForm({ onCancel }) {
     quantityUnit: "in",
     customCategory: "",
     customSubcategory: "",
-    images: [],
+    // images: [],
   });
-
-  // Clean up object URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      product.images.forEach((img) => {
-        if (img.preview) URL.revokeObjectURL(img.preview);
-      });
-    };
-  }, [product.images]);
-
-  // State for custom unit
-  const [showCustomUnit, setShowCustomUnit] = useState(false);
-  const [customUnit, setCustomUnit] = useState("");
-
-  //addData function with proper file upload handling
-  const addData = async (productData) => {
-    const formData = new FormData();
-
-    // Append all product fields
-    Object.keys(productData).forEach((key) => {
-      if (key !== "images") {
-        formData.append(key, productData[key]);
-      }
-    });
-
-    // Append image files if they exist
-    if (productData.images?.length > 0) {
-      productData.images.forEach((img) => {
-        if (img.file) {
-          formData.append("images", img.file);
-        }
-      });
-    }
-
-    const response = await axios.post("", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  };
-
-  // Mutation to add data to form
-  const { mutate } = useMutation({
-    mutationFn: addData,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["products"]);
-    },
-    onError: (error) => {
-      console.log("Error submitting form", error);
-    },
-  });
-
   // Error state
   const [errors, setErrors] = useState({
     name: "",
@@ -96,12 +50,8 @@ export default function ProductForm({ onCancel }) {
     subcategory: "",
     customCategory: "",
     customSubcategory: "",
-    images: "",
+    // images: "",
   });
-
-  const [availableSubcategories, setAvailableSubcategories] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const validateForm = () => {
     let tempErrors = {
       name: "",
@@ -113,7 +63,7 @@ export default function ProductForm({ onCancel }) {
       subcategory: "",
       customCategory: "",
       customSubcategory: "",
-      images: "",
+      // images: "",
     };
     let isValid = true;
 
@@ -142,6 +92,15 @@ export default function ProductForm({ onCancel }) {
     if (product.description.length > 500 || product.description.length === 0) {
       tempErrors.description = "Description must be less than 500 characters";
       isValid = false;
+    }
+
+    // If custom unit was selected but not filled
+    if (showCustomUnit && !customUnit) {
+      setErrors((prev) => ({
+        ...prev,
+        quantityUnit: "Please enter a custom unit",
+      }));
+      return;
     }
 
     // Quantity validation
@@ -193,26 +152,25 @@ export default function ProductForm({ onCancel }) {
       isValid = false;
     }
 
-    if (product.images.length === 0) {
-      tempErrors.images = "At least one product image is recommended";
-      isValid = false;
-    }
+    // if (product.images.length === 0) {
+    //   tempErrors.images = "At least one product image is recommended";
+    //   isValid = false;
+    // }
 
     setErrors(tempErrors);
     return isValid;
   };
+  // Clean up object URLs when component unmounts
+  // useEffect(() => {
+  //   return () => {
+  //     product.images.forEach((img) => {
+  //       if (img.preview) URL.revokeObjectURL(img.preview);
+  //     });
+  //   };
+  // }, [product.images]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // If custom unit was selected but not filled
-    if (showCustomUnit && !customUnit) {
-      setErrors((prev) => ({
-        ...prev,
-        quantityUnit: "Please enter a custom unit",
-      }));
-      return;
-    }
 
     if (validateForm()) {
       setIsSubmitting(true);
@@ -229,24 +187,56 @@ export default function ProductForm({ onCancel }) {
         ? customUnit
         : product.quantityUnit;
 
-      mutate(
-        {
-          ...product,
+      try {
+        const user = auth.currentUser; //get current user
+        const docRef = await addDoc(collection(db, "products"), {
+          productname: product.name,
           category: finalCategory,
           subcategory: finalSubcategory,
-          quantityUnit: finalQuantityUnit,
-        },
-        {
-          onSettled: () => {
-            setIsSubmitting(false);
-            onCancel();
-          },
-        }
-      );
+          totalquantity: parseInt(product.quantity),
+          unitprice: parseFloat(product.price),
+          unit: finalQuantityUnit,
+          description: product.description,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          ownerId: user.uid,
+          status: "active",
+        });
+        onCancel();
+      } catch (err) {
+        console.error("Error adding document", err);
+      } finally {
+        setIsSubmitting(false);
+      }
+      // mutate(
+      //   {
+      //     ...product,
+      //     category: finalCategory,
+      //     subcategory: finalSubcategory,
+      //     quantityUnit: finalQuantityUnit,
+      //   },
+      //   {
+      //     onSettled: () => {
+      //       setIsSubmitting(false);
+      //       onCancel();
+      //     },
+      //   }
+      // );
     } else {
       console.log("Form has errors");
     }
   };
+
+  // Mutation to add data to form
+  // const { mutate } = useMutation({
+  //   mutationFn: addData,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["products"]);
+  //   },
+  //   onError: (error) => {
+  //     console.log("Error submitting form", error);
+  //   },
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -290,69 +280,72 @@ export default function ProductForm({ onCancel }) {
     }
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
 
-    if (files.length + product.images.length > 3) {
-      setErrors((prev) => ({
-        ...prev,
-        images: "You can upload a maximum of 3 images",
-      }));
-      return;
-    }
+  //   if (files.length + product.images.length > 3) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       images: "You can upload a maximum of 3 images",
+  //     }));
+  //     return;
+  //   }
 
-    const validFiles = [];
-    const invalidFiles = [];
+  //   const validFiles = [];
+  //   const invalidFiles = [];
 
-    files.forEach((file) => {
-      // Validate image type
-      if (!file.type.match("image.*")) {
-        invalidFiles.push(file.name);
-        return;
-      }
+  //   files.forEach((file) => {
+  //     // Validate image type
+  //     if (!file.type.match("image.*")) {
+  //       invalidFiles.push(file.name);
+  //       return;
+  //     } // if (product.images.length === 0) {
+  //   tempErrors.images = "At least one product image is recommended";
+  //   isValid = false;
+  // }
 
-      // Validate image size (e.g., 5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        invalidFiles.push(file.name);
-        return;
-      }
+  //     // Validate image size (e.g., 5MB max)
+  //     if (file.size > 5 * 1024 * 1024) {
+  //       invalidFiles.push(file.name);
+  //       return;
+  //     }
 
-      validFiles.push(file);
-    });
+  //     validFiles.push(file);
+  //   });
 
-    if (invalidFiles.length > 0) {
-      setErrors((prev) => ({
-        ...prev,
-        images: `Some files are invalid (${invalidFiles.join(
-          ", "
-        )}. Please upload image files (JPEG, PNG, GIF) less than 5MB.`,
-      }));
-    }
+  //   if (invalidFiles.length > 0) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       images: `Some files are invalid (${invalidFiles.join(
+  //         ", "
+  //       )}. Please upload image files (JPEG, PNG, GIF) less than 5MB.`,
+  //     }));
+  //   }
 
-    if (validFiles.length > 0) {
-      const newImages = validFiles.map((file) => ({
-        file,
-        preview: URL.createObjectURL(file),
-      }));
+  //   if (validFiles.length > 0) {
+  //     const newImages = validFiles.map((file) => ({
+  //       file,
+  //       preview: URL.createObjectURL(file),
+  //     }));
 
-      setProduct((prev) => ({
-        ...prev,
-        images: [...prev.images, ...newImages],
-      }));
+  //     setProduct((prev) => ({
+  //       ...prev,
+  //       images: [...prev.images, ...newImages],
+  //     }));
 
-      setErrors((prev) => ({ ...prev, images: "" }));
-    }
-  };
+  //     setErrors((prev) => ({ ...prev, images: "" }));
+  //   }
+  // };
 
-  const removeImage = (index) => {
-    setProduct((prev) => {
-      const newImages = [...prev.images];
-      // Revoke the object URL to prevent memory leaks
-      URL.revokeObjectURL(newImages[index].preview);
-      newImages.splice(index, 1);
-      return { ...prev, images: newImages };
-    });
-  };
+  // const removeImage = (index) => {
+  //   setProduct((prev) => {
+  //     const newImages = [...prev.images];
+  //     // Revoke the object URL to prevent memory leaks
+  //     URL.revokeObjectURL(newImages[index].preview);
+  //     newImages.splice(index, 1);
+  //     return { ...prev, images: newImages };
+  //   });
+  // };
 
   return (
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-100">
@@ -478,13 +471,14 @@ export default function ProductForm({ onCancel }) {
           </div>
 
           {/* Image Upload */}
+          {/*
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Product Images{" "}
               {product.images.length > 0 && `(${product.images.length}/3)`}
             </label>
             <div className="flex flex-col gap-4">
-              {/* Image previews */}
+              {/* Image previews * /}
               {product.images.length > 0 && (
                 <div className="flex flex-wrap gap-4">
                   {product.images.map((image, index) => (
@@ -518,7 +512,7 @@ export default function ProductForm({ onCancel }) {
                 </div>
               )}
 
-              {/* Upload area */}
+              {/* Upload area * /}
               {product.images.length < 3 && (
                 <label className="cursor-pointer w-full">
                   <div
@@ -566,6 +560,7 @@ export default function ProductForm({ onCancel }) {
               <p className="mt-1 text-sm text-red-500">{errors.images}</p>
             )}
           </div>
+        */}
 
           {/* Category Selection */}
           <div className="space-y-2">
