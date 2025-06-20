@@ -1,9 +1,23 @@
-export default function Catalog(props) {
-  const { data } = props;
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Loading from "../common/Loading";
 
+const FetchData = async () => {
+  const response = await axios.get("");
+  return response.data;
+};
+
+export default function Catalog() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["wholesaler"],
+    queryFn: FetchData,
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error:{error.message}</div>;
   return (
     <div className="container mx-auto px-4 py-8">
-      {data.length === 0 ? (
+      {!data ? (
         <div className="text-center py-12">
           <h1 className="text-2xl font-medium text-gray-600">
             No wholesaler products added yet
