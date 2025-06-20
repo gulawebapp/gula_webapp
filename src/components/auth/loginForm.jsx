@@ -3,6 +3,12 @@ import { Mail, Lock, X, User } from "lucide-react";
 import logo from "../common/images/circle.png";
 import styles from "../common/login.module.css";
 import { useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db, auth } from "../../../firebase";
 
 export default function LoginForm(props) {
   const navigate = useNavigate();
@@ -20,10 +26,11 @@ export default function LoginForm(props) {
     email: "",
     password: "",
   });
-
+  const [isLoading, setisLoading] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
+    general: "",
   });
 
   const validateForm = () => {
@@ -53,13 +60,71 @@ export default function LoginForm(props) {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      // Proceed with login
-      console.log("Login form is valid:", formData);
-    } else {
+    // Clear previous errors
+    setErrors({ email: "", password: "", general: "" });
+
+    // Validate form
+    if (!validateForm()) {
       console.log("Login form has errors");
+      return;
+    }
+
+    try {
+      setisLoading(true);
+      console.log("Attempting login with:", formData);
+
+      // 1. Authenticate user
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredentials.user;
+      console.log("User authenticated:", user);
+
+      // 2. Get user data from Firestore
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          console.log("User data:", userData);
+
+          // Redirect based on account type
+          if (userData.account === "wholesaler") {
+            navigate("/wholesaler");
+          } else if (userData.account === "retailer") {
+            // Fixed the condition here
+            navigate("/retailer");
+          } else {
+            navigate("/login"); // Default redirect if account type isn't set
+          }
+        } else {
+          console.log("No user data found");
+          navigate("/login");
+        }
+      } catch (firestoreError) {
+        console.error("Firestore error:", firestoreError);
+        setErrors({
+          ...errors,
+          general: "Couldn't load user data. Please try again.",
+        });
+      }
+    } catch (authError) {
+      console.error("Authentication error:", authError);
+
+      // Handle specific auth errors
+      if (authError.code === "auth/user-not-found") {
+        setErrors({ ...errors, email: "No account found with this email" });
+      } else if (authError.code === "auth/wrong-password") {
+        setErrors({ ...errors, password: "Incorrect password" });
+      } else {
+        setErrors({ ...errors, general: "Login failed. Please try again." });
+      }
+    } finally {
+      setisLoading(false);
     }
   };
 
@@ -177,14 +242,22 @@ export default function LoginForm(props) {
 
               {/* Submit Button */}
               <button
+                disabled={isLoading}
                 type="submit"
-                className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                className={`w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
-                Sign in
+                {isLoading ? "SIgning in" : "Sign in"}
+                {errors.general && (
+                  <div className="text-sm text-red-500 text-center">
+                    {errors.general}
+                  </div>
+                )}
               </button>
             </form>
           ) : (
-            <CreateAccount />
+            <CreateAccount setActiveTab={setActiveTab} />
           )}
         </div>
       </div>
@@ -192,7 +265,7 @@ export default function LoginForm(props) {
   );
 }
 
-function CreateAccount() {
+function CreateAccount({ setActiveTab }) {
   const [formData, setFormData] = useState({
     businessName: "",
     fullName: "",
@@ -280,13 +353,35 @@ function CreateAccount() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       // Proceed with form submission
       console.log("Form is valid:", formData);
     } else {
       console.log("Form has errors");
+    }
+
+    //
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        businessname: formData.businessName,
+        fullname: formData.fullName,
+        phone: formData.phone,
+        account: formData.accountType,
+        createdAt: new Date(),
+      });
+      setActiveTab("login");
+      console.log("user successfully created", user);
+    } catch (err) {
+      console.error("error creating account", err);
     }
   };
 
