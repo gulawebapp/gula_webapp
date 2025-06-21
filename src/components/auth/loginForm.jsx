@@ -266,6 +266,7 @@ export default function LoginForm(props) {
 }
 
 function CreateAccount({ setActiveTab }) {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     businessName: "",
     fullName: "",
@@ -364,6 +365,7 @@ function CreateAccount({ setActiveTab }) {
 
     //
     try {
+      setLoading(true);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
@@ -382,6 +384,8 @@ function CreateAccount({ setActiveTab }) {
       console.log("user successfully created", user);
     } catch (err) {
       console.error("error creating account", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -590,10 +594,13 @@ function CreateAccount({ setActiveTab }) {
       </div>
 
       <button
+        disabled={loading}
         type="submit"
-        className="w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+        className={`w-full rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+          loading ? "opacity-70 cursor-not-allowed" : ""
+        }`}
       >
-        Create Account
+        {loading ? "Creating Account" : "Create Account"}
       </button>
     </form>
   );
