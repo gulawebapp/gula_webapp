@@ -2,8 +2,21 @@ import { ShoppingCart, Bell } from "lucide-react";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import logo from "./images/logo.png";
 import logo1 from "./images/single.png";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../../firebase";
 
 export default function Header({ onLogout }) {
+  const navigate = useNavigate();
+
+  const handlelogOut = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (err) {
+      alert("failed to logout");
+    }
+  };
   return (
     <>
       <div className="fixed inset-y-0 left-0 w-28 sm:w-auto sm:static sm:border-b bg-white sm:flex sm:items-center sm:justify-between sm:px-2 sm:py-4">
@@ -36,8 +49,8 @@ export default function Header({ onLogout }) {
           </button>
 
           <button
+            onClick={handlelogOut}
             className="inline-flex items-center justify-center gap-1 sm:gap-2 bg-gray-100 hover:bg-gray-200 px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer w-full sm:w-auto"
-            onClick={onLogout}
             title="Logout"
           >
             <FaSignOutAlt className="w-4 h-4 sm:w-5 sm:h-5" />
