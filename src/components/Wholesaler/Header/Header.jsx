@@ -12,7 +12,7 @@ export default function Header({ onLogout }) {
   const handlelogOut = async () => {
     try {
       await signOut(auth);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       alert("failed to logout");
     }
