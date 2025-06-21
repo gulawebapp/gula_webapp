@@ -2,8 +2,21 @@ import { Bell } from "lucide-react";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import logo from "./images/logo.png";
 import logo1 from "./images/single.png";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../../firebase";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handlelogOut = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (err) {
+      console.error("failed to logout", err);
+    }
+  };
   return (
     <>
       {/* Sidebar on mobile, Navbar on desktop */}
@@ -54,6 +67,7 @@ export default function Navbar() {
               <FaUser className="w-6 h-6 md:w-8 md:h-8 rounded-full" />
             </button>
             <button
+              onClick={handlelogOut}
               className=" border-1 border-black rounded-2xl flex items-center justify-center space-x-1 p-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer w-full md:w-auto"
               title="Logout"
             >
