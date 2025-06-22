@@ -19,3 +19,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_GULA_92427 }}
           projectId: fir-gula-92427
+          channelId: pr-${{ github.event.number }} # Dynamic PR-based channel

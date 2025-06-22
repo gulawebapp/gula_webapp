@@ -16,5 +16,4 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_GULA_92427 }}
-          channelId: live
           projectId: fir-gula-92427
