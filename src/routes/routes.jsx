@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
 import Loading from "../components/common/Loading";
 import Layout from "../components/common/Layout";
+import { element } from "prop-types";
+import Cart from "../components/Retailer/cart";
 const HomePage = lazy(() => import("../pages/HomePage"));
 const About = lazy(() => import("../pages/About"));
 const Services = lazy(() => import("../pages/Services"));
@@ -11,6 +13,7 @@ const Retailer = lazy(() => import("../pages/Retailer"));
 const Account = lazy(() => import("../components/common/SubscriptionDetails"));
 const Learn = lazy(() => import("../pages/LearnMore"));
 const LoginForm = lazy(() => import("../components/auth/loginForm"));
+const CartPage = lazy(() => import("../components/Retailer/cart"));
 
 const routes = [
   {
@@ -45,6 +48,10 @@ const routes = [
   {
     path: "/createaccount",
     element: <Account />,
+  },
+  {
+    path: "/cart",
+    element: <CartPage />,
   },
 ];
 
