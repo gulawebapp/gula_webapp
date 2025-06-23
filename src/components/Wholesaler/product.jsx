@@ -315,6 +315,7 @@ export default function ProductPage({ onCreateProductClick }) {
   const deleteProduct = async (id) => {
     const productDoc = doc(db, "products", id);
     await deleteDoc(productDoc);
+    getProductList();
   };
   if (loading) {
     return <Loading />;
@@ -333,12 +334,12 @@ export default function ProductPage({ onCreateProductClick }) {
     );
   }
 
-  //handle delete button click
-  function removeProduct(id) {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      deleteProduct(id);
-    }
-  }
+  // // //handle delete button click
+  // // function removeProduct(id) {
+  // //   if (window.confirm("Are you sure you want to delete this product?")) {
+  // //     deleteProduct(id);
+  // //   }
+  // }
 
   return (
     <div className="p-6">
