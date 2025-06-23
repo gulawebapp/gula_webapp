@@ -15,7 +15,7 @@ export default function DashboardHeader({
         </h1>
         <p className="text-gray-500">Premium Subscription Active</p>
       </div>
-      <div className="flex gap-x-8">
+      <div className="flex flex-col sm:flex-row gap-5 sm:gap-x-8">
         <Button onClick={handleCatalog}>
           {catalog ? "Close catalog" : "Browse Catalog"}
         </Button>
