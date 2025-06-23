@@ -2,86 +2,95 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const useCartStore = create(
-  persist((set, get) => ({
-    // Initial state
-    items: [], // Array to hold cart items
-    paymentMethod: null, // Selected payment method (e.g., Mobile Money, Payment on Delivery)
-    orderStatus: "pending", // Order status (pending, processing, completed)
+  persist(
+    (set, get) => ({
+      // Initial state
+      items: [],
+      paymentMethod: null,
+      orderStatus: "pending",
 
-    // Actions
+      // Actions
+      addItem: (product) => {
+        set((state) => {
+          const existingItem = state.items.find(
+            (item) => item.productId === product.productId
+          );
 
-    // Add a product to the cart
-    addItem: (product) => {
-      set((state) => {
-        // Check if the product already exists in the cart
-        const existingItem = state.items.find((item) => item.id === product.id);
+          if (existingItem) {
+            // For existing items, update quantity and recalculate totalPrice
+            return {
+              items: state.items.map((item) =>
+                item.productId === product.productId
+                  ? {
+                      ...item,
+                      quantity: item.quantity + product.quantity,
+                      totalPrice: item.totalPrice + product.totalPrice,
+                    }
+                  : item
+              ),
+            };
+          } else {
+            // For new items, add to cart with the calculated totalPrice
+            return {
+              items: [...state.items, product],
+            };
+          }
+        });
+      },
 
-        if (existingItem) {
-          // If the product exists, update its quantity
-          return {
-            items: state.items.map((item) =>
-              item.id === product.id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            ),
-          };
-        } else {
-          // If the product doesn't exist, add it to the cart with a quantity of 1
-          return {
-            items: [...state.items, { ...product, quantity: 1 }],
-          };
-        }
-      });
-    },
+      removeItem: (productId) => {
+        set((state) => ({
+          items: state.items.filter((item) => item.productId !== productId),
+        }));
+      },
 
-    // Remove a product from the cart
-    removeItem: (productId) => {
-      set((state) => ({
-        items: state.items.filter((item) => item.id !== productId),
-      }));
-    },
+      updateQuantity: (productId, newQuantity) => {
+        set((state) => ({
+          items: state.items.map((item) => {
+            if (item.id === productId) {
+              // Calculate the new totalPrice based on the price per unit
+              const pricePerUnit = item.totalPrice / item.quantity;
+              return {
+                ...item,
+                quantity: newQuantity,
+                totalPrice: Math.round(newQuantity * pricePerUnit * 100) / 100,
+              };
+            }
+            return item;
+          }),
+        }));
+      },
 
-    // Update the quantity of a product in the cart
-    updateQuantity: (productId, quantity) => {
-      set((state) => ({
-        items: state.items.map((item) =>
-          item.id === productId ? { ...item, quantity } : item
-        ),
-      }));
-    },
+      clearCart: () => {
+        set(() => ({
+          items: [],
+          paymentMethod: null,
+          orderStatus: "pending",
+        }));
+      },
 
-    // Clear the entire cart
-    clearCart: () => {
-      set(() => ({
-        items: [],
-        paymentMethod: null,
-        orderStatus: "pending",
-      }));
-    },
+      setPaymentMethod: (method) => {
+        set(() => ({
+          paymentMethod: method,
+        }));
+      },
 
-    // Set the payment method (e.g., Mobile Money, Payment on Delivery)
-    setPaymentMethod: (method) => {
-      set(() => ({
-        paymentMethod: method,
-      }));
-    },
+      setOrderStatus: (status) => {
+        set(() => ({
+          orderStatus: status,
+        }));
+      },
 
-    // Update the order status (e.g., pending, processing, completed)
-    setOrderStatus: (status) => {
-      set(() => ({
-        orderStatus: status,
-      }));
-    },
-
-    // Calculate the total price of items in the cart
-    getTotalPrice() {
-      const { items } = get();
-      return items.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-    },
-  }))
+      getTotalPrice() {
+        const { items } = get();
+        return items.reduce((total, item) => total + item.totalPrice, 0);
+      },
+    }),
+    {
+      name: "cart-storage", // name for the persisted store
+      getStorage: () => localStorage, // or sessionStorage
+    }
+  )
 );
 
 export default useCartStore;
