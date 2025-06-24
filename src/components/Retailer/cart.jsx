@@ -107,13 +107,13 @@ export default function Cart() {
               </div>
 
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mt-6">
-                <Link
-                  to="/catalog" // Updated to point to your catalog page
+                <button
+                  onClick={handleBack}
                   className="inline-flex items-center text-blue-600 hover:text-blue-700"
                 >
                   <ArrowLeft className="mr-1 h-4 w-4" />
                   Continue Shopping
-                </Link>
+                </button>
 
                 <button
                   onClick={handleSubmit}
