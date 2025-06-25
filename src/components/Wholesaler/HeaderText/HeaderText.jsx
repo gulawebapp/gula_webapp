@@ -10,9 +10,7 @@ export default function DashboardText(props) {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
-          Welcome back, Wholesale Co.
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Welcome back.</h1>
         <p className="text-gray-500">Premium Subscription Active</p>
       </div>
       <div className="flex space-x-3">
@@ -27,5 +25,3 @@ export default function DashboardText(props) {
     </div>
   );
 }
-
-
