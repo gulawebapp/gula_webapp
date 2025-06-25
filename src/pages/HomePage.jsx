@@ -17,7 +17,7 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <FeaturesSection />
-        <SliderSection />
+        {/* <SliderSection /> */}
         <Suspense fallback={<div>Loading Team...</div>}>
           <LazyTeamSection />
         </Suspense>
