@@ -381,12 +381,9 @@ export default function ProductForm({ onCancel }) {
             {/* Price field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Unit Price ($) <span className="text-red-500">*</span>
+                Unit Price (Ugx) <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  $
-                </span>
                 <input
                   type="number"
                   name="price"
