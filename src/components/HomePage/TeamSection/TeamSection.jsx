@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
 import image128 from "./images/happygirl-128.webp";
 import image256 from "./images/happygirl-256.webp";
+import isaac from "./images/isaac.webp";
+import henry from "./images/mark.jpeg";
+import make from "./images/henry.jpeg";
 export default function TeamSection() {
   const teamMembers = [
     {
       name: "John Smith",
       role: "CEO & Founder",
-      image: image128,
+      image: isaac,
       image2x: image256,
     },
     {
@@ -18,13 +21,13 @@ export default function TeamSection() {
     {
       name: "Michael Chen",
       role: "Tech Lead",
-      image: image128,
+      image: henry,
       image2x: image256,
     },
     {
       name: "Emily Davis",
       role: "Marketing Manager",
-      image: image128,
+      image: make,
       image2x: image256,
     },
   ];
@@ -98,7 +101,6 @@ export default function TeamSection() {
                 <motion.img
                   variants={imageVariants}
                   src={member.image}
-                  srcSet={`${member.image} 1x, ${member.image2x} 2x`}
                   alt={member.name}
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                   width="128"
