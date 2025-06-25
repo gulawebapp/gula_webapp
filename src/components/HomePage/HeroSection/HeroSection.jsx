@@ -47,9 +47,9 @@ const HeroSection = () => {
     },
   };
 
-  const text = "Connect Wholesalers with Retailers";
+  const text = "Linking farmers to markets";
   const text1 =
-    "Join our global B2B marketplace connecting wholesalers and retailers worldwide. Experience seamless trade partnerships.";
+    "Join our global B2B marketplace connecting farmers with buyers worldwide. Experience seamless trade partnerships.";
 
   return (
     <motion.section
