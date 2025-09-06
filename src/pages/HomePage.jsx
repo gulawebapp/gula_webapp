@@ -1,7 +1,4 @@
 import { lazy, Suspense } from "react";
-import HeroSection from "../components/HomePage/HeroSection/HeroSection";
-import FeaturesSection from "../components/HomePage/FeaturesSection/FeaturesSection";
-import SliderSection from "../components/HomePage/SliderSection/SliderSection";
 
 // Lazy load non-critical sections
 const LazyTeamSection = lazy(() =>
@@ -11,12 +8,24 @@ const LazyGlobalPresence = lazy(() =>
   import("../components/HomePage/GlobalPresence/GlobalPresence")
 );
 
+const Hero = lazy(() =>
+  import("../components/HomePage/HeroSection/HeroSection")
+);
+
+const Features = lazy(() =>
+  import("../components/HomePage/FeaturesSection/FeaturesSection")
+);
+
 export default function HomePage() {
   return (
     <div className="w-full">
       <main>
-        <HeroSection />
-        <FeaturesSection />
+        <Suspense fallback={<div>Loading hero...</div>}>
+          <Hero />
+        </Suspense>
+        <Suspense fallback={<div>Loading Features...</div>}>
+          <Features />
+        </Suspense>
         {/* <SliderSection /> */}
         <Suspense fallback={<div>Loading Team...</div>}>
           <LazyTeamSection />

@@ -1,10 +1,21 @@
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import img1 from "./images/happy.webp";
 import Button from "../../common/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "../../auth/loginForm";
+
+// WebP versions (modern browsers - better compression)
+import happy1_400webp from "./images/happy1_400.webp";
+import happy1_600webp from "./images/happy1_600.webp";
+import happy1_800webp from "./images/happy1_800.webp";
+import happy1_1200webp from "./images/happy1_1200.webp";
+
+// JPEG fallbacks (older browsers)
+import happy1_400 from "./images/happy1_400.jpg";
+import happy1_600 from "./images/happy1_600.jpg";
+import happy1_800 from "./images/happy1_800.jpg";
+import happy1_1200 from "./images/happy1_1200.jpg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -26,41 +37,22 @@ const HeroSection = () => {
     setShowLoginForm(false);
   };
 
-  // Variants for the container (fade-in effect)
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  // Variants for each character (typewriter effect)
-  const characterVariants = {
+  // Simplified variants for better performance
+  const fadeInVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.9 },
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   };
-
-  const text = "Linking farmers to markets";
-  const text1 =
-    "Join our global B2B marketplace connecting farmers with buyers worldwide. Experience seamless trade partnerships.";
 
   return (
     <motion.section
       ref={ref}
       initial="hidden"
       animate={controls}
-      variants={{
-        visible: { opacity: 1, y: 0 },
-        hidden: { opacity: 0, y: 50 },
-      }}
-      transition={{ duration: 0.5 }}
+      variants={fadeInVariants}
       className="bg-gradient-to-r from-purple-100 to-transparent relative"
     >
       {showLoginForm && (
@@ -83,38 +75,42 @@ const HeroSection = () => {
 
       <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center min-h-full">
         <div className="md:w-1/2">
+          {/* Simplified text animation - no typewriter effect */}
           <motion.h1
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
-            variants={containerVariants}
+            variants={fadeInVariants}
             initial="hidden"
             animate="visible"
           >
-            {text.split("").map((char, index) => (
-              <motion.span key={index} variants={characterVariants}>
-                {char}
-              </motion.span>
-            ))}
+            Linking farmers to markets
           </motion.h1>
+
           <motion.p
             className="text-base sm:text-3xl text-gray-700 mb-6 sm:mb-8"
-            variants={containerVariants}
+            variants={{
+              ...fadeInVariants,
+              visible: {
+                ...fadeInVariants.visible,
+                transition: { duration: 0.6, delay: 0.1, ease: "easeOut" },
+              },
+            }}
             initial="hidden"
             animate="visible"
           >
-            {text1.split("").map((char, index) => (
-              <motion.span key={index} variants={characterVariants}>
-                {char}
-              </motion.span>
-            ))}
+            Join our global B2B marketplace connecting farmers with buyers
+            worldwide. Experience seamless trade partnerships.
           </motion.p>
+
           <motion.div
+            variants={{
+              ...fadeInVariants,
+              visible: {
+                ...fadeInVariants.visible,
+                transition: { duration: 0.6, delay: 0.2, ease: "easeOut" },
+              },
+            }}
             initial="hidden"
             animate="visible"
-            variants={{
-              visible: { opacity: 1, y: 0 },
-              hidden: { opacity: 0, y: 50 },
-            }}
-            transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-row gap-4 flex-wrap"
           >
             <Button variant="primary" onClick={handleStartTradingClick}>
@@ -125,27 +121,50 @@ const HeroSection = () => {
             </Button>
           </motion.div>
         </div>
+
+        {/* Image with NO DELAY - loads immediately */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{
             visible: { opacity: 1, y: 0 },
-            hidden: { opacity: 0, y: 50 },
+            hidden: { opacity: 0, y: 20 },
           }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          transition={{ duration: 0.4, delay: 0 }} // NO DELAY for LCP element
           className="md:w-1/2"
         >
-          <img
-            src={img1}
-            alt="Hero Image"
-            className="rounded-lg w-full max-w-full h-auto"
-            width={600}
-            height={400}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            style={{ contentVisibility: "auto" }}
-          />
+          <picture>
+            {/* WebP versions for modern browsers */}
+            <source
+              srcSet={`
+                ${happy1_400webp} 400w,
+                ${happy1_600webp} 600w,
+                ${happy1_800webp} 800w,
+                ${happy1_1200webp} 1200w
+              `}
+              sizes="(max-width: 480px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1200px"
+              type="image/webp"
+            />
+
+            {/* JPEG fallback for older browsers */}
+            <img
+              src={happy1_800} // Default fallback
+              srcSet={`
+                ${happy1_400} 400w,
+                ${happy1_600} 600w,
+                ${happy1_800} 800w,
+                ${happy1_1200} 1200w
+              `}
+              sizes="(max-width: 480px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1200px"
+              alt="Happy farmer using agricultural marketplace platform"
+              className="rounded-lg w-full h-auto aspect-[3/2] object-cover"
+              width={800}
+              height={534}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
         </motion.div>
       </div>
     </motion.section>

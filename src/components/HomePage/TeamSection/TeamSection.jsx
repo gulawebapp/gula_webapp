@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import image128 from "./images/happygirl-128.webp";
-import image256 from "./images/happygirl-256.webp";
+import image128 from "./images/happygirl.webp";
 import isaac from "./images/isaac.webp";
 import henry from "./images/mark.jpeg";
 import make from "./images/henry.jpeg";
@@ -9,26 +8,22 @@ export default function TeamSection() {
     {
       name: "John Smith",
       role: "CEO & Founder",
-      image: isaac,
-      image2x: image256,
+      image: image128,
     },
     {
       name: "Sarah Johnson",
       role: "Operations Director",
       image: image128,
-      image2x: image256,
     },
     {
       name: "Michael Chen",
       role: "Tech Lead",
-      image: henry,
-      image2x: image256,
+      image: image128,
     },
     {
       name: "Emily Davis",
       role: "Marketing Manager",
-      image: make,
-      image2x: image256,
+      image: image128,
     },
   ];
 
@@ -96,15 +91,15 @@ export default function TeamSection() {
             >
               <motion.div
                 whileHover="hover"
-                className="relative inline-block mb-4 w-32 h-32"
+                className="relative inline-block mb-4"
               >
                 <motion.img
                   variants={imageVariants}
                   src={member.image}
                   alt={member.name}
                   className="mx-auto rounded-full w-full h-full object-cover"
-                  width={128}
-                  height={128}
+                  width={311}
+                  height={248}
                   loading="lazy"
                 />
                 <motion.div

@@ -1,4 +1,5 @@
 import world from "./images/world.webp";
+
 export default function GlobalPresence() {
   return (
     <section className="py-16 sm:py-20 bg-gray-50">
@@ -11,6 +12,7 @@ export default function GlobalPresence() {
             src={world}
             alt="Global Presence Map"
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-opacity-10"></div>
         </div>
