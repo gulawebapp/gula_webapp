@@ -102,9 +102,9 @@ export default function TeamSection() {
                   variants={imageVariants}
                   src={member.image}
                   alt={member.name}
-                  className="mx-auto rounded-full w-32 h-32 object-cover"
-                  width="128"
-                  height="128"
+                  className="mx-auto rounded-full w-full h-full object-cover"
+                  width={128}
+                  height={128}
                   loading="lazy"
                 />
                 <motion.div

@@ -31,15 +31,15 @@ const Feature = ({ feature }) => {
   const Icon = feature.icon;
 
   return (
-    <div className="flex items-center p-2">
+    <div className="flex items-start p-2 min-h-[80px] w-3xl">
       <div className="mr-3 w-10 h-10 flex items-center justify-center flex-shrink-0">
-        <Icon className="w-6 h-6" />
+        <Icon className="w-6 h-6" aria-hidden="true" />
       </div>
       <div className="overflow-hidden">
-        <h3 className="font-semibold text-sm md:text-base truncate">
+        <h3 className="font-semibold text-sm md:text-base line-clamp-2 leading-tight mb-1">
           {feature.title}
         </h3>
-        <p className="text-gray-600 text-xs md:text-sm truncate">
+        <p className="text-gray-600 text-xs md:text-sm line-clamp-2 leading-tight">
           {feature.description}
         </p>
       </div>
@@ -56,7 +56,7 @@ Feature.propTypes = {
 };
 
 const FeaturesSection = () => (
-  <section className="py-8 w-full bg-white">
+  <section className="py-8 w-full bg-white min-h-14">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-4 sm:mb-6">
         Our Features

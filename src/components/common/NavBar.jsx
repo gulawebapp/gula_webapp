@@ -23,20 +23,7 @@ export default function NavBar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img
-                src={logo}
-                alt="Logo"
-                className="w-44 h-10"
-                style={{
-                  objectFit: "contain",
-                  maxHeight: "100%",
-                }}
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width={176}
-                height={40}
-              />
+              <img src={logo} alt="Logo" className="w-44 h-10" />
               <div className="hidden md:flex ml-10 gap-x-5">
                 <Link
                   to="/"

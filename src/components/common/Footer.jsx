@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import logo from "./images/logowhite.png";
+import logo from "./images/logowhite.webp";
 
 export default function Footer() {
   return (
@@ -14,12 +14,15 @@ export default function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-3  gap-6 sm:gap-8 mb-6 sm:mb-8">
           {" "}
           <div>
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-auto h-10 filter contrast-150 brightness-90 hover:brightness-100 hover:shadow-2xs"
-              loading="lazy"
-            />
+            <div className="w-40 h-10">
+              <img
+                src={logo}
+                alt="Logo"
+                width={160}
+                height={40}
+                className="w-full h-full object-contain filter contrast-150 brightness-90 hover:brightness-100 hover:shadow-2xs"
+              />
+            </div>
             <p className="text-gray-400 mb-4 text-xs sm:text-sm pt-4">
               {" "}
               Your trusted B2B marketplace connecting wholesalers and retailers

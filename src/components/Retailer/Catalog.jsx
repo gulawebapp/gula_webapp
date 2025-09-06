@@ -218,6 +218,8 @@ export default function Catalog() {
                         <h3 className="font-medium text-lg text-gray-800">
                           {product.productname}
                         </h3>
+                        <input type="text" placeholder="search anything" />
+
                         <span className="font-bold text-blue-600">
                           UGX{product.unitprice?.toFixed(2)} for one
                         </span>

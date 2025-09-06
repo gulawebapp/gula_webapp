@@ -139,8 +139,8 @@ const HeroSection = () => {
             src={img1}
             alt="Hero Image"
             className="rounded-lg w-full max-w-full h-auto"
-            width="600"
-            height="400"
+            width={600}
+            height={400}
             loading="eager"
             fetchPriority="high"
             decoding="async"

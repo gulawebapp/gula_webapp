@@ -21,7 +21,7 @@ export default function WholesalerDashboard() {
     setShowProductForm(!showProductForm);
     if (showProductPage) setShowProductPage(false);
   };
-
+  console.log("man page rerebdered");
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col sm:block">
       {/* Header/Sidebar */}

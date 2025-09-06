@@ -7,6 +7,8 @@ export default function DashboardText(props) {
     showProductForm,
     showProductPage,
   } = props;
+
+  console.log("headertext rendered");
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
       <div>

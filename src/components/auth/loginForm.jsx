@@ -35,29 +35,23 @@ export default function LoginForm(props) {
 
   const validateForm = () => {
     let tempErrors = { email: "", password: "" };
-    let isValid = true;
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
       tempErrors.email = "Email is required";
-      isValid = false;
     } else if (!emailRegex.test(formData.email)) {
       tempErrors.email = "Please enter a valid email address";
-      isValid = false;
     }
 
     // Password validation
     if (!formData.password) {
       tempErrors.password = "Password is required";
-      isValid = false;
     } else if (formData.password.length < 8) {
       tempErrors.password = "Password must be at least 8 characters long";
-      isValid = false;
     }
 
     setErrors(tempErrors); // Update the errors state
-    return isValid;
   };
 
   const handleSubmit = async (e) => {
