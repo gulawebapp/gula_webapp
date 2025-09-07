@@ -3,6 +3,16 @@ import { Link } from "react-router-dom";
 import Button from "./button";
 import logo from "./images/gulalogo.png";
 import LoginForm from "../auth/loginForm";
+import logo1_400webp from "./images/logo/gulablue_400.webp";
+import logo1_600webp from "./images/logo/gulablue_600.webp";
+import logo1_800webp from "./images/logo/gulablue_800.webp";
+import logo1_1200webp from "./images/logo/gulablue_1200.webp";
+
+//fallback images
+import logo1_400 from "./images/logo/gulablue_400.jpg";
+import logo1_600 from "./images/logo/gulablue_600.jpg";
+import logo1_800 from "./images/logo/gulablue_800.jpg";
+import logo1_1200 from "./images/logo/gulablue_1200.jpg";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +33,37 @@ export default function NavBar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img src={logo} alt="Logo" className="w-44 h-10" />
+              <picture>
+                {/* WebP versions for modern browsers */}
+                <source
+                  srcSet={`
+                            ${logo1_400webp} 400w,
+                            ${logo1_600webp} 600w,
+                            ${logo1_800webp} 800w,
+                            ${logo1_1200webp} 1200w
+                          `}
+                  sizes="(max-width: 480px) 150px, (max-width: 768px) 176px, (max-width: 1024px) 200px, 220px"
+                  type="image/webp"
+                />
+                {/* JPEG fallback for older browsers */}
+                <img
+                  src={logo1_800} // Default fallback
+                  srcSet={`
+                                ${logo1_400} 400w,
+                                ${logo1_600} 600w,
+                                ${logo1_800} 800w,
+                                ${logo1_1200} 1200w
+                              `}
+                  sizes="(max-width: 480px) 150px, (max-width: 768px) 176px, (max-width: 1024px) 200px, 220px"
+                  alt="Happy farmer using agricultural marketplace platform"
+                  className="rounded-lg w-full h-11 object-cover"
+                  width={176}
+                  height={44}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </picture>
               <div className="hidden md:flex ml-10 gap-x-5">
                 <Link
                   to="/"
