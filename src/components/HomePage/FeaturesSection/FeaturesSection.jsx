@@ -1,29 +1,26 @@
 import PropTypes from "prop-types";
-import { BiSupport } from "react-icons/bi";
-import { FaShippingFast } from "react-icons/fa";
-import { GiReturnArrow } from "react-icons/gi";
-import { GrSecure } from "react-icons/gr";
+import { Truck, Headphones, Shield, RotateCcw } from "lucide-react";
 
 const features = [
   {
     title: "Worldwide Shipping",
     description: "Delivery to 190+ countries",
-    icon: FaShippingFast,
+    icon: Truck,
   },
   {
     title: "24/7 Support",
     description: "Round the clock assistance",
-    icon: BiSupport,
+    icon: Headphones,
   },
   {
     title: "Secure Shopping",
     description: "100% secure payments",
-    icon: GrSecure,
+    icon: Shield,
   },
   {
     title: "Easy Returns",
     description: "30-day money back",
-    icon: GiReturnArrow,
+    icon: RotateCcw,
   },
 ];
 
