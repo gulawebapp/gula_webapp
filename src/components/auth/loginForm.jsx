@@ -3,12 +3,6 @@ import { Mail, Lock, X, User } from "lucide-react";
 import logo from "../common/images/circle.png";
 import styles from "../common/login.module.css";
 import { useNavigate } from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db, auth } from "../../../firebase";
 
 export default function LoginForm(props) {
   const navigate = useNavigate();
@@ -35,31 +29,35 @@ export default function LoginForm(props) {
 
   const validateForm = () => {
     let tempErrors = { email: "", password: "" };
+    let isValid = true;
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
       tempErrors.email = "Email is required";
+      isValid = false;
     } else if (!emailRegex.test(formData.email)) {
       tempErrors.email = "Please enter a valid email address";
+      isValid = false;
     }
 
     // Password validation
     if (!formData.password) {
       tempErrors.password = "Password is required";
+      isValid = false;
     } else if (formData.password.length < 8) {
       tempErrors.password = "Password must be at least 8 characters long";
+      isValid = false;
     }
 
-    setErrors(tempErrors); // Update the errors state
+    setErrors(tempErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Clear previous errors
     setErrors({ email: "", password: "", general: "" });
 
-    // Validate form
     if (!validateForm()) {
       console.log("Login form has errors");
       return;
@@ -68,6 +66,12 @@ export default function LoginForm(props) {
     try {
       setisLoading(true);
       console.log("Attempting login with:", formData);
+
+      // 🔥 Lazy load Firebase Auth only when needed
+      const [{ signInWithEmailAndPassword }, { auth }] = await Promise.all([
+        import("firebase/auth"),
+        import("../../../firebase"),
+      ]);
 
       // 1. Authenticate user
       const userCredentials = await signInWithEmailAndPassword(
@@ -78,8 +82,13 @@ export default function LoginForm(props) {
       const user = userCredentials.user;
       console.log("User authenticated:", user);
 
-      // 2. Get user data from Firestore
+      // 2. Lazy load Firestore only after successful auth
       try {
+        const [{ doc, getDoc }, { db }] = await Promise.all([
+          import("firebase/firestore"),
+          import("../../../firebase"),
+        ]);
+
         const userDoc = await getDoc(doc(db, "users", user.uid));
 
         if (userDoc.exists()) {
@@ -90,10 +99,9 @@ export default function LoginForm(props) {
           if (userData.account === "wholesaler") {
             navigate("/wholesaler");
           } else if (userData.account === "retailer") {
-            // Fixed the condition here
             navigate("/retailer");
           } else {
-            navigate("/login"); // Default redirect if account type isn't set
+            navigate("/login");
           }
         } else {
           console.log("No user data found");
@@ -242,13 +250,13 @@ export default function LoginForm(props) {
                   isLoading ? "opacity-70 cursor-not-allowed" : ""
                 }`}
               >
-                {isLoading ? "SIgning in" : "Sign in"}
-                {errors.general && (
-                  <div className="text-sm text-red-500 text-center">
-                    {errors.general}
-                  </div>
-                )}
+                {isLoading ? "Signing in..." : "Sign in"}
               </button>
+              {errors.general && (
+                <div className="text-sm text-red-500 text-center">
+                  {errors.general}
+                </div>
+              )}
             </form>
           ) : (
             <CreateAccount setActiveTab={setActiveTab} />
@@ -350,22 +358,33 @@ function CreateAccount({ setActiveTab }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      // Proceed with form submission
-      console.log("Form is valid:", formData);
-    } else {
+
+    if (!validateForm()) {
       console.log("Form has errors");
+      return;
     }
 
-    //
     try {
       setLoading(true);
+
+      // 🔥 Lazy load Firebase modules only when creating account
+      const [{ createUserWithEmailAndPassword }, { auth }] = await Promise.all([
+        import("firebase/auth"),
+        import("../../../firebase"),
+      ]);
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
       const user = userCredential.user;
+
+      // Lazy load Firestore for saving user data
+      const [{ doc, setDoc }, { db }] = await Promise.all([
+        import("firebase/firestore"),
+        import("../../../firebase"),
+      ]);
 
       await setDoc(doc(db, "users", user.uid), {
         businessname: formData.businessName,
@@ -374,10 +393,12 @@ function CreateAccount({ setActiveTab }) {
         account: formData.accountType,
         createdAt: new Date(),
       });
+
       setActiveTab("login");
-      console.log("user successfully created", user);
+      console.log("User successfully created", user);
     } catch (err) {
-      console.error("error creating account", err);
+      console.error("Error creating account", err);
+      // Add proper error handling here
     } finally {
       setLoading(false);
     }
@@ -594,47 +615,8 @@ function CreateAccount({ setActiveTab }) {
           loading ? "opacity-70 cursor-not-allowed" : ""
         }`}
       >
-        {loading ? "Creating Account" : "Create Account"}
+        {loading ? "Creating Account..." : "Create Account"}
       </button>
     </form>
   );
 }
-
-// // Terms agreement validation
-// if (!formData.agreeToTerms) {
-//   tempErrors.agreeToTerms = "You must agree to the Terms and Conditions";
-//   isValid = false;
-// }
-
-// // Card Details Validations
-// const cardNumberRegex = /^\d{16}$/;
-// if (!formData.cardNumber) {
-//   tempErrors.cardNumber = "Card number is required";
-//   isValid = false;
-// } else if (!cardNumberRegex.test(formData.cardNumber)) {
-//   tempErrors.cardNumber = "Please enter a valid 16-digit card number";
-//   isValid = false;
-// }
-
-// const cardExpiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-// if (!formData.cardExpiry) {
-//   tempErrors.cardExpiry = "Expiration date is required";
-//   isValid = false;
-// } else if (!cardExpiryRegex.test(formData.cardExpiry)) {
-//   tempErrors.cardExpiry = "Please enter a valid expiration date (MM/YY)";
-//   isValid = false;
-// }
-
-// const cardCvvRegex = /^\d{3,4}$/;
-// if (!formData.cardCvv) {
-//   tempErrors.cardCvv = "CVV is required";
-//   isValid = false;
-// } else if (!cardCvvRegex.test(formData.cardCvv)) {
-//   tempErrors.cardCvv = "Please enter a valid CVV (3 or 4 digits)";
-//   isValid = false;
-// }
-
-// if (!formData.cardholderName.trim()) {
-//   tempErrors.cardholderName = "Cardholder name is required";
-//   isValid = false;
-// }
