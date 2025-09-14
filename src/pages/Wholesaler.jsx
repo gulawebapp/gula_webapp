@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Header from "../components/Wholesaler/Header/Header";
 import MetricsGrid from "../components/Wholesaler/MetricGrid/MetricGrid";
 import TopProducts from "../components/Wholesaler/TopProducts/TopProducts";
@@ -22,10 +22,14 @@ export default function WholesalerDashboard() {
     if (showProductPage) setShowProductPage(false);
   };
   console.log("man page rerebdered");
+  const header = useMemo(() => {
+    return <Header />;
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col sm:block">
       {/* Header/Sidebar */}
-      <Header />
+      {header}
 
       {/* Main Content */}
       <main className="flex-1 pl-32 sm:pl-7 mx-auto px-4 py-8">

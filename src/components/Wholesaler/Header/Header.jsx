@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../../../firebase";
 
 export default function Header({ onLogout }) {
+  console.log("header rendered");
   const navigate = useNavigate();
 
   const handlelogOut = async () => {

@@ -13,6 +13,7 @@ import {
 import { auth, db } from "../../../firebase";
 
 export default function ProductPage({ onCreateProductClick }) {
+  console.log("product page rendered");
   const [currentUser, setCurrentUser] = useState(null);
   const [formError, setFormError] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

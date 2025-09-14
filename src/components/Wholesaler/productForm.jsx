@@ -19,6 +19,7 @@ const quantityUnits = [
 ];
 
 export default function ProductForm({ onCancel }) {
+  console.log("form rendered");
   const [availableSubcategories, setAvailableSubcategories] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   // State for custom unit
